@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MyLab.Logging</name>
+    </assembly>
+    <members>
+        <member name="T:MyLab.Logging.AttributeNames">
+            <summary>
+            Predefined log attribute names
+            </summary>
+        </member>
+        <member name="F:MyLab.Logging.AttributeNames.ExceptionMessage">
+            <summary>
+            Exception message
+            </summary>
+        </member>
+        <member name="F:MyLab.Logging.AttributeNames.ExceptionType">
+            <summary>
+            Exception type
+            </summary>
+        </member>
+        <member name="F:MyLab.Logging.AttributeNames.ExceptionStackTrace">
+            <summary>
+            Exception stack trace
+            </summary>
+        </member>
+        <member name="F:MyLab.Logging.AttributeNames.BaseExceptionMessage">
+            <summary>
+            The base exception message
+            </summary>
+        </member>
+        <member name="F:MyLab.Logging.AttributeNames.BaseExceptionType">
+            <summary>
+            The base exception type
+            </summary>
+        </member>
+        <member name="F:MyLab.Logging.AttributeNames.BaseExceptionStackTrace">
+            <summary>
+            The base exception stack trace
+            </summary>
+        </member>
+        <member name="T:MyLab.Logging.LogEntity">
+            <summary>
+            Contains log item data
+            </summary>
+        </member>
+        <member name="P:MyLab.Logging.LogEntity.EventId">
+            <summary>
+            Event identifier
+            </summary>
+        </member>
+        <member name="P:MyLab.Logging.LogEntity.InstanceId">
+            <summary>
+            Event instance identifier
+            </summary>
+        </member>
+        <member name="P:MyLab.Logging.LogEntity.DateTime">
+            <summary>
+            Occurence time
+            </summary>
+        </member>
+        <member name="P:MyLab.Logging.LogEntity.Message">
+            <summary>
+            Log message
+            </summary>
+        </member>
+        <member name="P:MyLab.Logging.LogEntity.Markers">
+            <summary>
+            Markers
+            </summary>
+        </member>
+        <member name="P:MyLab.Logging.LogEntity.CustomConditions">
+            <summary>
+            Conditions with names
+            </summary>
+        </member>
+        <member name="P:MyLab.Logging.LogEntity.Conditions">
+            <summary>
+            Conditions
+            </summary>
+        </member>
+        <member name="M:MyLab.Logging.LogEntity.Clone(System.Nullable{System.Guid})">
+            <summary>
+            Clones object
+            </summary>
+        </member>
+        <member name="T:MyLab.Logging.Markers">
+            <summary>
+            Predefined log markers
+            </summary>
+        </member>
+        <member name="F:MyLab.Logging.Markers.Error">
+            <summary>
+            Error
+            </summary>
+        </member>
+        <member name="F:MyLab.Logging.Markers.Debug">
+            <summary>
+            Debug
+            </summary>
+        </member>
+    </members>
+</doc>
