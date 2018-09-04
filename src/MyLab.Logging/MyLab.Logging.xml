@@ -84,6 +84,11 @@
             Clones object
             </summary>
         </member>
+        <member name="T:MyLab.Logging.LogEntityFormatter">
+            <summary>
+            Converts <see cref="T:MyLab.Logging.LogEntity"/> to string
+            </summary>
+        </member>
         <member name="T:MyLab.Logging.Markers">
             <summary>
             Predefined log markers
