@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -18,12 +19,11 @@ namespace MyLab.Logging.Tests
         {
             var l = new LogEntity
             {
-                InstanceId = Guid.NewGuid(),
+                Id = Guid.NewGuid(),
                 EventId = 100,
-                Markers = { "marker1", "marker2"},
-                Conditions = { "condition1", "condition2" },
-                CustomConditions = { new LogEntityCustomCondition("Attr1", "Val1"), new LogEntityCustomCondition("Attr2", "Val2") },
-                Message = "Hellow world!"
+                Markers = new List<string> { "marker1", "marker2"},
+                Attributes = new List<LogEntityAttribute> { new LogEntityAttribute("Attr1", "Val1"), new LogEntityAttribute("Attr2", "Val2") },
+                Content = "Hellow world!"
             };
 
             var exception = new Exception("Error message");
