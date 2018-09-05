@@ -16,51 +16,26 @@ namespace MyLab.Logging
         /// <summary>
         /// Event instance identifier
         /// </summary>
-        public Guid InstanceId { get; set; }
+        public Guid Id { get; set; }
         
         /// <summary>
         /// Occurence time
         /// </summary>
-        public DateTime DateTime { get; set; } = DateTime.Now;
+        public DateTime Time { get; set; } = DateTime.Now;
 
         /// <summary>
         /// Log message
         /// </summary>
-        public string Message { get; set; }
+        public string Content { get; set; }
 
         /// <summary>
         /// Markers
         /// </summary>
-        public List<string> Markers { get; } = new List<string>();
+        public List<string> Markers { get; set; }
 
         /// <summary>
-        /// Conditions with names
+        /// Attributes
         /// </summary>
-        public List<LogEntityCustomCondition> CustomConditions { get; } = new List<LogEntityCustomCondition>();
-
-        /// <summary>
-        /// Conditions
-        /// </summary>
-        public List<string> Conditions { get; } = new List<string>();
-        
-        /// <summary>
-        /// Clones object
-        /// </summary>
-        public LogEntity Clone(Guid? newInstanceId = null)
-        {
-            var e = new LogEntity
-            {
-                EventId = EventId,
-                InstanceId = newInstanceId ?? InstanceId,
-                DateTime = DateTime,
-                Message = Message
-            };
-
-            e.Markers.AddRange(Markers);
-            e.Conditions.AddRange(Conditions);
-            e.CustomConditions.AddRange(CustomConditions);
-
-            return e;
-        }
+        public List<LogEntityAttribute> Attributes { get; set; }
     }
 }

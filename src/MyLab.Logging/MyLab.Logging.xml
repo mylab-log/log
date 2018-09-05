@@ -49,17 +49,17 @@
             Event identifier
             </summary>
         </member>
-        <member name="P:MyLab.Logging.LogEntity.InstanceId">
+        <member name="P:MyLab.Logging.LogEntity.Id">
             <summary>
             Event instance identifier
             </summary>
         </member>
-        <member name="P:MyLab.Logging.LogEntity.DateTime">
+        <member name="P:MyLab.Logging.LogEntity.Time">
             <summary>
             Occurence time
             </summary>
         </member>
-        <member name="P:MyLab.Logging.LogEntity.Message">
+        <member name="P:MyLab.Logging.LogEntity.Content">
             <summary>
             Log message
             </summary>
@@ -69,19 +69,29 @@
             Markers
             </summary>
         </member>
-        <member name="P:MyLab.Logging.LogEntity.CustomConditions">
+        <member name="P:MyLab.Logging.LogEntity.Attributes">
             <summary>
-            Conditions with names
+            Attributes
             </summary>
         </member>
-        <member name="P:MyLab.Logging.LogEntity.Conditions">
+        <member name="T:MyLab.Logging.LogEntityAttribute">
             <summary>
-            Conditions
+            Contains named data
             </summary>
         </member>
-        <member name="M:MyLab.Logging.LogEntity.Clone(System.Nullable{System.Guid})">
+        <member name="P:MyLab.Logging.LogEntityAttribute.Name">
             <summary>
-            Clones object
+            Gets or sets attribute name
+            </summary>
+        </member>
+        <member name="P:MyLab.Logging.LogEntityAttribute.Value">
+            <summary>
+            Gets or sets attribute value
+            </summary>
+        </member>
+        <member name="M:MyLab.Logging.LogEntityAttribute.#ctor(System.String,System.Object)">
+            <summary>
+            Initializes a new instance of <see cref="T:MyLab.Logging.LogEntityAttribute"/>
             </summary>
         </member>
         <member name="T:MyLab.Logging.LogEntityFormatter">
