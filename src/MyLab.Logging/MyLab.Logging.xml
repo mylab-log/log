@@ -89,6 +89,11 @@
             Gets or sets attribute value
             </summary>
         </member>
+        <member name="M:MyLab.Logging.LogEntityAttribute.#ctor">
+            <summary>
+            Initializes a new instance of <see cref="T:MyLab.Logging.LogEntityAttribute"/>
+            </summary>
+        </member>
         <member name="M:MyLab.Logging.LogEntityAttribute.#ctor(System.String,System.Object)">
             <summary>
             Initializes a new instance of <see cref="T:MyLab.Logging.LogEntityAttribute"/>
