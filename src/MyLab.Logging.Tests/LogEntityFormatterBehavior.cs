@@ -22,7 +22,18 @@ namespace MyLab.Logging.Tests
                 Id = Guid.NewGuid(),
                 EventId = 100,
                 Markers = new List<string> { "marker1", "marker2"},
-                Attributes = new List<LogEntityAttribute> { new LogEntityAttribute("Attr1", "Val1"), new LogEntityAttribute("Attr2", "Val2") },
+                Attributes = new List<LogEntityAttribute> {
+                    new LogEntityAttribute
+                    {
+                        Name = "Attr1",
+                        Value = "Val1"
+                    },
+                    new LogEntityAttribute
+                    {
+                        Name = "Attr2",
+                        Value = "Val2"
+                    }
+                },
                 Content = "Hellow world!"
             };
 
