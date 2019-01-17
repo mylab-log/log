@@ -26,7 +26,12 @@ namespace MyLab.Logging
                 b.Append(entity.Content);
             if (b.Length != 0)
                 b.AppendLine();
-            b.AppendLine($"Id: {entity.Id}");
+            b.AppendLine($"Log id: {entity.Id}");
+            b.AppendLine($"Log time: {entity.Time}");
+            
+            var eventIdText = entity.EventId != 0 ? entity.EventId.ToString() : "[not defined]";
+            b.AppendLine($"Event id: {eventIdText}");
+            
             if (entity.Markers != null && entity.Markers.Count != 0)
                 b.AppendLine("Markers: " + string.Join(", ", entity.Markers));
             if(entity.Attributes != null && entity.Attributes.Count != 0)
