@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq.Expressions;
 using Xunit;
 using Xunit.Abstractions;
@@ -10,9 +11,9 @@ namespace MyLab.Logging.Tests
     {
         private readonly ITestOutputHelper _output;
 
-        private DateTime _testLogTime;
-        private string _testLogTimeStr;
-        private string _nl = Environment.NewLine;
+        private readonly DateTime _testLogTime;
+        private readonly string _testLogTimeStr;
+        private readonly string _nl = Environment.NewLine;
         
         public LogEntityFormatterBehavior(ITestOutputHelper output)
         {
@@ -90,8 +91,9 @@ namespace MyLab.Logging.Tests
                 str);
         }
         
-        [Fact]
-        public void ShouldSerializeAttributes()
+        [Theory]
+        [MemberData(nameof(GetAttrValues))]
+        public void ShouldSerializeAttribute(string title, object value, string strValue)
         {
             //Arrange
             var l = new LogEntity
@@ -101,13 +103,8 @@ namespace MyLab.Logging.Tests
                 Attributes = new List<LogEntityAttribute> {
                     new LogEntityAttribute
                     {
-                        Name = "Attr1",
-                        Value = "Val1"
-                    },
-                    new LogEntityAttribute
-                    {
-                        Name = "Attr2",
-                        Value = "Val2"
+                        Name = "Attr",
+                        Value = value
                     }
                 },
             };
@@ -119,12 +116,11 @@ namespace MyLab.Logging.Tests
             Assert.Equal($"foo{_nl}" +
                          $"Log id: 00000000-0000-0000-0000-000000000000{_nl}" + 
                          $"Log time: {_testLogTimeStr}{_nl}" +
-                         $"Event id: [not defined]{_nl}" +
-                         $"Attr1: Val1{_nl}" +  
-                         $"Attr2: Val2{_nl}",  
+                         $"Event id: [not defined]{_nl}" +  
+                         $"Attr: {strValue}{_nl}",  
                 str);
         }
-        
+
         [Fact]
         public void ShouldNotSerializeException()
         {
@@ -146,6 +142,18 @@ namespace MyLab.Logging.Tests
                          $"Log time: {_testLogTimeStr}{_nl}" +
                          $"Event id: [not defined]{_nl}", 
                 str);
+        }
+        
+        public static IEnumerable<object[]> GetAttrValues()
+        {
+            var now = new DateTime(2001, 1, 1, 1, 1, 1);
+            var guid = new Guid("7d2a9131-e4c4-4b46-ba70-6c87c93ffc1d");
+            
+            yield return new object[] {"string", "foo", "foo"};
+            yield return new object[] {"int", 1, "1"};
+            yield return new object[] {"bool", true, "True"};
+            yield return new object[] {"DateTime", now, now.ToString()};
+            yield return new object[] {"Guid", guid, guid.ToString("D")};
         }
     }
 }
