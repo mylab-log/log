@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace MyLab.Logging
 {
@@ -34,11 +35,45 @@ namespace MyLab.Logging
             
             if (entity.Markers != null && entity.Markers.Count != 0)
                 b.AppendLine("Markers: " + string.Join(", ", entity.Markers));
+            
             if(entity.Attributes != null && entity.Attributes.Count != 0)
             foreach (var cc in entity.Attributes.Where(c => ExcludedAttributes.All(ec => ec != c.Name)))
-                b.AppendLine(cc.Name + ": " + cc.Value);
+                b.AppendLine(cc.Name + ": " + AttrValueToString(cc.Value));
 
             return b.ToString();
         };
+
+        static string AttrValueToString(object attrValue)
+        {
+            if (attrValue == null) return "[null]";
+            
+            if(attrValue is ILogAttributeStringValue strVal)
+                return strVal.ToLogString();
+
+            var vTp = attrValue.GetType();
+
+            if (vTp.IsPrimitive ||
+                vTp == typeof(string) ||
+                vTp == typeof(DateTime) ||
+                vTp == typeof(Guid))
+            {
+                return attrValue.ToString();
+            }
+
+            return Environment.NewLine + ToJson(attrValue);
+        }
+
+        private static string ToJson(object attrValue)
+        {
+            var settings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Include,
+                Formatting = Formatting.Indented
+            };
+            
+            var json = JsonConvert.SerializeObject(attrValue, settings);
+
+            return "\t" + json.Replace(Environment.NewLine, Environment.NewLine + "\t");
+        }
     }
 }
