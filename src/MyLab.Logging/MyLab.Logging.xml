@@ -39,6 +39,16 @@
             The base exception stack trace
             </summary>
         </member>
+        <member name="T:MyLab.Logging.ILogAttributeStringValue">
+            <summary>
+            Converts object to attribute string value
+            </summary>
+        </member>
+        <member name="M:MyLab.Logging.ILogAttributeStringValue.ToLogString">
+            <summary>
+            Converts object to attribute string value
+            </summary>
+        </member>
         <member name="T:MyLab.Logging.LogEntity">
             <summary>
             Contains log item data

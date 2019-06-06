@@ -149,11 +149,33 @@ namespace MyLab.Logging.Tests
             var now = new DateTime(2001, 1, 1, 1, 1, 1);
             var guid = new Guid("7d2a9131-e4c4-4b46-ba70-6c87c93ffc1d");
             
+            //Simple values
             yield return new object[] {"string", "foo", "foo"};
             yield return new object[] {"int", 1, "1"};
             yield return new object[] {"bool", true, "True"};
             yield return new object[] {"DateTime", now, now.ToString()};
             yield return new object[] {"Guid", guid, guid.ToString("D")};
+
+            //Log string val
+            yield return new Object [] {"String log value", new LogStringVal("foo", "bar"), "foo-bar"};
+            
+        }
+        
+        class LogStringVal : ILogAttributeStringValue
+        {
+            private readonly string _val1;
+            private readonly string _val2;
+
+            public LogStringVal(string val1, string val2)
+            {
+                _val1 = val1;
+                _val2 = val2;
+            }
+            
+            public string ToLogString()
+            {
+                return _val1 + "-"+_val2;
+            }
         }
     }
 }

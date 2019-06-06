@@ -34,11 +34,22 @@ namespace MyLab.Logging
             
             if (entity.Markers != null && entity.Markers.Count != 0)
                 b.AppendLine("Markers: " + string.Join(", ", entity.Markers));
+            
             if(entity.Attributes != null && entity.Attributes.Count != 0)
             foreach (var cc in entity.Attributes.Where(c => ExcludedAttributes.All(ec => ec != c.Name)))
-                b.AppendLine(cc.Name + ": " + cc.Value);
+                b.AppendLine(cc.Name + ": " + AttrValueToString(cc.Value));
 
             return b.ToString();
         };
+
+        static string AttrValueToString(object attrValue)
+        {
+            if (attrValue == null) return "[null]";
+            
+            if(attrValue is ILogAttributeStringValue strVal)
+                return strVal.ToLogString();
+
+            return attrValue.ToString();
+        }
     }
 }
