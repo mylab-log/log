@@ -20,6 +20,9 @@ namespace MyLab.Logging
             AttributeNames.ExceptionType
         };
 
+        /// <summary>
+        /// Formatter function
+        /// </summary>
         public static Func<LogEntity, Exception, string> Func = (entity, exception) =>
         {
             var b = new StringBuilder();

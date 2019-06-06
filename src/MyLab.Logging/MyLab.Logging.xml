@@ -114,6 +114,11 @@
             Converts <see cref="T:MyLab.Logging.LogEntity"/> to string
             </summary>
         </member>
+        <member name="F:MyLab.Logging.LogEntityFormatter.Func">
+            <summary>
+            Formatter function
+            </summary>
+        </member>
         <member name="T:MyLab.Logging.Markers">
             <summary>
             Predefined log markers
