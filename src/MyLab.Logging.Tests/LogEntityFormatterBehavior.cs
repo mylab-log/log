@@ -13,7 +13,7 @@ namespace MyLab.Logging.Tests
 
         private readonly DateTime _testLogTime;
         private readonly string _testLogTimeStr;
-        private readonly string _nl = Environment.NewLine;
+        private static readonly string _nl = Environment.NewLine;
         
         public LogEntityFormatterBehavior(ITestOutputHelper output)
         {
@@ -44,6 +44,8 @@ namespace MyLab.Logging.Tests
                          $"Log time: {_testLogTimeStr}{_nl}" +
                          $"Event id: [not defined]{_nl}", 
                 str);
+            
+            _output.WriteLine(str);
         }
         
         [Fact]
@@ -66,6 +68,8 @@ namespace MyLab.Logging.Tests
                          $"Log time: {_testLogTimeStr}{_nl}" +
                          $"Event id: 1000{_nl}", 
                 str);
+            
+            _output.WriteLine(str);
         }
         
         [Fact]
@@ -89,6 +93,8 @@ namespace MyLab.Logging.Tests
                          $"Event id: [not defined]{_nl}" +
                          $"Markers: marker1, marker2{_nl}",  
                 str);
+            
+            _output.WriteLine(str);
         }
         
         [Theory]
@@ -119,6 +125,8 @@ namespace MyLab.Logging.Tests
                          $"Event id: [not defined]{_nl}" +  
                          $"Attr: {strValue}{_nl}",  
                 str);
+            
+            _output.WriteLine(str);
         }
 
         [Fact]
@@ -142,6 +150,8 @@ namespace MyLab.Logging.Tests
                          $"Log time: {_testLogTimeStr}{_nl}" +
                          $"Event id: [not defined]{_nl}", 
                 str);
+            
+            _output.WriteLine(str);
         }
         
         public static IEnumerable<object[]> GetAttrValues()
@@ -157,8 +167,24 @@ namespace MyLab.Logging.Tests
             yield return new object[] {"Guid", guid, guid.ToString("D")};
 
             //Log string val
-            yield return new Object [] {"String log value", new LogStringVal("foo", "bar"), "foo-bar"};
+            yield return new Object []
+            {
+                "Log attribute string-object value", 
+                new LogStringVal("foo", "bar"), 
+                "foo-bar"
+            };
             
+            //Regular object value
+            yield return new Object []
+            {
+                "Log attribute regular object value", 
+                new RegularLogValue
+                {
+                    Prop1 = "foo",
+                    Prop2 = 123
+                }, 
+                $"{_nl}\t{{{_nl}\t  \"Prop1\": \"foo\",{_nl}\t  \"Prop2\": 123{_nl}\t}}"
+            };
         }
         
         class LogStringVal : ILogAttributeStringValue
@@ -177,5 +203,11 @@ namespace MyLab.Logging.Tests
                 return _val1 + "-"+_val2;
             }
         }
+
+        class RegularLogValue
+        {
+            public string Prop1 { get; set; }
+            public int Prop2 { get; set; }
+        }   
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace MyLab.Logging
 {
@@ -49,7 +50,30 @@ namespace MyLab.Logging
             if(attrValue is ILogAttributeStringValue strVal)
                 return strVal.ToLogString();
 
-            return attrValue.ToString();
+            var vTp = attrValue.GetType();
+
+            if (vTp.IsPrimitive ||
+                vTp == typeof(string) ||
+                vTp == typeof(DateTime) ||
+                vTp == typeof(Guid))
+            {
+                return attrValue.ToString();
+            }
+
+            return Environment.NewLine + ToJson(attrValue);
+        }
+
+        private static string ToJson(object attrValue)
+        {
+            var settings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Include,
+                Formatting = Formatting.Indented
+            };
+            
+            var json = JsonConvert.SerializeObject(attrValue, settings);
+
+            return "\t" + json.Replace(Environment.NewLine, Environment.NewLine + "\t");
         }
     }
 }
