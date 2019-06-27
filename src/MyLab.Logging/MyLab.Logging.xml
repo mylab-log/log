@@ -39,6 +39,51 @@
             The base exception stack trace
             </summary>
         </member>
+        <member name="T:MyLab.Logging.ExceptionDto">
+            <summary>
+            Exception log model
+            </summary>
+        </member>
+        <member name="P:MyLab.Logging.ExceptionDto.Message">
+            <summary>
+            Message
+            </summary>
+        </member>
+        <member name="P:MyLab.Logging.ExceptionDto.StackTrace">
+            <summary>
+            Stack trace
+            </summary>
+        </member>
+        <member name="P:MyLab.Logging.ExceptionDto.Type">
+            <summary>
+            .NET type
+            </summary>
+        </member>
+        <member name="P:MyLab.Logging.ExceptionDto.Aggregated">
+            <summary>
+            Array of aggregated exceptions when origin exception is <see cref="T:System.AggregateException"/>
+            </summary>
+        </member>
+        <member name="P:MyLab.Logging.ExceptionDto.Inner">
+            <summary>
+            Inner exception
+            </summary>
+        </member>
+        <member name="P:MyLab.Logging.ExceptionDto.Conditions">
+            <summary>
+            Exception conditions
+            </summary>
+        </member>
+        <member name="P:MyLab.Logging.ExceptionDto.Markers">
+            <summary>
+            Markers from exception
+            </summary>
+        </member>
+        <member name="M:MyLab.Logging.ExceptionDto.Create(System.Exception)">
+            <summary>
+            Creates <see cref="T:MyLab.Logging.ExceptionDto"/> from <see cref="T:System.Exception"/>
+            </summary>
+        </member>
         <member name="T:MyLab.Logging.ILogAttributeStringValue">
             <summary>
             Converts object to attribute string value
@@ -132,6 +177,26 @@
         <member name="F:MyLab.Logging.Markers.Debug">
             <summary>
             Debug
+            </summary>
+        </member>
+        <member name="F:MyLab.Logging.Markers.Warning">
+            <summary>
+            Warning
+            </summary>
+        </member>
+        <member name="F:MyLab.Logging.Markers.AggregationException">
+            <summary>
+            Based on <see cref="F:MyLab.Logging.Markers.AggregationException"/>
+            </summary>
+        </member>
+        <member name="F:MyLab.Logging.Markers.HasInnerException">
+            <summary>
+            Based on exception with inner exceptions
+            </summary>
+        </member>
+        <member name="F:MyLab.Logging.Markers.ExceptionHasNoIdentifier">
+            <summary>
+            Indcated that an exception has now assigned ifdentifier
             </summary>
         </member>
     </members>

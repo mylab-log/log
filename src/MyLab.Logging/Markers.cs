@@ -13,5 +13,9 @@
         /// Debug
         /// </summary>
         public const string Debug = "debug";
+        /// <summary>
+        /// Warning
+        /// </summary>
+        public const string Warning = "warning";
     }
 }
