@@ -9,34 +9,9 @@
             Predefined log attribute names
             </summary>
         </member>
-        <member name="F:MyLab.Logging.AttributeNames.ExceptionMessage">
+        <member name="F:MyLab.Logging.AttributeNames.Exception">
             <summary>
-            Exception message
-            </summary>
-        </member>
-        <member name="F:MyLab.Logging.AttributeNames.ExceptionType">
-            <summary>
-            Exception type
-            </summary>
-        </member>
-        <member name="F:MyLab.Logging.AttributeNames.ExceptionStackTrace">
-            <summary>
-            Exception stack trace
-            </summary>
-        </member>
-        <member name="F:MyLab.Logging.AttributeNames.BaseExceptionMessage">
-            <summary>
-            The base exception message
-            </summary>
-        </member>
-        <member name="F:MyLab.Logging.AttributeNames.BaseExceptionType">
-            <summary>
-            The base exception type
-            </summary>
-        </member>
-        <member name="F:MyLab.Logging.AttributeNames.BaseExceptionStackTrace">
-            <summary>
-            The base exception stack trace
+            Exception
             </summary>
         </member>
         <member name="T:MyLab.Logging.ExceptionDto">
@@ -182,21 +157,6 @@
         <member name="F:MyLab.Logging.Markers.Warning">
             <summary>
             Warning
-            </summary>
-        </member>
-        <member name="F:MyLab.Logging.Markers.AggregationException">
-            <summary>
-            Based on <see cref="F:MyLab.Logging.Markers.AggregationException"/>
-            </summary>
-        </member>
-        <member name="F:MyLab.Logging.Markers.HasInnerException">
-            <summary>
-            Based on exception with inner exceptions
-            </summary>
-        </member>
-        <member name="F:MyLab.Logging.Markers.ExceptionHasNoIdentifier">
-            <summary>
-            Indcated that an exception has now assigned ifdentifier
             </summary>
         </member>
     </members>
