@@ -5,8 +5,8 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Andrey O.</Authors>
     <Copyright>Copyright (c) 2018 Andrey Osintsev &lt;ozzy.ext@gmail.com&gt;</Copyright>
-    <PackageProjectUrl>https://github.com/ozzy-ext/mylab</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/ozzy-ext/mylab.git</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/ozzy-ext-mylab/logging</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ozzy-ext-mylab/logging.git</RepositoryUrl>
     <AssemblyVersion>1.4.14.2706</AssemblyVersion>
     <FileVersion>1.4.14.2706</FileVersion>
     <Version>1.4.14</Version>
