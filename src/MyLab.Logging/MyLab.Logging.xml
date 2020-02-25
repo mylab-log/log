@@ -9,35 +9,86 @@
             Predefined log attribute names
             </summary>
         </member>
-        <member name="F:MyLab.Logging.AttributeNames.ExceptionMessage">
+        <member name="F:MyLab.Logging.AttributeNames.Exception">
             <summary>
-            Exception message
+            Exception
             </summary>
         </member>
-        <member name="F:MyLab.Logging.AttributeNames.ExceptionType">
+        <member name="T:MyLab.Logging.ExceptionCondition">
+            <summary>Contains condition for exception</summary>
+        </member>
+        <member name="P:MyLab.Logging.ExceptionCondition.Key">
+            <summary>Key</summary>
+        </member>
+        <member name="P:MyLab.Logging.ExceptionCondition.Value">
+            <summary>Value</summary>
+        </member>
+        <member name="M:MyLab.Logging.ExceptionCondition.#ctor(System.String,System.Object)">
             <summary>
-            Exception type
+            Initializes a new instance of <see cref="T:MyLab.Logging.ExceptionCondition" />
             </summary>
         </member>
-        <member name="F:MyLab.Logging.AttributeNames.ExceptionStackTrace">
+        <member name="T:MyLab.Logging.ExceptionDto">
             <summary>
-            Exception stack trace
+            Exception log model
             </summary>
         </member>
-        <member name="F:MyLab.Logging.AttributeNames.BaseExceptionMessage">
+        <member name="P:MyLab.Logging.ExceptionDto.Message">
             <summary>
-            The base exception message
+            Message
             </summary>
         </member>
-        <member name="F:MyLab.Logging.AttributeNames.BaseExceptionType">
+        <member name="P:MyLab.Logging.ExceptionDto.StackTrace">
             <summary>
-            The base exception type
+            Stack trace
             </summary>
         </member>
-        <member name="F:MyLab.Logging.AttributeNames.BaseExceptionStackTrace">
+        <member name="P:MyLab.Logging.ExceptionDto.Type">
             <summary>
-            The base exception stack trace
+            .NET type
             </summary>
+        </member>
+        <member name="P:MyLab.Logging.ExceptionDto.Aggregated">
+            <summary>
+            Array of aggregated exceptions when origin exception is <see cref="T:System.AggregateException"/>
+            </summary>
+        </member>
+        <member name="P:MyLab.Logging.ExceptionDto.Inner">
+            <summary>
+            Inner exception
+            </summary>
+        </member>
+        <member name="P:MyLab.Logging.ExceptionDto.Conditions">
+            <summary>
+            Exception conditions
+            </summary>
+        </member>
+        <member name="P:MyLab.Logging.ExceptionDto.Markers">
+            <summary>
+            Markers from exception
+            </summary>
+        </member>
+        <member name="M:MyLab.Logging.ExceptionDto.Create(System.Exception)">
+            <summary>
+            Creates <see cref="T:MyLab.Logging.ExceptionDto"/> from <see cref="T:System.Exception"/>
+            </summary>
+        </member>
+        <member name="T:MyLab.Logging.ExceptionExtensions">
+            <summary>
+            Extensions for <see cref="T:System.Exception" />
+            </summary>
+        </member>
+        <member name="M:MyLab.Logging.ExceptionExtensions.AndFactIs(System.Exception,System.String,System.Object)">
+            <summary>Adds condition</summary>
+        </member>
+        <member name="M:MyLab.Logging.ExceptionExtensions.GetConditions(System.Exception)">
+            <summary>Gets conditions for Exception</summary>
+        </member>
+        <member name="M:MyLab.Logging.ExceptionExtensions.AndMarkAs(System.Exception,System.String)">
+            <summary>Adds marker for exception</summary>
+        </member>
+        <member name="M:MyLab.Logging.ExceptionExtensions.GetMarkers(System.Exception)">
+            <summary>Gets markers for Exception</summary>
         </member>
         <member name="T:MyLab.Logging.ILogAttributeStringValue">
             <summary>
@@ -114,6 +165,11 @@
             Converts <see cref="T:MyLab.Logging.LogEntity"/> to string
             </summary>
         </member>
+        <member name="F:MyLab.Logging.LogEntityFormatter.Func">
+            <summary>
+            Formatter function
+            </summary>
+        </member>
         <member name="T:MyLab.Logging.Markers">
             <summary>
             Predefined log markers
@@ -127,6 +183,11 @@
         <member name="F:MyLab.Logging.Markers.Debug">
             <summary>
             Debug
+            </summary>
+        </member>
+        <member name="F:MyLab.Logging.Markers.Warning">
+            <summary>
+            Warning
             </summary>
         </member>
     </members>

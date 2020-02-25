@@ -1,27 +1,24 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Andrey O.</Authors>
-    <Copyright>Copyright (c) 2018 Andrey Osintsev &lt;ozzy.ext@gmail.com&gt;</Copyright>
-    <PackageProjectUrl>https://github.com/ozzy-ext/mylab</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/ozzy-ext/mylab.git</RepositoryUrl>
-    <AssemblyVersion>1.2.11.0</AssemblyVersion>
-    <FileVersion>1.2.11.0</FileVersion>
-    <Version>1.2.11</Version>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>./MyLab.Logging.xml</DocumentationFile>
+    <Version>2.0.0</Version>
+    <Copyright>Copyright (c) 2020 Andrey Osintsev &lt;ozzy.ext@gmail.com&gt;</Copyright>
+    <PackageProjectUrl>https://github.com/ozzy-ext-mylab/logging</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ozzy-ext-mylab/logging.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <AssemblyVersion>2.0.0.2602</AssemblyVersion>
+    <FileVersion>2.0.0.2602</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>./MyLab.Logging.xml</DocumentationFile>
+    <DocumentationFile>C:\Users\ozzye\Documents\prog\my\mylab-logging\src\MyLab.Logging\MyLab.Logging.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 
 </Project>

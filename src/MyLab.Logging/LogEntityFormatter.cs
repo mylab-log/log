@@ -12,14 +12,12 @@ namespace MyLab.Logging
     {
         private static readonly string[] ExcludedAttributes =
         {
-            AttributeNames.BaseExceptionMessage,
-            AttributeNames.BaseExceptionStackTrace,
-            AttributeNames.BaseExceptionType,
-            AttributeNames.ExceptionMessage,
-            AttributeNames.ExceptionStackTrace,
-            AttributeNames.ExceptionType
+            AttributeNames.Exception
         };
 
+        /// <summary>
+        /// Formatter function
+        /// </summary>
         public static Func<LogEntity, Exception, string> Func = (entity, exception) =>
         {
             var b = new StringBuilder();
@@ -35,10 +33,12 @@ namespace MyLab.Logging
             
             if (entity.Markers != null && entity.Markers.Count != 0)
                 b.AppendLine("Markers: " + string.Join(", ", entity.Markers));
-            
-            if(entity.Attributes != null && entity.Attributes.Count != 0)
-            foreach (var cc in entity.Attributes.Where(c => ExcludedAttributes.All(ec => ec != c.Name)))
-                b.AppendLine(cc.Name + ": " + AttrValueToString(cc.Value));
+
+            if (entity.Attributes != null && entity.Attributes.Count != 0)
+            {
+                foreach (var cc in entity.Attributes.Where(c => ExcludedAttributes.All(ec => ec != c.Name)))
+                    b.AppendLine(cc.Name + ": " + AttrValueToString(cc.Value));
+            }
 
             return b.ToString();
         };
