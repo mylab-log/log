@@ -14,6 +14,20 @@
             Exception
             </summary>
         </member>
+        <member name="T:MyLab.Logging.ExceptionCondition">
+            <summary>Contains condition for exception</summary>
+        </member>
+        <member name="P:MyLab.Logging.ExceptionCondition.Key">
+            <summary>Key</summary>
+        </member>
+        <member name="P:MyLab.Logging.ExceptionCondition.Value">
+            <summary>Value</summary>
+        </member>
+        <member name="M:MyLab.Logging.ExceptionCondition.#ctor(System.String,System.Object)">
+            <summary>
+            Initializes a new instance of <see cref="T:MyLab.Logging.ExceptionCondition" />
+            </summary>
+        </member>
         <member name="T:MyLab.Logging.ExceptionDto">
             <summary>
             Exception log model
@@ -58,6 +72,23 @@
             <summary>
             Creates <see cref="T:MyLab.Logging.ExceptionDto"/> from <see cref="T:System.Exception"/>
             </summary>
+        </member>
+        <member name="T:MyLab.Logging.ExceptionExtensions">
+            <summary>
+            Extensions for <see cref="T:System.Exception" />
+            </summary>
+        </member>
+        <member name="M:MyLab.Logging.ExceptionExtensions.AndFactIs(System.Exception,System.String,System.Object)">
+            <summary>Adds condition</summary>
+        </member>
+        <member name="M:MyLab.Logging.ExceptionExtensions.GetConditions(System.Exception)">
+            <summary>Gets conditions for Exception</summary>
+        </member>
+        <member name="M:MyLab.Logging.ExceptionExtensions.AndMarkAs(System.Exception,System.String)">
+            <summary>Adds marker for exception</summary>
+        </member>
+        <member name="M:MyLab.Logging.ExceptionExtensions.GetMarkers(System.Exception)">
+            <summary>Gets markers for Exception</summary>
         </member>
         <member name="T:MyLab.Logging.ILogAttributeStringValue">
             <summary>
