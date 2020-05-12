@@ -17,14 +17,14 @@ namespace MyLab.Logging
         public static Exception AndFactIs(this Exception exception, string key, object value)
         {
             List<ExceptionCondition> exceptionConditionList;
-            if (exception.Data.Contains("conditions"))
+            if (exception.Data.Contains(ConditionsKey))
             {
-                exceptionConditionList = (List<ExceptionCondition>)exception.Data["conditions"];
+                exceptionConditionList = (List<ExceptionCondition>)exception.Data[ConditionsKey];
             }
             else
             {
                 exceptionConditionList = new List<ExceptionCondition>();
-                exception.Data.Add((object)"conditions", exceptionConditionList);
+                exception.Data.Add((object)ConditionsKey, exceptionConditionList);
             }
             exceptionConditionList.Add(new ExceptionCondition(key, value));
             return exception;
@@ -34,8 +34,8 @@ namespace MyLab.Logging
         public static IEnumerable<ExceptionCondition> GetConditions(
             this Exception exception)
         {
-            if (exception.Data.Contains("conditions"))
-                return (IEnumerable<ExceptionCondition>)exception.Data["conditions"];
+            if (exception.Data.Contains(ConditionsKey))
+                return (IEnumerable<ExceptionCondition>)exception.Data[ConditionsKey];
             return Enumerable.Empty<ExceptionCondition>();
         }
 
@@ -43,14 +43,14 @@ namespace MyLab.Logging
         public static Exception AndMarkAs(this Exception exception, string marker)
         {
             List<string> stringList;
-            if (exception.Data.Contains("markers"))
+            if (exception.Data.Contains(MarkersKey))
             {
-                stringList = (List<string>)exception.Data["markers"];
+                stringList = (List<string>)exception.Data[MarkersKey];
             }
             else
             {
                 stringList = new List<string>();
-                exception.Data.Add("markers", stringList);
+                exception.Data.Add(MarkersKey, stringList);
             }
             stringList.Add(marker);
             return exception;
@@ -59,8 +59,8 @@ namespace MyLab.Logging
         /// <summary>Gets markers for Exception</summary>
         public static IEnumerable<string> GetMarkers(this Exception exception)
         {
-            if (exception.Data.Contains("markers"))
-                return (IEnumerable<string>)exception.Data["markers"];
+            if (exception.Data.Contains(MarkersKey))
+                return (IEnumerable<string>)exception.Data[MarkersKey];
             return Enumerable.Empty<string>();
         }
     }
