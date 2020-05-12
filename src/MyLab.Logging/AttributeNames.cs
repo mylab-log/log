@@ -9,5 +9,10 @@
         /// Exception
         /// </summary>
         public const string Exception = "exception";
+
+        /// <summary>
+        /// Conditions
+        /// </summary>
+        public const string Conditions = "conditions";
     }
 }
