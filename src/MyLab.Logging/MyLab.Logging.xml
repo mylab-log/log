@@ -14,6 +14,11 @@
             Exception
             </summary>
         </member>
+        <member name="F:MyLab.Logging.AttributeNames.Conditions">
+            <summary>
+            Conditions
+            </summary>
+        </member>
         <member name="T:MyLab.Logging.ExceptionCondition">
             <summary>Contains condition for exception</summary>
         </member>
