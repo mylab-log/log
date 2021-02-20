@@ -86,13 +86,13 @@
         <member name="M:MyLab.Logging.ExceptionExtensions.AndFactIs(System.Exception,System.String,System.Object)">
             <summary>Adds condition</summary>
         </member>
-        <member name="M:MyLab.Logging.ExceptionExtensions.GetConditions(System.Exception)">
+        <member name="M:MyLab.Logging.ExceptionExtensions.GetFacts(System.Exception)">
             <summary>Gets conditions for Exception</summary>
         </member>
         <member name="M:MyLab.Logging.ExceptionExtensions.AndMarkAs(System.Exception,System.String)">
             <summary>Adds marker for exception</summary>
         </member>
-        <member name="M:MyLab.Logging.ExceptionExtensions.GetMarkers(System.Exception)">
+        <member name="M:MyLab.Logging.ExceptionExtensions.GetLabels(System.Exception)">
             <summary>Gets markers for Exception</summary>
         </member>
         <member name="T:MyLab.Logging.ILogAttributeStringValue">
@@ -135,34 +135,34 @@
             Markers
             </summary>
         </member>
-        <member name="P:MyLab.Logging.LogEntity.Attributes">
+        <member name="P:MyLab.Logging.LogEntity.Facts">
             <summary>
-            Attributes
+            Facts
             </summary>
         </member>
-        <member name="T:MyLab.Logging.LogEntityAttribute">
+        <member name="T:MyLab.Logging.LogEntityFact">
             <summary>
             Contains named data
             </summary>
         </member>
-        <member name="P:MyLab.Logging.LogEntityAttribute.Name">
+        <member name="P:MyLab.Logging.LogEntityFact.Name">
             <summary>
             Gets or sets attribute name
             </summary>
         </member>
-        <member name="P:MyLab.Logging.LogEntityAttribute.Value">
+        <member name="P:MyLab.Logging.LogEntityFact.Value">
             <summary>
             Gets or sets attribute value
             </summary>
         </member>
-        <member name="M:MyLab.Logging.LogEntityAttribute.#ctor">
+        <member name="M:MyLab.Logging.LogEntityFact.#ctor">
             <summary>
-            Initializes a new instance of <see cref="T:MyLab.Logging.LogEntityAttribute"/>
+            Initializes a new instance of <see cref="T:MyLab.Logging.LogEntityFact"/>
             </summary>
         </member>
-        <member name="M:MyLab.Logging.LogEntityAttribute.#ctor(System.String,System.Object)">
+        <member name="M:MyLab.Logging.LogEntityFact.#ctor(System.String,System.Object)">
             <summary>
-            Initializes a new instance of <see cref="T:MyLab.Logging.LogEntityAttribute"/>
+            Initializes a new instance of <see cref="T:MyLab.Logging.LogEntityFact"/>
             </summary>
         </member>
         <member name="T:MyLab.Logging.LogEntityFormatter">

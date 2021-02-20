@@ -29,13 +29,13 @@ namespace MyLab.Logging
         /// </summary>
         public ExceptionDto Inner { get; set; }
         /// <summary>
-        /// Exception conditions
+        /// Exception facts
         /// </summary>
-        public ExceptionCondition[] Conditions { get; set; }
+        public LogFacts Facts{ get; set; }
         /// <summary>
-        /// Markers from exception
+        /// Exception labels
         /// </summary>
-        public string[] Markers { get; set; }
+        public LogLabels Labels{ get; set; }
 
         /// <summary>
         /// Creates <see cref="ExceptionDto"/> from <see cref="Exception"/>
@@ -55,8 +55,8 @@ namespace MyLab.Logging
             if (e.InnerException != null)
                 dto.Inner = Create(e.InnerException);
 
-            dto.Conditions = e.GetConditions().ToArray();
-            dto.Markers = e.GetMarkers().ToArray();
+            dto.Facts = new LogFacts(e.GetFacts());
+            dto.Labels= new LogLabels(e.GetLabels());
 
             return dto;
         }

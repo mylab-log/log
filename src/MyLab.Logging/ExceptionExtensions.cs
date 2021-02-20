@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace MyLab.Logging
 {
@@ -10,58 +7,66 @@ namespace MyLab.Logging
     /// </summary>
     public static class ExceptionExtensions
     {
-        private const string ConditionsKey = "conditions";
-        private const string MarkersKey = "markers";
 
-        /// <summary>Adds condition</summary>
+        private const string FactsKey = "facts";
+        private const string LabelsKey = "labels";
+
+        /// <summary>
+        /// Adds fact
+        /// </summary>
         public static Exception AndFactIs(this Exception exception, string key, object value)
-        {
-            List<ExceptionCondition> exceptionConditionList;
-            if (exception.Data.Contains(ConditionsKey))
+        { 
+            LogFacts exceptionFacts;
+            if (exception.Data.Contains(FactsKey))
             {
-                exceptionConditionList = (List<ExceptionCondition>)exception.Data[ConditionsKey];
+                exceptionFacts = (LogFacts)exception.Data[FactsKey];
             }
             else
             {
-                exceptionConditionList = new List<ExceptionCondition>();
-                exception.Data.Add((object)ConditionsKey, exceptionConditionList);
+                exceptionFacts = new LogFacts();
+                exception.Data.Add(FactsKey, exceptionFacts);
             }
-            exceptionConditionList.Add(new ExceptionCondition(key, value));
+            exceptionFacts.Add(key, value);
             return exception;
         }
 
         /// <summary>Gets conditions for Exception</summary>
-        public static IEnumerable<ExceptionCondition> GetConditions(
-            this Exception exception)
+        public static LogFacts GetFacts(this Exception exception)
         {
-            if (exception.Data.Contains(ConditionsKey))
-                return (IEnumerable<ExceptionCondition>)exception.Data[ConditionsKey];
-            return Enumerable.Empty<ExceptionCondition>();
+            if (exception.Data.Contains(FactsKey))
+                return (LogFacts)exception.Data[FactsKey];
+            return new LogFacts();
         }
 
         /// <summary>Adds marker for exception</summary>
-        public static Exception AndMarkAs(this Exception exception, string marker)
+        public static Exception AndMarkAs(this Exception exception, string labelKey)
         {
-            List<string> stringList;
-            if (exception.Data.Contains(MarkersKey))
+            return AndMarkAs(exception, labelKey, "true");
+        }
+
+        /// <summary>Adds marker for exception</summary>
+        public static Exception AndMarkAs(this Exception exception, string labelKey, string labelValue)
+        {
+            LogLabels stringList;
+            if (exception.Data.Contains(LabelsKey))
             {
-                stringList = (List<string>)exception.Data[MarkersKey];
+                stringList = (LogLabels)exception.Data[LabelsKey];
             }
             else
             {
-                stringList = new List<string>();
-                exception.Data.Add(MarkersKey, stringList);
+                stringList = new LogLabels();
+                exception.Data.Add(LabelsKey, stringList);
             }
-            stringList.Add(marker);
+            stringList.Add(labelKey, labelValue);
             return exception;
         }
 
         /// <summary>Gets markers for Exception</summary>
-        public static IEnumerable<string> GetMarkers(this Exception exception)
+        public static LogLabels GetLabels(this Exception exception)
         {
-            if (exception.Data.Contains(MarkersKey))
-                return (IEnumerable<string>)exception.Data[MarkersKey];
-            return Enumerable.Empty<string>();
+            if (exception.Data.Contains(LabelsKey))
+                return (LogLabels)exception.Data[LabelsKey];
+            return new LogLabels();
         }
     }
 }

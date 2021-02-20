@@ -1,12 +1,12 @@
 namespace MyLab.Logging
 {
     /// <summary>
-    /// Converts object to attribute string value
+    /// Converts object to log string value
     /// </summary>
-    public interface ILogAttributeStringValue
+    public interface ILogStringValue
     {
         /// <summary>
-        /// Converts object to attribute string value
+        /// Converts object to log string value
         /// </summary>
         string ToLogString();
     }

@@ -9,17 +9,7 @@ namespace MyLab.Logging
     public class LogEntity
     {
         /// <summary>
-        /// Event identifier
-        /// </summary>
-        public int EventId { get; set; }
-
-        /// <summary>
-        /// Event instance identifier
-        /// </summary>
-        public Guid Id { get; set; }
-        
-        /// <summary>
-        /// Occurence time
+        /// Occurrence time
         /// </summary>
         public DateTime Time { get; set; } = DateTime.Now;
 
@@ -29,13 +19,68 @@ namespace MyLab.Logging
         public string Content { get; set; }
 
         /// <summary>
-        /// Markers
+        /// Facts
         /// </summary>
-        public List<string> Markers { get; set; }
+        public LogFacts Facts { get; }
 
         /// <summary>
-        /// Attributes
+        /// Labels
         /// </summary>
-        public List<LogEntityAttribute> Attributes { get; set; }
+        public LogLabels Labels { get; }
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="LogEntity"/>
+        /// </summary>
+        public LogEntity()
+        {
+            Facts = new LogFacts();
+            Labels = new LogLabels();
+        }
+    }
+
+    /// <summary>
+    /// Stores log facts
+    /// </summary>
+    public class LogFacts : Dictionary<string, object>
+    {
+        /// <summary>
+        /// Initializes a new instance of <see cref="LogFacts"/>
+        /// </summary>
+        public LogFacts()
+        {
+            
+        }
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="LogFacts"/>
+        /// </summary>
+        public LogFacts(Dictionary<string, object> init)
+            :base(init)
+        {
+            
+        }
+    }
+
+    /// <summary>
+    /// Stores log labels
+    /// </summary>
+    public class LogLabels : Dictionary<string, string>
+    {
+        /// <summary>
+        /// Initializes a new instance of <see cref="LogLabels"/>
+        /// </summary>
+        public LogLabels()
+        {
+
+        }
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="LogLabels"/>
+        /// </summary>
+        public LogLabels(Dictionary<string, string> init)
+            : base(init)
+        {
+
+        }
     }
 }
