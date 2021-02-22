@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using YamlDotNet.Serialization;
 
 namespace MyLab.Logging
 {
@@ -11,21 +11,25 @@ namespace MyLab.Logging
         /// <summary>
         /// Occurrence time
         /// </summary>
+        [YamlMember(Order = 1)]
         public DateTime Time { get; set; } = DateTime.Now;
 
         /// <summary>
         /// Log message
         /// </summary>
+        [YamlMember(Order = 0)]
         public string Content { get; set; }
 
         /// <summary>
         /// Facts
         /// </summary>
+        [YamlMember(Order = 3)]
         public LogFacts Facts { get; }
 
         /// <summary>
         /// Labels
         /// </summary>
+        [YamlMember(Order = 2)]
         public LogLabels Labels { get; }
 
         /// <summary>
@@ -36,51 +40,22 @@ namespace MyLab.Logging
             Facts = new LogFacts();
             Labels = new LogLabels();
         }
-    }
-
-    /// <summary>
-    /// Stores log facts
-    /// </summary>
-    public class LogFacts : Dictionary<string, object>
-    {
-        /// <summary>
-        /// Initializes a new instance of <see cref="LogFacts"/>
-        /// </summary>
-        public LogFacts()
-        {
-            
-        }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="LogFacts"/>
+        /// Sets information about Exception
         /// </summary>
-        public LogFacts(Dictionary<string, object> init)
-            :base(init)
+        public void SetException(Exception e)
         {
-            
-        }
-    }
+            if (e == null) throw new ArgumentNullException(nameof(e));
 
-    /// <summary>
-    /// Stores log labels
-    /// </summary>
-    public class LogLabels : Dictionary<string, string>
-    {
-        /// <summary>
-        /// Initializes a new instance of <see cref="LogLabels"/>
-        /// </summary>
-        public LogLabels()
-        {
-
-        }
-
-        /// <summary>
-        /// Initializes a new instance of <see cref="LogLabels"/>
-        /// </summary>
-        public LogLabels(Dictionary<string, string> init)
-            : base(init)
-        {
-
+            if (Facts.ContainsKey(PredefinedFacts.Exception))
+            {
+                Facts[PredefinedFacts.Exception] = ExceptionDto.Create(e);
+            }
+            else
+            {
+                Facts.Add(PredefinedFacts.Exception, ExceptionDto.Create(e));
+            }
         }
     }
 }

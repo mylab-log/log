@@ -49,7 +49,8 @@ namespace MyLab.Logging.Serializing
                 if (!type.IsPrimitive &&
                    !type.IsValueType &&
                    type != typeof(string) &&
-                   type != typeof(LogEntity))
+                   type != typeof(LogEntity) &&
+                   type != typeof(ExceptionDto))
                 {
                     props.Insert(0, new TypePropertyDescriptor(type.FullName));
                 }
