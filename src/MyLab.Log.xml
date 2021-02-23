@@ -1,0 +1,238 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MyLab.Log</name>
+    </assembly>
+    <members>
+        <member name="T:MyLab.Log.ExceptionCondition">
+            <summary>Contains condition for exception</summary>
+        </member>
+        <member name="P:MyLab.Log.ExceptionCondition.Key">
+            <summary>Key</summary>
+        </member>
+        <member name="P:MyLab.Log.ExceptionCondition.Value">
+            <summary>Value</summary>
+        </member>
+        <member name="M:MyLab.Log.ExceptionCondition.#ctor(System.String,System.Object)">
+            <summary>
+            Initializes a new instance of <see cref="T:MyLab.Log.ExceptionCondition" />
+            </summary>
+        </member>
+        <member name="T:MyLab.Log.ExceptionDto">
+            <summary>
+            Exception log model
+            </summary>
+        </member>
+        <member name="P:MyLab.Log.ExceptionDto.Message">
+            <summary>
+            Message
+            </summary>
+        </member>
+        <member name="P:MyLab.Log.ExceptionDto.StackTrace">
+            <summary>
+            Stack trace
+            </summary>
+        </member>
+        <member name="P:MyLab.Log.ExceptionDto.Type">
+            <summary>
+            .NET type
+            </summary>
+        </member>
+        <member name="P:MyLab.Log.ExceptionDto.Aggregated">
+            <summary>
+            Array of aggregated exceptions when origin exception is <see cref="T:System.AggregateException"/>
+            </summary>
+        </member>
+        <member name="P:MyLab.Log.ExceptionDto.Inner">
+            <summary>
+            Inner exception
+            </summary>
+        </member>
+        <member name="P:MyLab.Log.ExceptionDto.Facts">
+            <summary>
+            Exception facts
+            </summary>
+        </member>
+        <member name="P:MyLab.Log.ExceptionDto.Labels">
+            <summary>
+            Exception labels
+            </summary>
+        </member>
+        <member name="M:MyLab.Log.ExceptionDto.Create(System.Exception)">
+            <summary>
+            Creates <see cref="T:MyLab.Log.ExceptionDto"/> from <see cref="T:System.Exception"/>
+            </summary>
+        </member>
+        <member name="M:MyLab.Log.ExceptionLogData.#ctor(System.Exception)">
+            <summary>
+            Initializes a new instance of <see cref="T:MyLab.Log.ExceptionLogData"/>
+            </summary>
+        </member>
+        <member name="M:MyLab.Log.ExceptionLogData.AddFact(System.String,System.Object)">
+            <summary>
+            Adds log fact into exception 
+            </summary>
+        </member>
+        <member name="M:MyLab.Log.ExceptionLogData.AddLabel(System.String,System.String)">
+            <summary>
+            Adds log label into exception
+            </summary>
+        </member>
+        <member name="M:MyLab.Log.ExceptionLogData.GetFacts">
+            <summary>Gets conditions for Exception</summary>
+        </member>
+        <member name="M:MyLab.Log.ExceptionLogData.GetLabels">
+            <summary>Gets label for Exception</summary>
+        </member>
+        <member name="T:MyLab.Log.ILogStringValue">
+            <summary>
+            Converts object to log string value
+            </summary>
+        </member>
+        <member name="M:MyLab.Log.ILogStringValue.ToLogString">
+            <summary>
+            Converts object to log string value
+            </summary>
+        </member>
+        <member name="T:MyLab.Log.LogEntity">
+            <summary>
+            Contains log item data
+            </summary>
+        </member>
+        <member name="P:MyLab.Log.LogEntity.Time">
+            <summary>
+            Occurrence time
+            </summary>
+        </member>
+        <member name="P:MyLab.Log.LogEntity.Message">
+            <summary>
+            Log message
+            </summary>
+        </member>
+        <member name="P:MyLab.Log.LogEntity.Facts">
+            <summary>
+            Facts
+            </summary>
+        </member>
+        <member name="P:MyLab.Log.LogEntity.Labels">
+            <summary>
+            Labels
+            </summary>
+        </member>
+        <member name="P:MyLab.Log.LogEntity.Exception">
+            <summary>
+            Contains exception info
+            </summary>
+        </member>
+        <member name="M:MyLab.Log.LogEntity.#ctor">
+            <summary>
+            Initializes a new instance of <see cref="T:MyLab.Log.LogEntity"/>
+            </summary>
+        </member>
+        <member name="T:MyLab.Log.LogEntityFormatter">
+            <summary>
+            Converts <see cref="T:MyLab.Log.LogEntity"/> to string
+            </summary>
+        </member>
+        <member name="F:MyLab.Log.LogEntityFormatter.Yaml">
+            <summary>
+            Yaml formatter function
+            </summary>
+        </member>
+        <member name="F:MyLab.Log.LogEntityFormatter.Json">
+            <summary>
+            Json formatter function
+            </summary>
+        </member>
+        <member name="T:MyLab.Log.LogFacts">
+            <summary>
+            Stores log facts
+            </summary>
+        </member>
+        <member name="M:MyLab.Log.LogFacts.#ctor">
+            <summary>
+            Initializes a new instance of <see cref="T:MyLab.Log.LogFacts"/>
+            </summary>
+        </member>
+        <member name="M:MyLab.Log.LogFacts.#ctor(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Initializes a new instance of <see cref="T:MyLab.Log.LogFacts"/>
+            </summary>
+        </member>
+        <member name="T:MyLab.Log.LogLabels">
+            <summary>
+            Stores log labels
+            </summary>
+        </member>
+        <member name="M:MyLab.Log.LogLabels.#ctor">
+            <summary>
+            Initializes a new instance of <see cref="T:MyLab.Log.LogLabels"/>
+            </summary>
+        </member>
+        <member name="M:MyLab.Log.LogLabels.#ctor(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Initializes a new instance of <see cref="T:MyLab.Log.LogLabels"/>
+            </summary>
+        </member>
+        <member name="T:MyLab.Log.PredefinedLogLevels">
+            <summary>
+            Predefined log levels
+            </summary>
+        </member>
+        <member name="F:MyLab.Log.PredefinedLogLevels.Error">
+            <summary>
+            Error
+            </summary>
+        </member>
+        <member name="F:MyLab.Log.PredefinedLogLevels.Debug">
+            <summary>
+            Debug
+            </summary>
+        </member>
+        <member name="F:MyLab.Log.PredefinedLogLevels.Warning">
+            <summary>
+            Warning
+            </summary>
+        </member>
+        <member name="T:MyLab.Log.PredefinedFacts">
+            <summary>
+            Contains predefined log fact keys
+            </summary>
+        </member>
+        <member name="F:MyLab.Log.PredefinedFacts.LogLevel">
+            <summary>
+            Log level fact key. Predefined values keeps in  <see cref="T:MyLab.Log.PredefinedLogLevels"/> 
+            </summary>
+        </member>
+        <member name="F:MyLab.Log.PredefinedFacts.Conditions">
+            <summary>
+            Log conditions fact key
+            </summary>
+        </member>
+        <member name="T:MyLab.Log.Serializing.ILogEntitySerializer">
+            <summary>
+            Describes <see cref="T:MyLab.Log.LogEntity"/> serializer
+            </summary>
+        </member>
+        <member name="M:MyLab.Log.Serializing.ILogEntitySerializer.Serialize(MyLab.Log.LogEntity)">
+            <summary>
+            Serializes a <see cref="T:MyLab.Log.LogEntity"/> to <see cref="T:System.String"/>
+            </summary>
+        </member>
+        <member name="T:MyLab.Log.Serializing.JsonLogEntitySerializer">
+            <summary>
+            Serializes <see cref="T:MyLab.Log.LogEntity"/> into JSON format
+            </summary>
+        </member>
+        <member name="T:MyLab.Log.Serializing.LogEntitySerializationExtensions">
+            <summary>
+            Contains extension serialization methods for <see cref="T:MyLab.Log.LogEntity"/>
+            </summary>
+        </member>
+        <member name="T:MyLab.Log.Serializing.YamlLogEntitySerializer">
+            <summary>
+            Serializes <see cref="T:MyLab.Log.LogEntity"/> into YAML format
+            </summary>
+        </member>
+    </members>
+</doc>
