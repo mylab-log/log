@@ -227,13 +227,13 @@ Result:
 Message: Error
 Time: 2021-02-24T01:28:54.748
 Exception:
-	Message: Inner message
-	Type: System.InvalidOperationException
-	StackTrace: '   at Demo.Program.WriteLogWithExceptionStuff(ILogger`1 logger, Func`3 formatter) in C:\..\src\Demo\Program.cs:line 37'
-	Labels:
-		error: true
-	Facts:
-		Inner exception fact: inner fact
+  Message: Inner message
+  Type: System.InvalidOperationException
+  StackTrace: '   at Demo.Program.WriteLogWithExceptionStuff(ILogger`1 logger, Func`3 formatter) in C:\..\src\Demo\Program.cs:line 37'
+  Labels:
+    error: true
+  Facts:
+    Inner exception fact: inner fact
 ```
 
 ### Developing points
