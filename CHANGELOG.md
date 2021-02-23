@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file
 
 Log format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [Current] - 2021-02-22
+## 3.0.0 - 2021-02-22
 
 ### Added
 
