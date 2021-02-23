@@ -20,4 +20,5 @@ Log format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 * Remake markers to labels
 * Default formatter log representation form is `yaml`   
 * Change exception around log functional
+* Renaming `MyLab.Logging` -> `MyLab.Log`
 

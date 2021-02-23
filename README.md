@@ -1,8 +1,8 @@
-# MyLab.Logging
+# MyLab.Log
 
 For .NET Core 3.1+
 
-[![NuGet](https://img.shields.io/nuget/v/MyLab.Logging.svg)](https://www.nuget.org/packages/MyLab.Logging/)
+[![NuGet](https://img.shields.io/nuget/v/MyLab.Log.svg)](https://www.nuget.org/packages/MyLab.Log/)
 
 .NET Core based framework which defines advanced log entity model for built-in .NET Core logging subsystem. 
 
