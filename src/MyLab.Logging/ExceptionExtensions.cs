@@ -39,13 +39,13 @@ namespace MyLab.Logging
         }
 
         /// <summary>Adds marker for exception</summary>
-        public static Exception AndMarkAs(this Exception exception, string labelKey)
+        public static Exception AndMark(this Exception exception, string labelKey)
         {
-            return AndMarkAs(exception, labelKey, "true");
+            return AndMark(exception, labelKey, "true");
         }
 
         /// <summary>Adds marker for exception</summary>
-        public static Exception AndMarkAs(this Exception exception, string labelKey, string labelValue)
+        public static Exception AndMark(this Exception exception, string labelKey, string labelValue)
         {
             LogLabels stringList;
             if (exception.Data.Contains(LabelsKey))

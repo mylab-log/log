@@ -40,14 +40,14 @@ namespace MyLab.Logging.Tests
         }
 
         [Theory]
-        [InlineData("yaml", "Content: foo")]
-        [InlineData("json", "\"Content\": \"foo\"")]
+        [InlineData("yaml", "Message: foo")]
+        [InlineData("json", "\"Message\": \"foo\"")]
         public void ShouldSerializeContent(string serializer, string expected)
         {
             //Arrange
             var log = new LogEntity
             {
-                Content = "foo"
+                Message = "foo"
             };
 
             //Act & Assert

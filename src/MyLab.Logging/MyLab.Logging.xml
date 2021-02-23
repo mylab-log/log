@@ -86,10 +86,10 @@
         <member name="M:MyLab.Logging.ExceptionExtensions.AndFactIs(System.Exception,System.String,System.Object)">
             <summary>Adds condition</summary>
         </member>
-        <member name="M:MyLab.Logging.ExceptionExtensions.GetFacts(System.Exception)">
+        <member name="M:MyLab.Logging.ExceptionExtensions.GetLabelWith(System.Exception)">
             <summary>Gets conditions for Exception</summary>
         </member>
-        <member name="M:MyLab.Logging.ExceptionExtensions.AndMarkAs(System.Exception,System.String)">
+        <member name="M:MyLab.Logging.ExceptionExtensions.AndMark(System.Exception,System.String)">
             <summary>Adds marker for exception</summary>
         </member>
         <member name="M:MyLab.Logging.ExceptionExtensions.GetLabels(System.Exception)">
@@ -125,7 +125,7 @@
             Occurence time
             </summary>
         </member>
-        <member name="P:MyLab.Logging.LogEntity.Content">
+        <member name="P:MyLab.Logging.LogEntity.Message">
             <summary>
             Log message
             </summary>
@@ -170,7 +170,7 @@
             Converts <see cref="T:MyLab.Logging.LogEntity"/> to string
             </summary>
         </member>
-        <member name="F:MyLab.Logging.LogEntityFormatter.Func">
+        <member name="F:MyLab.Logging.LogEntityFormatter.Yaml">
             <summary>
             Formatter function
             </summary>

@@ -15,7 +15,7 @@ namespace MyLab.Logging.Tests
 
             //Act
             var facts = e
-                .GetFacts()
+                .GetLabelWith()
                 .ToArray();
 
             //Assert
@@ -29,7 +29,7 @@ namespace MyLab.Logging.Tests
         {
             //Arrange
             var e = new Exception();
-            e.AndMarkAs("foo", "bar");
+            e.AndMark("foo", "bar");
 
             //Act
             var labels = e

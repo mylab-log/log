@@ -21,7 +21,9 @@ namespace MyLab.Logging.Serializing
                 Converters =
                 {
                     new LogStringValueConverter()
-                }
+                },
+                DateTimeZoneHandling = DateTimeZoneHandling.Local,
+                DateFormatString = "yyyy-MM-ddTHH:mm:ss.fff"
             });
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using YamlDotNet.Serialization;
 
 namespace MyLab.Logging
@@ -12,25 +13,33 @@ namespace MyLab.Logging
         /// Occurrence time
         /// </summary>
         [YamlMember(Order = 1)]
+        [JsonProperty(Order = 1)]
         public DateTime Time { get; set; } = DateTime.Now;
 
         /// <summary>
         /// Log message
         /// </summary>
         [YamlMember(Order = 0)]
-        public string Content { get; set; }
+        [JsonProperty(Order = 0)]
+        public string Message { get; set; }
 
         /// <summary>
         /// Facts
         /// </summary>
         [YamlMember(Order = 3)]
+        [JsonProperty(Order = 3)]
         public LogFacts Facts { get; }
 
         /// <summary>
         /// Labels
         /// </summary>
         [YamlMember(Order = 2)]
+        [JsonProperty(Order = 2)]
         public LogLabels Labels { get; }
+
+        [YamlMember(Order = 4)]
+        [JsonProperty(Order = 4)]
+        public ExceptionDto Exception { get; set; }
 
         /// <summary>
         /// Initializes a new instance of <see cref="LogEntity"/>
@@ -39,23 +48,6 @@ namespace MyLab.Logging
         {
             Facts = new LogFacts();
             Labels = new LogLabels();
-        }
-
-        /// <summary>
-        /// Sets information about Exception
-        /// </summary>
-        public void SetException(Exception e)
-        {
-            if (e == null) throw new ArgumentNullException(nameof(e));
-
-            if (Facts.ContainsKey(PredefinedFacts.Exception))
-            {
-                Facts[PredefinedFacts.Exception] = ExceptionDto.Create(e);
-            }
-            else
-            {
-                Facts.Add(PredefinedFacts.Exception, ExceptionDto.Create(e));
-            }
         }
     }
 }

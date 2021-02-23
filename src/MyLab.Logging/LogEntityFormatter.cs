@@ -7,9 +7,15 @@ namespace MyLab.Logging
     /// Converts <see cref="LogEntity"/> to string
     /// </summary>
     public static class LogEntityFormatter
-    {/// <summary>
-        /// Formatter function
+    {
+        /// <summary>
+        /// Yaml formatter function
         /// </summary>
-        public static readonly Func<LogEntity, Exception, string> Func = (entity, exception) => entity.ToYaml();
+        public static readonly Func<LogEntity, Exception, string> Yaml = (entity, exception) => entity.ToYaml();
+
+        /// <summary>
+        /// Json formatter function
+        /// </summary>
+        public static readonly Func<LogEntity, Exception, string> Json = (entity, exception) => entity.ToJson();
     }
 }
