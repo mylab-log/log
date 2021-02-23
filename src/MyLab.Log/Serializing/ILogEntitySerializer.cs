@@ -1,4 +1,4 @@
-﻿namespace MyLab.Logging.Serializing
+﻿namespace MyLab.Log.Serializing
 {
     /// <summary>
     /// Describes <see cref="LogEntity"/> serializer

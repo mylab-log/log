@@ -1,4 +1,4 @@
-﻿namespace MyLab.Logging
+﻿namespace MyLab.Log
 {
     /// <summary>Contains condition for exception</summary>
     public class ExceptionCondition

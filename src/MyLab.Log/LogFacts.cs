@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MyLab.Logging
+namespace MyLab.Log
 {
     /// <summary>
     /// Stores log facts

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MyLab.Logging.Serializing;
+using MyLab.Log.Serializing;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace MyLab.Logging.Tests
+namespace MyLab.Log.Tests
 {
     public class LogEntitySerializerBehavior
     {
@@ -115,7 +115,7 @@ namespace MyLab.Logging.Tests
         [Theory]
         [InlineData("yaml", "Facts:")]
         [InlineData("yaml", "foo:")]
-        [InlineData("yaml", "Type: MyLab.Logging.Tests.LogEntitySerializerBehavior+FactValue")]
+        [InlineData("yaml", "Type: MyLab.Log.Tests.LogEntitySerializerBehavior+FactValue")]
         [InlineData("yaml", "Id: 20")]
         [InlineData("yaml", "Values:")]
         [InlineData("yaml", "- bar")]

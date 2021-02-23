@@ -1,196 +1,196 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>MyLab.Logging</name>
+        <name>MyLab.Log</name>
     </assembly>
     <members>
-        <member name="T:MyLab.Logging.AttributeNames">
+        <member name="T:MyLab.Log.AttributeNames">
             <summary>
             Predefined log attribute names
             </summary>
         </member>
-        <member name="F:MyLab.Logging.AttributeNames.Exception">
+        <member name="F:MyLab.Log.AttributeNames.Exception">
             <summary>
             Exception
             </summary>
         </member>
-        <member name="F:MyLab.Logging.AttributeNames.Conditions">
+        <member name="F:MyLab.Log.AttributeNames.Conditions">
             <summary>
             Conditions
             </summary>
         </member>
-        <member name="T:MyLab.Logging.ExceptionCondition">
+        <member name="T:MyLab.Log.ExceptionCondition">
             <summary>Contains condition for exception</summary>
         </member>
-        <member name="P:MyLab.Logging.ExceptionCondition.Key">
+        <member name="P:MyLab.Log.ExceptionCondition.Key">
             <summary>Key</summary>
         </member>
-        <member name="P:MyLab.Logging.ExceptionCondition.Value">
+        <member name="P:MyLab.Log.ExceptionCondition.Value">
             <summary>Value</summary>
         </member>
-        <member name="M:MyLab.Logging.ExceptionCondition.#ctor(System.String,System.Object)">
+        <member name="M:MyLab.Log.ExceptionCondition.#ctor(System.String,System.Object)">
             <summary>
-            Initializes a new instance of <see cref="T:MyLab.Logging.ExceptionCondition" />
+            Initializes a new instance of <see cref="T:MyLab.Log.ExceptionCondition" />
             </summary>
         </member>
-        <member name="T:MyLab.Logging.ExceptionDto">
+        <member name="T:MyLab.Log.ExceptionDto">
             <summary>
             Exception log model
             </summary>
         </member>
-        <member name="P:MyLab.Logging.ExceptionDto.Message">
+        <member name="P:MyLab.Log.ExceptionDto.Message">
             <summary>
             Message
             </summary>
         </member>
-        <member name="P:MyLab.Logging.ExceptionDto.StackTrace">
+        <member name="P:MyLab.Log.ExceptionDto.StackTrace">
             <summary>
             Stack trace
             </summary>
         </member>
-        <member name="P:MyLab.Logging.ExceptionDto.Type">
+        <member name="P:MyLab.Log.ExceptionDto.Type">
             <summary>
             .NET type
             </summary>
         </member>
-        <member name="P:MyLab.Logging.ExceptionDto.Aggregated">
+        <member name="P:MyLab.Log.ExceptionDto.Aggregated">
             <summary>
             Array of aggregated exceptions when origin exception is <see cref="T:System.AggregateException"/>
             </summary>
         </member>
-        <member name="P:MyLab.Logging.ExceptionDto.Inner">
+        <member name="P:MyLab.Log.ExceptionDto.Inner">
             <summary>
             Inner exception
             </summary>
         </member>
-        <member name="P:MyLab.Logging.ExceptionDto.Conditions">
+        <member name="P:MyLab.Log.ExceptionDto.Conditions">
             <summary>
             Exception conditions
             </summary>
         </member>
-        <member name="P:MyLab.Logging.ExceptionDto.Markers">
+        <member name="P:MyLab.Log.ExceptionDto.Markers">
             <summary>
             Markers from exception
             </summary>
         </member>
-        <member name="M:MyLab.Logging.ExceptionDto.Create(System.Exception)">
+        <member name="M:MyLab.Log.ExceptionDto.Create(System.Exception)">
             <summary>
-            Creates <see cref="T:MyLab.Logging.ExceptionDto"/> from <see cref="T:System.Exception"/>
+            Creates <see cref="T:MyLab.Log.ExceptionDto"/> from <see cref="T:System.Exception"/>
             </summary>
         </member>
-        <member name="T:MyLab.Logging.ExceptionExtensions">
+        <member name="T:MyLab.Log.ExceptionExtensions">
             <summary>
             Extensions for <see cref="T:System.Exception" />
             </summary>
         </member>
-        <member name="M:MyLab.Logging.ExceptionExtensions.AndFactIs(System.Exception,System.String,System.Object)">
+        <member name="M:MyLab.Log.ExceptionExtensions.AndFactIs(System.Exception,System.String,System.Object)">
             <summary>Adds condition</summary>
         </member>
-        <member name="M:MyLab.Logging.ExceptionExtensions.GetLabelWith(System.Exception)">
+        <member name="M:MyLab.Log.ExceptionExtensions.GetLabelWith(System.Exception)">
             <summary>Gets conditions for Exception</summary>
         </member>
-        <member name="M:MyLab.Logging.ExceptionExtensions.AndLabel(System.Exception,System.String)">
+        <member name="M:MyLab.Log.ExceptionExtensions.AndLabel(System.Exception,System.String)">
             <summary>Adds marker for exception</summary>
         </member>
-        <member name="M:MyLab.Logging.ExceptionExtensions.GetLabels(System.Exception)">
+        <member name="M:MyLab.Log.ExceptionExtensions.GetLabels(System.Exception)">
             <summary>Gets markers for Exception</summary>
         </member>
-        <member name="T:MyLab.Logging.ILogAttributeStringValue">
+        <member name="T:MyLab.Log.ILogAttributeStringValue">
             <summary>
             Converts object to attribute string value
             </summary>
         </member>
-        <member name="M:MyLab.Logging.ILogAttributeStringValue.ToLogString">
+        <member name="M:MyLab.Log.ILogAttributeStringValue.ToLogString">
             <summary>
             Converts object to attribute string value
             </summary>
         </member>
-        <member name="T:MyLab.Logging.LogEntity">
+        <member name="T:MyLab.Log.LogEntity">
             <summary>
             Contains log item data
             </summary>
         </member>
-        <member name="P:MyLab.Logging.LogEntity.EventId">
+        <member name="P:MyLab.Log.LogEntity.EventId">
             <summary>
             Event identifier
             </summary>
         </member>
-        <member name="P:MyLab.Logging.LogEntity.Id">
+        <member name="P:MyLab.Log.LogEntity.Id">
             <summary>
             Event instance identifier
             </summary>
         </member>
-        <member name="P:MyLab.Logging.LogEntity.Time">
+        <member name="P:MyLab.Log.LogEntity.Time">
             <summary>
             Occurence time
             </summary>
         </member>
-        <member name="P:MyLab.Logging.LogEntity.Message">
+        <member name="P:MyLab.Log.LogEntity.Message">
             <summary>
             Log message
             </summary>
         </member>
-        <member name="P:MyLab.Logging.LogEntity.Markers">
+        <member name="P:MyLab.Log.LogEntity.Markers">
             <summary>
             Markers
             </summary>
         </member>
-        <member name="P:MyLab.Logging.LogEntity.Facts">
+        <member name="P:MyLab.Log.LogEntity.Facts">
             <summary>
             Facts
             </summary>
         </member>
-        <member name="T:MyLab.Logging.LogEntityFact">
+        <member name="T:MyLab.Log.LogEntityFact">
             <summary>
             Contains named data
             </summary>
         </member>
-        <member name="P:MyLab.Logging.LogEntityFact.Name">
+        <member name="P:MyLab.Log.LogEntityFact.Name">
             <summary>
             Gets or sets attribute name
             </summary>
         </member>
-        <member name="P:MyLab.Logging.LogEntityFact.Value">
+        <member name="P:MyLab.Log.LogEntityFact.Value">
             <summary>
             Gets or sets attribute value
             </summary>
         </member>
-        <member name="M:MyLab.Logging.LogEntityFact.#ctor">
+        <member name="M:MyLab.Log.LogEntityFact.#ctor">
             <summary>
-            Initializes a new instance of <see cref="T:MyLab.Logging.LogEntityFact"/>
+            Initializes a new instance of <see cref="T:MyLab.Log.LogEntityFact"/>
             </summary>
         </member>
-        <member name="M:MyLab.Logging.LogEntityFact.#ctor(System.String,System.Object)">
+        <member name="M:MyLab.Log.LogEntityFact.#ctor(System.String,System.Object)">
             <summary>
-            Initializes a new instance of <see cref="T:MyLab.Logging.LogEntityFact"/>
+            Initializes a new instance of <see cref="T:MyLab.Log.LogEntityFact"/>
             </summary>
         </member>
-        <member name="T:MyLab.Logging.LogEntityFormatter">
+        <member name="T:MyLab.Log.LogEntityFormatter">
             <summary>
-            Converts <see cref="T:MyLab.Logging.LogEntity"/> to string
+            Converts <see cref="T:MyLab.Log.LogEntity"/> to string
             </summary>
         </member>
-        <member name="F:MyLab.Logging.LogEntityFormatter.Yaml">
+        <member name="F:MyLab.Log.LogEntityFormatter.Yaml">
             <summary>
             Formatter function
             </summary>
         </member>
-        <member name="T:MyLab.Logging.Markers">
+        <member name="T:MyLab.Log.Markers">
             <summary>
             Predefined log markers
             </summary>
         </member>
-        <member name="F:MyLab.Logging.Markers.Error">
+        <member name="F:MyLab.Log.Markers.Error">
             <summary>
             Error
             </summary>
         </member>
-        <member name="F:MyLab.Logging.Markers.Debug">
+        <member name="F:MyLab.Log.Markers.Debug">
             <summary>
             Debug
             </summary>
         </member>
-        <member name="F:MyLab.Logging.Markers.Warning">
+        <member name="F:MyLab.Log.Markers.Warning">
             <summary>
             Warning
             </summary>

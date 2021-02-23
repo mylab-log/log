@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MyLab.Logging.Serializing
+namespace MyLab.Log.Serializing
 {
     /// <summary>
     /// Contains extension serialization methods for <see cref="LogEntity"/>

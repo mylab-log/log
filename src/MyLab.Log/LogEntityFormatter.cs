@@ -1,7 +1,7 @@
 ﻿using System;
-using MyLab.Logging.Serializing;
+using MyLab.Log.Serializing;
 
-namespace MyLab.Logging
+namespace MyLab.Log
 {
     /// <summary>
     /// Converts <see cref="LogEntity"/> to string

@@ -1,4 +1,4 @@
-namespace MyLab.Logging
+namespace MyLab.Log
 {
     /// <summary>
     /// Converts object to log string value

@@ -7,7 +7,7 @@ using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.ObjectGraphVisitors;
 using YamlDotNet.Serialization.TypeInspectors;
 
-namespace MyLab.Logging.Serializing
+namespace MyLab.Log.Serializing
 {
     /// <summary>
     /// Serializes <see cref="LogEntity"/> into YAML format

@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using YamlDotNet.Serialization;
 
-namespace MyLab.Logging
+namespace MyLab.Log
 {
     /// <summary>
     /// Contains log item data

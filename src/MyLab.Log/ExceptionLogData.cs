@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MyLab.Logging
+namespace MyLab.Log
 {
 
     public class ExceptionLogData

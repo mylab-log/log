@@ -3,7 +3,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using YamlDotNet.Serialization;
 
-namespace MyLab.Logging
+namespace MyLab.Log
 {
     /// <summary>
     /// Exception log model

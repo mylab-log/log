@@ -2,7 +2,7 @@
 using System.Linq;
 using Xunit;
 
-namespace MyLab.Logging.Tests
+namespace MyLab.Log.Tests
 {
     public class ExceptionLogDataBehavior
     {
