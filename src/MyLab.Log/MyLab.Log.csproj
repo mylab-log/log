@@ -1,25 +1,50 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Andrey O.</Authors>
-    <Version>2.1.0</Version>
-    <Copyright>Copyright (c) 2020 Andrey Osintsev &lt;ozzy.ext@gmail.com&gt;</Copyright>
-    <PackageProjectUrl>https://github.com/ozzy-ext-mylab/logging</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/ozzy-ext-mylab/logging.git</RepositoryUrl>
+    <Version>3.0.0</Version>
+    <Copyright>Copyright (c) 2021 Andrey Osintsev &lt;ozzy.ext@gmail.com&gt;</Copyright>
+    <PackageProjectUrl>https://github.com/mylab-log/log</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/mylab-log/log.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <AssemblyVersion>2.1.0.1205</AssemblyVersion>
-    <FileVersion>2.1.0.1205</FileVersion>
+    <AssemblyVersion>3.0.0.2402</AssemblyVersion>
+    <FileVersion>3.0.0.2402</FileVersion>
+    <PackageIcon>log.png</PackageIcon>
+    <Description>.NET Core based framework which defines advanced log entity model for built-in .NET Core logging subsystem</Description>
+    <PackageTags>log logging yaml json</PackageTags>
+    <PackageReleaseNotes>Added
+
+- This changelog
+- Readme
+
+Changed
+
+* Remove actually unnecessary log properties: `Id`, `EventId`
+* Support built-in `yaml` serialization
+* Support built-in `json` serialization  
+* Rename log-attributes to facts
+* Remake markers to labels
+* Default formatter log representation form is `yaml`   
+* Change exception around log functional
+* Renaming `MyLab.Logging` -&gt; `MyLab.Log`</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>C:\Users\ozzye\Documents\prog\my\mylab-logging\src\MyLab.Log\MyLab.Log.xml</DocumentationFile>
+    <DocumentationFile>..\MyLab.Log.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="YamlDotNet" Version="9.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="log.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
