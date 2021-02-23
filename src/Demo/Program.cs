@@ -28,9 +28,13 @@ namespace Demo
             Exception exception;
             try
             {
-                throw new InvalidOperationException("Inner message")
-                    .AndFactIs("Inner exception fact", "inner fact")
-                    .AndMark("error", "true");
+                var ex = new InvalidOperationException("Inner message");
+                
+                var eData = new ExceptionLogData(ex);
+                eData.AddFact("Inner exception fact", "inner fact");
+                eData.AddLabel("error", "true");
+
+                throw ex;
             }
             catch (Exception e)
             {
@@ -39,10 +43,10 @@ namespace Demo
 
             var logEntity = new LogEntity
             {
-                Message = "Error"
+                Message = "Error", 
+                Exception = exception
             };
 
-            logEntity.Exception = exception;
 
             logger.Log(LogLevel.Error, default, logEntity, null, formatter);
         }
@@ -110,15 +114,20 @@ namespace Demo
                 Exception inner;
                 try
                 {
-                    throw new InvalidOperationException("Inner message")
-                        .AndFactIs("Inner exception fact", "inner fact");
+                    inner = new InvalidOperationException("Inner message");
+                    var innerEData = new ExceptionLogData(inner);
+                    innerEData.AddFact("Inner exception fact", "inner fact");
+                    throw inner;
                 }
                 catch (Exception e)
                 {
                     inner = e;
                 }
-                throw new NotSupportedException("Big exception", inner)
-                    .AndMark("unsuppoted", "true"); ;
+
+                var outer = new NotSupportedException("Big exception", inner);
+                var outerEData = new ExceptionLogData(inner);
+                outerEData.AddLabel("unsuppoted", "true");
+                throw outer;
             }
             catch (Exception e)
             {

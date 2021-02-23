@@ -72,8 +72,9 @@ namespace MyLab.Logging
             if (e.InnerException != null)
                 dto.Inner = Create(e.InnerException);
 
-            dto.Facts = new LogFacts(e.GetFacts());
-            dto.Labels= new LogLabels(e.GetLabels());
+            var eLogData = new ExceptionLogData(e);
+            dto.Facts = new LogFacts(eLogData.GetFacts());
+            dto.Labels= new LogLabels(eLogData.GetLabels());
 
             return dto;
         }

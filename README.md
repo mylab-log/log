@@ -8,6 +8,8 @@ For .NET Core 3.1+
 
 ## The Model
 
+### LogEntity
+
 The following block represent the log model:
 
 ```c#
@@ -20,21 +22,22 @@ public class LogEntity
     /// Occurrence time
     /// </summary>
     public DateTime Time { get; set; } = DateTime.Now;
-
     /// <summary>
     /// Log message
     /// </summary>
     public string Message { get; set; }
-
     /// <summary>
     /// Labels
     /// </summary>
     public LogLabels Labels { get; }
-    
     /// <summary>
     /// Facts
     /// </summary>
     public LogFacts Facts { get; }
+    /// <summary>
+    /// Contains exception info
+    /// </summary>
+    public ExceptionDto Exception { get; set; }
 }
 ```
 
@@ -43,7 +46,47 @@ The `Logentity` contains:
 * `Time` - event occurrence date and time. Current date and time by default;
 * `Message` - log message;
 * `Labels` - contains named labels with text value. Implements as string-string dictionary;
-* `Facts` - contains named facts with object value. Implements as string-object dictionary.
+* `Facts` - contains named facts with object value. Implements as string-object dictionary;
+* `Exception` - contains info about exception which is reason of event. 
+
+### ExceptionDto
+
+```c#
+/// <summary>
+/// Exception log model
+/// </summary>
+public class ExceptionDto
+{
+    /// <summary>
+    /// Message
+    /// </summary>
+    public string Message { get; set; }
+    /// <summary>
+    /// Stack trace
+    /// </summary>
+    public string StackTrace { get; set; }
+    /// <summary>
+    /// .NET type
+    /// </summary>
+    public string Type { get; set; }
+    /// <summary>
+    /// Array of aggregated exceptions when origin exception is <see cref="AggregateException"/>
+    /// </summary>
+    public ExceptionDto[] Aggregated { get; set; }
+    /// <summary>
+    /// Inner exception
+    /// </summary>
+    public ExceptionDto Inner { get; set; }
+    /// <summary>
+    /// Exception facts
+    /// </summary>
+    public LogFacts Facts{ get; set; }
+    /// <summary>
+    /// Exception labels
+    /// </summary>
+    public LogLabels Labels{ get; set; }
+}
+```
 
 ## Serialization
 
@@ -95,14 +138,14 @@ Labels:
 Facts:
   fact1: fact1
   fact2: fact2
-  exception:
-    Message: Big exception
-    Type: System.NotSupportedException
-    StackTrace: '   at Demo.Program.CreateException() in C:\..\src\Demo\Program.cs:line 93'
-    Inner:
-      Message: Inner message
-      Type: System.InvalidOperationException
-      StackTrace: '   at Demo.Program.CreateException() in C:\..\src\Demo\Program.cs:line 87'
+Exception:
+  Message: Big exception
+  Type: System.NotSupportedException
+  StackTrace: '   at Demo.Program.CreateException() in C:\..\src\Demo\Program.cs:line 93'
+  Inner:
+  	Message: Inner message
+  	Type: System.InvalidOperationException
+  	StackTrace: '   at Demo.Program.CreateException() in C:\..\src\Demo\Program.cs:line 87'
 
 ```
 
@@ -118,26 +161,32 @@ Facts:
   },
   "Facts": {
     "fact1": "fact1",
-    "fact2": "fact2",
-    "exception": {
-      "Message": "Big exception",
-      "Type": "System.NotSupportedException",
-      "StackTrace": "   at Demo.Program.CreateException() in C:\\..\\src\\Demo\\Program.cs:line 93",
-      "Inner": {
-        "Message": "Inner message",
-        "Type": "System.InvalidOperationException",
-        "StackTrace": "   at Demo.Program.CreateException() in C:\\..\\src\\Demo\\Program.cs:line 87"
+    "fact2": "fact2"
+  },
+  "Exception": {
+    "Message": "Big exception",
+    "Type": "System.NotSupportedException",
+    "StackTrace": "   at Demo.Program.CreateException() in C:\\..\\src\\Demo\\Program.cs:line 130",
+    "Inner": {
+      "Message": "Inner message",
+      "Type": "System.InvalidOperationException",
+      "StackTrace": "   at Demo.Program.CreateException() in C:\\..\\src\\Demo\\Program.cs:line 120",
+      "Labels": {
+        "unsuppoted": "true"
+      },
+      "Facts": {
+        "Inner exception fact": "inner fact"
       }
     }
   }
 }
 ```
 
-### Exceptions
+## Exception
 
-An exception may store facts and labels which will be represents in `LogEntity`.
+An exception may store facts and labels which will be represents in `LogEntity`. To assign log facts and labels to exception object please use `ExceptionLogData`.  
 
-To set exception for `LogEntity` use method `SetException`. It add or replace fact with key `exception` which stores exception info.
+To set exception for `LogEntity` use implicit conversion assignment when assign an exception to property `Exception`.  
 
 The following example shows how use exception to attach log facts and labels:
 
@@ -145,12 +194,14 @@ The following example shows how use exception to attach log facts and labels:
 Exception exception;
 try
 {
-    // Throw an exception
-    throw new InvalidOperationException("Inner message") 			
-	    // Add facts (may be sequence of `AndFactIs` calls)
-        .AndFactIs("Inner exception fact", "inner fact") 			
-        // Add labels (may be sequence of `AndMarkAs` calls)
-        .AndMark("error", "true");								
+    // Create an exception
+    var ex = new InvalidOperationException("Inner message") 			
+    // Create exception log data 
+    var eData = new ExceptionLogData(ex);
+    // Add facts (may be sequence of `AndFactIs` calls)
+    eData.AddFact("Inner exception fact", "inner fact") 			
+    // Add labels (may be sequence of `AndMarkAs` calls)
+    eData.AddLabel("error", "true");								
 }
 catch (Exception e)
 {
@@ -164,7 +215,7 @@ var logEntity = new LogEntity
 };
 
 // Set caught exception to log entity
-logEntity.SetException(exception);									
+logEntity.Exception = exception;									
 
 // Write log
 logger.Log(LogLevel.Error, default, logEntity, null, LogEntityFormatter.Yaml); 	
@@ -174,16 +225,15 @@ Result:
 
 ```yaml
 Message: Error
-Time: 2021-02-22T17:51:21.208
-Facts:
-  exception:
-    Message: Inner message
-    Type: System.InvalidOperationException
-    StackTrace: '   at Demo.Program.WriteLogWithExceptionStuff(ILogger`1 logger, Func`3 formatter) in C:\...\src\Demo\Program.cs:line 31'
-    Labels:
-      error: true
-    Facts:
-      Inner exception fact: inner fact
+Time: 2021-02-24T01:28:54.748
+Exception:
+	Message: Inner message
+	Type: System.InvalidOperationException
+	StackTrace: '   at Demo.Program.WriteLogWithExceptionStuff(ILogger`1 logger, Func`3 formatter) in C:\..\src\Demo\Program.cs:line 37'
+	Labels:
+		error: true
+	Facts:
+		Inner exception fact: inner fact
 ```
 
 ### Developing points

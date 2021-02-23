@@ -37,6 +37,9 @@ namespace MyLab.Logging
         [JsonProperty(Order = 2)]
         public LogLabels Labels { get; }
 
+        /// <summary>
+        /// Contains exception info
+        /// </summary>
         [YamlMember(Order = 4)]
         [JsonProperty(Order = 4)]
         public ExceptionDto Exception { get; set; }

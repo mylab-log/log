@@ -89,7 +89,7 @@
         <member name="M:MyLab.Logging.ExceptionExtensions.GetLabelWith(System.Exception)">
             <summary>Gets conditions for Exception</summary>
         </member>
-        <member name="M:MyLab.Logging.ExceptionExtensions.AndMark(System.Exception,System.String)">
+        <member name="M:MyLab.Logging.ExceptionExtensions.AndLabel(System.Exception,System.String)">
             <summary>Adds marker for exception</summary>
         </member>
         <member name="M:MyLab.Logging.ExceptionExtensions.GetLabels(System.Exception)">

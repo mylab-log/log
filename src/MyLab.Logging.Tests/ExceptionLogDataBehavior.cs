@@ -4,18 +4,19 @@ using Xunit;
 
 namespace MyLab.Logging.Tests
 {
-    public class ExceptionExtensionsBehavior
+    public class ExceptionLogDataBehavior
     {
         [Fact]
         public void ShouldProvideFacts()
         {
             //Arrange
             var e = new Exception();
-            e.AndFactIs("foo", "bar");
+            var eData = new ExceptionLogData(e);
+            eData.AddFact("foo", "bar");
 
             //Act
-            var facts = e
-                .GetLabelWith()
+            var facts = eData
+                .GetLabels()
                 .ToArray();
 
             //Assert
@@ -29,10 +30,11 @@ namespace MyLab.Logging.Tests
         {
             //Arrange
             var e = new Exception();
-            e.AndMark("foo", "bar");
+            var eData = new ExceptionLogData(e);
+            eData.AddLabel("foo", "bar");
 
             //Act
-            var labels = e
+            var labels = eData
                 .GetLabels()
                 .ToArray();
 
