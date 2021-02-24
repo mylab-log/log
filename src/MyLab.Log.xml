@@ -199,14 +199,19 @@
             Contains predefined log fact keys
             </summary>
         </member>
-        <member name="F:MyLab.Log.PredefinedFacts.LogLevel">
-            <summary>
-            Log level fact key. Predefined values keeps in  <see cref="T:MyLab.Log.PredefinedLogLevels"/> 
-            </summary>
-        </member>
         <member name="F:MyLab.Log.PredefinedFacts.Conditions">
             <summary>
             Log conditions fact key
+            </summary>
+        </member>
+        <member name="T:MyLab.Log.PredefinedLabels">
+            <summary>
+            Contains predefined log labels name
+            </summary>
+        </member>
+        <member name="F:MyLab.Log.PredefinedLabels.LogLevel">
+            <summary>
+            Log level label. Predefined values keeps in  <see cref="T:MyLab.Log.PredefinedLogLevels"/> 
             </summary>
         </member>
         <member name="T:MyLab.Log.Serializing.ILogEntitySerializer">
