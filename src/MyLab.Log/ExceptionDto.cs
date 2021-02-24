@@ -81,6 +81,7 @@ namespace MyLab.Log
 
         public static implicit operator ExceptionDto(Exception e)
         {
+            if (e == null) return null;
             return Create(e);
         }
     }
