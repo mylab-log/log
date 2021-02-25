@@ -4,31 +4,19 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Andrey O.</Authors>
-    <Version>3.0.0</Version>
+    <Version>3.0.3</Version>
     <Copyright>Copyright (c) 2021 Andrey Osintsev &lt;ozzy.ext@gmail.com&gt;</Copyright>
     <PackageProjectUrl>https://github.com/mylab-log/log</PackageProjectUrl>
     <RepositoryUrl>https://github.com/mylab-log/log.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <AssemblyVersion>3.0.0.2402</AssemblyVersion>
-    <FileVersion>3.0.0.2402</FileVersion>
+    <AssemblyVersion>3.0.3.2402</AssemblyVersion>
+    <FileVersion>3.0.3.2402</FileVersion>
     <PackageIcon>log.png</PackageIcon>
     <Description>.NET Core based framework which defines advanced log entity model for built-in .NET Core logging subsystem</Description>
     <PackageTags>log logging yaml json</PackageTags>
-    <PackageReleaseNotes>Added
+    <PackageReleaseNotes>Changed
 
-- This changelog
-- Readme
-
-Changed
-
-* Remove actually unnecessary log properties: `Id`, `EventId`
-* Support built-in `yaml` serialization
-* Support built-in `json` serialization  
-* Rename log-attributes to facts
-* Remake markers to labels
-* Default formatter log representation form is `yaml`   
-* Change exception around log functional
-* Renaming `MyLab.Logging` -&gt; `MyLab.Log`</PackageReleaseNotes>
+* Support implicit conversion `NULL-Exception` -&gt; `NULL-ExceptionDto`</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

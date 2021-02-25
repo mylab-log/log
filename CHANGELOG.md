@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file
 
 Log format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## 3.0.1 - 2021-02-22
+
+### Changed
+
+* Support implicit conversion `NULL-Exception` -> `NULL-ExceptionDto`
+
 ## 3.0.0 - 2021-02-22
 
 ### Added
