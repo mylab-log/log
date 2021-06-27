@@ -4,19 +4,17 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Andrey O.</Authors>
-    <Version>3.0.3</Version>
+    <Version>3.1.3</Version>
     <Copyright>Copyright (c) 2021 Andrey Osintsev &lt;ozzy.ext@gmail.com&gt;</Copyright>
     <PackageProjectUrl>https://github.com/mylab-log/log</PackageProjectUrl>
     <RepositoryUrl>https://github.com/mylab-log/log.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <AssemblyVersion>3.0.3.2402</AssemblyVersion>
-    <FileVersion>3.0.3.2402</FileVersion>
+    <AssemblyVersion>3.1.3.2806</AssemblyVersion>
+    <FileVersion>3.1.3.2806</FileVersion>
     <PackageIcon>log.png</PackageIcon>
     <Description>.NET Core based framework which defines advanced log entity model for built-in .NET Core logging subsystem</Description>
     <PackageTags>log logging yaml json</PackageTags>
-    <PackageReleaseNotes>Changed
-
-* Support implicit conversion `NULL-Exception` -&gt; `NULL-ExceptionDto`</PackageReleaseNotes>
+    <PackageReleaseNotes></PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

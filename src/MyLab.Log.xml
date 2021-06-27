@@ -63,6 +63,26 @@
             Creates <see cref="T:MyLab.Log.ExceptionDto"/> from <see cref="T:System.Exception"/>
             </summary>
         </member>
+        <member name="T:MyLab.Log.ExceptionExtensions">
+            <summary>
+            Logging extensions for <see cref="T:System.Exception"/>
+            </summary>
+        </member>
+        <member name="M:MyLab.Log.ExceptionExtensions.AndFactIs``1(``0,System.String,System.Object)">
+            <summary>
+            Adds log fact
+            </summary>
+        </member>
+        <member name="M:MyLab.Log.ExceptionExtensions.AddLabel``1(``0,System.String)">
+            <summary>
+            Adds log label
+            </summary>
+        </member>
+        <member name="M:MyLab.Log.ExceptionExtensions.AddLabel``1(``0,System.String,System.String)">
+            <summary>
+            Adds log label
+            </summary>
+        </member>
         <member name="M:MyLab.Log.ExceptionLogData.#ctor(System.Exception)">
             <summary>
             Initializes a new instance of <see cref="T:MyLab.Log.ExceptionLogData"/>
