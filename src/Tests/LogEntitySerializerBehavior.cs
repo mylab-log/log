@@ -41,7 +41,7 @@ namespace MyLab.Log.Tests
 
         [Theory]
         [InlineData("yaml", "Message: foo")]
-        [InlineData("json", "\"Message\": \"foo\"")]
+        [InlineData("json", "\"Message\": \"foo\",")]
         public void ShouldSerializeContent(string serializer, string expected)
         {
             //Arrange
@@ -182,6 +182,50 @@ namespace MyLab.Log.Tests
             DoesNotContainsActAndAssert(log, notExpected, serializer);
         }
 
+        [Theory]
+        [InlineData("yaml")]
+        [InlineData("json")]
+        public void ShouldNotFailIfEmptyCollection(string serializer)
+        {
+            //Arrange
+            var log = new LogEntity
+            {
+                Facts =
+                {
+                    {"foo", new FactValueWithArray
+                    {
+                        Id = 123,
+                        Values = null
+                    }}
+                }
+            };
+
+            //Act & Assert
+            Serialize(serializer, log);
+        }
+
+        [Theory]
+        [InlineData("yaml")]
+        [InlineData("json")]
+        public void ShouldNotFailIfNullCollection(string serializer)
+        {
+            //Arrange
+            var log = new LogEntity
+            {
+                Facts =
+                {
+                    {"foo", new FactValueWithArray
+                    {
+                        Id = 123,
+                        Values = new string[0]
+                    }}
+                }
+            };
+
+            //Act & Assert
+            Serialize(serializer, log);
+        }
+
         void ContainsActAndAssert(LogEntity log, string expected, string serializerKey)
         {
             var actual = Serialize(serializerKey, log);
@@ -226,11 +270,18 @@ namespace MyLab.Log.Tests
             Assert.DoesNotContain(serializedStrings, s => s == notExpected);
         }
 
+        class FactValueWithArray
+        {
+            public int Id { get; set; }
+
+            public string[] Values { get; set; }
+        }
+
         class FactValue
         {
             public int Id { get; set; }
 
-            public List<string> Values { get; } = new List<string>();
+            public List<string> Values { get; set; } = new List<string>();
         }
 
         class ConcatLogStringVal : ILogStringValue
