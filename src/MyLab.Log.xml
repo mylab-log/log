@@ -73,12 +73,12 @@
             Adds log fact
             </summary>
         </member>
-        <member name="M:MyLab.Log.ExceptionExtensions.AddLabel``1(``0,System.String)">
+        <member name="M:MyLab.Log.ExceptionExtensions.AndLabel``1(``0,System.String)">
             <summary>
             Adds log label
             </summary>
         </member>
-        <member name="M:MyLab.Log.ExceptionExtensions.AddLabel``1(``0,System.String,System.String)">
+        <member name="M:MyLab.Log.ExceptionExtensions.AndLabel``1(``0,System.String,System.String)">
             <summary>
             Adds log label
             </summary>

@@ -20,7 +20,7 @@ namespace MyLab.Log
         /// <summary>
         /// Adds log label
         /// </summary>
-        public static TException AddLabel<TException>(this TException exception, string label) where TException : Exception
+        public static TException AndLabel<TException>(this TException exception, string label) where TException : Exception
         {
             if (exception == null) throw new ArgumentNullException(nameof(exception));
             new ExceptionLogData(exception).AddLabel(label, "true");
@@ -30,7 +30,7 @@ namespace MyLab.Log
         /// <summary>
         /// Adds log label
         /// </summary>
-        public static TException AddLabel<TException>(this TException exception, string label, string value) where TException : Exception
+        public static TException AndLabel<TException>(this TException exception, string label, string value) where TException : Exception
         {
             if (exception == null) throw new ArgumentNullException(nameof(exception));
             new ExceptionLogData(exception).AddFact(label, value);
