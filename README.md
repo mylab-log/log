@@ -236,9 +236,9 @@ Exception:
     Inner exception fact: inner fact
 ```
 
-### Developing points
+## Developing points
 
-#### Serializers
+### Serializers
 
 There is the interface to specify `LogEntity` serializer:
 
@@ -261,3 +261,51 @@ An follow implementations for it:
 * `JsonLogEntitySerializer`- converts `LogEntity` to `json` string.
 
 Use `ILogEntitySerializer` when develop tools for `LogEntity` to customize serialization. 
+
+### Exception Yaml
+
+`ExceptionDto` yaml schema:
+
+```yaml
+Exception:
+  type: object
+  description: Exception
+  properties:
+    Message:
+      type: string
+      description: A message that describes the current exception
+      example: 'The log table has overflowed'
+    StackTrace:
+      type: string
+      description: A string representation of the immediate frames on the call stack
+      example: >
+        at NDP_UE_CS.LogTable.AddRecord(String newRecord)
+        at NDP_UE_CS.OverflowDemo.Main()
+    Type:
+      type: string
+      description: '.NET class full name'
+      example: 'System.InvalidOperationException'
+    Aggregated:
+      type: array
+      description: A collection of the Exception instances that caused the current exception
+      items:
+        $ref: '#/components/schemas/Exception'
+    Inner:
+      $ref: '#/components/schemas/Exception'
+    Facts:
+      type: object
+      description: Contains log named facts with object values
+      additionalProperties: true
+      example: 
+        TargetDesc:
+          Id: 123
+          Size: big
+    Labels:
+      type: object
+      description: Contains log named labels with string values
+      example:
+        UserId: "123"
+      additionalProperties:
+        type: string
+```
+
