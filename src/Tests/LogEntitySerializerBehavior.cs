@@ -226,7 +226,23 @@ namespace Tests
             };
 
             //Act & Assert
-            var str = Serialize(serializer, log);
+            Serialize(serializer, log);
+
+        }
+
+        [Theory]
+        [InlineData("yaml")]
+        [InlineData("json")]
+        public void ShouldSerializeEmptyStringFact(string serializer)
+        {
+            //Arrange
+            var log = new LogEntity
+            {
+                Facts = { { "foo", "" } }
+            };
+
+            //Act & Assert
+            Serialize(serializer, log);
 
         }
     }

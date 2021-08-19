@@ -41,7 +41,7 @@ namespace MyLab.Log.Serializing.Yaml
 
         bool IsEnumerable(Type type)
         {
-            return typeof(IEnumerable).IsAssignableFrom(type);
+            return  type!= typeof(string) && typeof(IEnumerable).IsAssignableFrom(type);
         }
     }
 }
