@@ -244,7 +244,7 @@
             Serializes a <see cref="T:MyLab.Log.LogEntity"/> to <see cref="T:System.String"/>
             </summary>
         </member>
-        <member name="T:MyLab.Log.Serializing.JsonLogEntitySerializer">
+        <member name="T:MyLab.Log.Serializing.Json.JsonLogEntitySerializer">
             <summary>
             Serializes <see cref="T:MyLab.Log.LogEntity"/> into JSON format
             </summary>
@@ -254,7 +254,7 @@
             Contains extension serialization methods for <see cref="T:MyLab.Log.LogEntity"/>
             </summary>
         </member>
-        <member name="T:MyLab.Log.Serializing.YamlLogEntitySerializer">
+        <member name="T:MyLab.Log.Serializing.Yaml.YamlLogEntitySerializer">
             <summary>
             Serializes <see cref="T:MyLab.Log.LogEntity"/> into YAML format
             </summary>
