@@ -1,27 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MyLab.Log;
 using MyLab.Log.Serializing;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace MyLab.Log.Tests
+namespace Tests
 {
-    public class LogEntitySerializerBehavior
+    public partial class LogEntitySerializerBehavior
     {
-        private readonly ITestOutputHelper _output;
-
-        private readonly IReadOnlyDictionary<string, ILogEntitySerializer> _serializers = new Dictionary<string, ILogEntitySerializer>
-        {
-            {"yaml", new YamlLogEntitySerializer()},
-            {"json", new JsonLogEntitySerializer()}
-        };
-
-        public LogEntitySerializerBehavior(ITestOutputHelper output)
-        {
-            _output = output;
-        }
-
         [Theory]
         [InlineData("yaml", "Time: 1990-02-03T10:23:44.123")]
         [InlineData("json", "\"Time\": \"1990-02-03T10:23:44.123\"")]
@@ -226,79 +214,20 @@ namespace MyLab.Log.Tests
             Serialize(serializer, log);
         }
 
-        void ContainsActAndAssert(LogEntity log, string expected, string serializerKey)
+        [Theory]
+        [InlineData("yaml")]
+        [InlineData("json")]
+        public void ShouldSerializeNullFact(string serializer)
         {
-            var actual = Serialize(serializerKey, log);
-            AssertContains(actual, expected);
-        }
-
-        void DoesNotContainsActAndAssert(LogEntity log, string notExpected, string serializerKey)
-        {
-            var actual = Serialize(serializerKey, log);
-            AssertDoesNotContain(actual, notExpected);
-        }
-
-        string Serialize(string serializerKey, LogEntity logEntity)
-        {
-            if (!_serializers.TryGetValue(serializerKey, out var serializer))
-                throw new NotSupportedException($"Serializer '{serializerKey}' not supported");
-
-            var serialized = serializer.Serialize(logEntity);
-
-            _output.WriteLine(serialized);
-
-            return serialized;
-        }
-
-        void AssertContains(string result, string expected)
-        {
-            var serializedStrings = result
-                .Split('\n', StringSplitOptions.RemoveEmptyEntries)
-                .Select(s => s.Trim())
-                .ToArray();
-
-            Assert.Contains(serializedStrings, s => s == expected);
-        }
-
-        void AssertDoesNotContain(string result, string notExpected)
-        {
-            var serializedStrings = result
-                .Split('\n', StringSplitOptions.RemoveEmptyEntries)
-                .Select(s => s.Trim())
-                .ToArray();
-
-            Assert.DoesNotContain(serializedStrings, s => s == notExpected);
-        }
-
-        class FactValueWithArray
-        {
-            public int Id { get; set; }
-
-            public string[] Values { get; set; }
-        }
-
-        class FactValue
-        {
-            public int Id { get; set; }
-
-            public List<string> Values { get; set; } = new List<string>();
-        }
-
-        class ConcatLogStringVal : ILogStringValue
-        {
-            private readonly string _val1;
-            private readonly string _val2;
-
-            public ConcatLogStringVal(string val1, string val2)
+            //Arrange
+            var log = new LogEntity
             {
-                _val1 = val1;
-                _val2 = val2;
-            }
+                Facts = { { "foo",  null} }
+            };
 
-            public string ToLogString()
-            {
-                return _val1 + "-" + _val2;
-            }
+            //Act & Assert
+            var str = Serialize(serializer, log);
+
         }
     }
 }

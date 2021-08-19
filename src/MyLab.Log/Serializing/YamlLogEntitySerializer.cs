@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.EventEmitters;
 using YamlDotNet.Serialization.ObjectGraphVisitors;
 using YamlDotNet.Serialization.TypeInspectors;
 
@@ -22,6 +23,7 @@ namespace MyLab.Log.Serializing
                 .WithTypeConverter(new LogStringValueConverter())
                 .WithTypeConverter(new DateTimeValueConverter())
                 .WithTypeInspector(inner => new TypeNameInjectorTypeInspector(inner))
+                .WithEventEmitter(nextEmitter => new NullStringsEventEmitter(nextEmitter))
                 .WithEmissionPhaseObjectGraphVisitor(args => new YamlIEnumerableSkipEmptyObjectGraphVisitor(args.InnerVisitor))
                 .ConfigureDefaultValuesHandling(DefaultValuesHandling.OmitDefaults)
                 .Build();
@@ -30,6 +32,26 @@ namespace MyLab.Log.Serializing
         public string Serialize(LogEntity logEntity)
         {
             return _serializer.Serialize(logEntity);
+        }
+
+        class NullStringsEventEmitter : ChainedEventEmitter
+        {
+            public NullStringsEventEmitter(IEventEmitter nextEmitter)
+                : base(nextEmitter)
+            {
+            }
+
+            public override void Emit(ScalarEventInfo eventInfo, IEmitter emitter)
+            {
+                if (eventInfo.Source.Value == null)
+                {
+                    emitter.Emit(new Scalar("[null]"));
+                }
+                else
+                {
+                    base.Emit(eventInfo, emitter);
+                }
+            }
         }
 
         class TypeNameInjectorTypeInspector : TypeInspectorSkeleton
@@ -96,6 +118,22 @@ namespace MyLab.Log.Serializing
             {
             }
 
+            public override bool Enter(IObjectDescriptor value, IEmitter context)
+            {
+                if (IsEnumerable(value.Type) && IsEmptyCollection(value))
+                    return false;
+
+                return base.Enter(value, context);
+            }
+
+            public override bool EnterMapping(IPropertyDescriptor key, IObjectDescriptor value, IEmitter context)
+            {
+                if (IsEnumerable(value.Type) && IsEmptyCollection(value))
+                    return false;
+
+                return base.EnterMapping(key, value, context);
+            }
+
             private bool IsEmptyCollection(IObjectDescriptor value)
             {
                 if (value.Value == null)
@@ -107,20 +145,9 @@ namespace MyLab.Log.Serializing
                 return false;
             }
 
-            public override bool Enter(IObjectDescriptor value, IEmitter context)
+            bool IsEnumerable(Type type)
             {
-                if (IsEmptyCollection(value))
-                    return false;
-
-                return base.Enter(value, context);
-            }
-
-            public override bool EnterMapping(IPropertyDescriptor key, IObjectDescriptor value, IEmitter context)
-            {
-                if (IsEmptyCollection(value))
-                    return false;
-
-                return base.EnterMapping(key, value, context);
+                return typeof(IEnumerable).IsAssignableFrom(type);
             }
         }
 
