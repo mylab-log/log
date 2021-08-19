@@ -12,6 +12,10 @@ Log format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 * Bug with exception labels with the same names
 * Bug with exception facts with the same names
 
+### Removed
+
+* Writing not default types in `yaml` serialization
+
 ## 3.1.5 - 2021-06-28
 
 ### Added

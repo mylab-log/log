@@ -103,7 +103,7 @@ namespace Tests
         [Theory]
         [InlineData("yaml", "Facts:")]
         [InlineData("yaml", "foo:")]
-        [InlineData("yaml", "Type: MyLab.Log.Tests.LogEntitySerializerBehavior+FactValue")]
+        //[InlineData("yaml", "Type: MyLab.Log.Tests.LogEntitySerializerBehavior+FactValue")]
         [InlineData("yaml", "Id: 20")]
         [InlineData("yaml", "Values:")]
         [InlineData("yaml", "- bar")]

@@ -16,7 +16,7 @@ namespace MyLab.Log.Tests
 
             //Act
             var facts = eData
-                .GetLabels()
+                .GetFacts()
                 .ToArray();
 
             //Assert

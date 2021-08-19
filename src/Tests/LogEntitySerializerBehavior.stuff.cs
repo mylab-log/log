@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using MyLab.Log;
 using MyLab.Log.Serializing;
+using MyLab.Log.Serializing.Json;
+using MyLab.Log.Serializing.Yaml;
 using Xunit;
 using Xunit.Abstractions;
 
