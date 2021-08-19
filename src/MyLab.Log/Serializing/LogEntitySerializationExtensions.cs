@@ -1,4 +1,6 @@
 ﻿using System;
+using MyLab.Log.Serializing.Json;
+using MyLab.Log.Serializing.Yaml;
 
 namespace MyLab.Log.Serializing
 {

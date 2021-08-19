@@ -33,7 +33,15 @@ namespace MyLab.Log
                 exceptionFacts = new LogFacts();
                 _e.Data.Add(FactsKey, exceptionFacts);
             }
-            exceptionFacts.Add(factName, factValue);
+
+            if (exceptionFacts.ContainsKey(factName))
+            {
+                exceptionFacts[factName] = factValue;
+            }
+            else
+            {
+                exceptionFacts.Add(factName, factValue);
+            }
         }
 
         /// <summary>
@@ -51,7 +59,15 @@ namespace MyLab.Log
                 stringList = new LogLabels();
                 _e.Data.Add(LabelsKey, stringList);
             }
-            stringList.Add(labelName, labelValue);
+
+            if (stringList.ContainsKey(labelName))
+            {
+                stringList[labelName] = labelValue;
+            }
+            else
+            {
+                stringList.Add(labelName, labelValue);
+            }
         }
 
         /// <summary>Gets conditions for Exception</summary>
