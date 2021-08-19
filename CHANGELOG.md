@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file
 
 Log format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## 3.2.5 - 2021-08-19
+
+### Fixed
+
+* Bug with null value fact
+
 ## 3.1.5 - 2021-06-28
 
 ### Added
