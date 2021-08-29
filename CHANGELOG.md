@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file
 
 Log format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [3.1.8] - 2021-08-29
+
+### Fixed
+
+* Fix serialization when one of fact value property throw an exception: null in `json`, text in`yaml`.
+
 ## [3.1.7] - 2021-08-19
 
 ### Fixed

@@ -13,10 +13,15 @@ namespace MyLab.Log.Serializing.Json
             return JsonConvert.SerializeObject(logEntity, Formatting.Indented, new JsonSerializerSettings
             {
                 NullValueHandling = NullValueHandling.Ignore,
-                ContractResolver = new EmptyCollectionContractResolver(),
+                ContractResolver = new LogContractResolver(),
                 Converters =
                 {
                     new LogStringValueConverter()
+                },
+                Error = (sender, args) =>
+                {
+                    args.ErrorContext.Handled = true;
+
                 },
                 DateTimeZoneHandling = DateTimeZoneHandling.Local,
                 DateFormatString = "yyyy-MM-ddTHH:mm:ss.fff"

@@ -12,6 +12,7 @@ namespace MyLab.Log.Serializing.Yaml
         public YamlLogEntitySerializer()
         {
             _serializer = new SerializerBuilder()
+                .WithTypeInspector(inspector => new PropertyExceptionWrapper(inspector))
                 .WithTypeConverter(new LogStringValueConverter())
                 .WithTypeConverter(new DateTimeValueConverter())
                 .WithEventEmitter(nextEmitter => new NullStringsEventEmitter(nextEmitter))
