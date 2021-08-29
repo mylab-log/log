@@ -245,5 +245,20 @@ namespace Tests
             Serialize(serializer, log);
 
         }
+
+        [Theory]
+        [InlineData("yaml")]
+        [InlineData("json")]
+        public void ShouldSerializeWithPropertyException(string serializer)
+        {
+            //Arrange
+            var log = new LogEntity
+            {
+                Facts = { { "foo", new FactValueWithPropertyException() }}
+            };
+
+            //Act & Assert
+            Serialize(serializer, log);
+        }
     }
 }

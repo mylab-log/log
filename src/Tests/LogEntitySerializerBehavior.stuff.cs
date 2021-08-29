@@ -100,5 +100,10 @@ namespace Tests
                 return _val1 + "-" + _val2;
             }
         }
+
+        class FactValueWithPropertyException
+        {
+            public int Value => throw new Exception("Property error");
+        }
     }
 }
