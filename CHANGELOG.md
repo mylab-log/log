@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file
 
 Log format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [3.1.9] - 2021-09-29
+
+### Changed
+
+* Short serialization of `System.Reflection.*` classes
+
 ## [3.1.8] - 2021-08-29
 
 ### Fixed
