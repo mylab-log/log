@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using MyLab.Log;
 using MyLab.Log.Serializing;
 using Xunit;
@@ -259,6 +260,24 @@ namespace Tests
 
             //Act & Assert
             Serialize(serializer, log);
+        }
+
+        [Theory]
+        [InlineData("yaml")]
+        [InlineData("json")]
+        public void ShouldSerializeReflectionShortly(string serializer)
+        {
+            //Arrange
+            var log = new LogEntity
+            {
+                Facts = { { "foo", MethodBase.GetCurrentMethod() } }
+            };
+
+            //Act 
+            var str = Serialize(serializer, log);
+
+            //Assert
+            Assert.True(str.Split('\n').Length < 100);
         }
     }
 }

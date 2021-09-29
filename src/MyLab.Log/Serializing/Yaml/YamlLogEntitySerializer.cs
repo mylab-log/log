@@ -15,6 +15,7 @@ namespace MyLab.Log.Serializing.Yaml
                 .WithTypeInspector(inspector => new PropertyExceptionWrapper(inspector))
                 .WithTypeConverter(new LogStringValueConverter())
                 .WithTypeConverter(new DateTimeValueConverter())
+                .WithTypeConverter(new ReflectionConverter())
                 .WithEventEmitter(nextEmitter => new NullStringsEventEmitter(nextEmitter))
                 .WithEmissionPhaseObjectGraphVisitor(args => new YamlIEnumerableSkipEmptyObjectGraphVisitor(args.InnerVisitor))
                 .ConfigureDefaultValuesHandling(DefaultValuesHandling.OmitDefaults)

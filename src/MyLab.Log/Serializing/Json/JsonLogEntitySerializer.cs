@@ -16,7 +16,8 @@ namespace MyLab.Log.Serializing.Json
                 ContractResolver = new LogContractResolver(),
                 Converters =
                 {
-                    new LogStringValueConverter()
+                    new LogStringValueConverter(),
+                    new ReflectionConverter(),
                 },
                 Error = (sender, args) =>
                 {
