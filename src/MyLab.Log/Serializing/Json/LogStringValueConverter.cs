@@ -3,21 +3,17 @@ using Newtonsoft.Json;
 
 namespace MyLab.Log.Serializing.Json
 {
-    class LogStringValueConverter : JsonConverter
+    class LogStringValueConverter : JsonConverter<ILogStringValue>
     {
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, ILogStringValue value, JsonSerializer serializer)
         {
-            writer.WriteValue(((ILogStringValue)value).ToLogString());
+            writer.WriteValue(value.ToLogString());
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override ILogStringValue ReadJson(JsonReader reader, Type objectType, ILogStringValue existingValue, bool hasExistingValue,
+            JsonSerializer serializer)
         {
             throw new NotImplementedException();
-        }
-
-        public override bool CanConvert(Type objectType)
-        {
-            return typeof(ILogStringValue).IsAssignableFrom(objectType);
         }
     }
 }
