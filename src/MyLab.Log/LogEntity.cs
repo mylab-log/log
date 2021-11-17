@@ -52,5 +52,17 @@ namespace MyLab.Log
             Facts = new LogFacts();
             Labels = new LogLabels();
         }
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="LogEntity"/>
+        /// </summary>
+        public LogEntity(LogEntity origin)
+        {
+            Facts = new LogFacts(origin.Facts);
+            Labels = new LogLabels(origin.Labels);
+            Time = origin.Time;
+            Message = origin.Message;
+            Exception = origin.Exception;
+        }
     }
 }

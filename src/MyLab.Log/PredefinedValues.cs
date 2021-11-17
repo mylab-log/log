@@ -28,6 +28,16 @@
         /// Log conditions fact key
         /// </summary>
         public const string Conditions = "conditions";
+
+        /// <summary>
+        /// Log category
+        /// </summary>
+        public const string Category = "log-category";
+
+        /// <summary>
+        /// Log category
+        /// </summary>
+        public const string Scopes = "log-scopes";
     }
 
     /// <summary>
