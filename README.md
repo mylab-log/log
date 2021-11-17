@@ -261,10 +261,10 @@ Facts:
 
 `Console MyLabLogger` writes log into standard output:
 
-* `error`, `critical` - > stderr
-* by default - > stdout
+* `error`, `critical` - > `stderr`
+* by default - > `stdout`
 
-Use extension methods for `ILggingBuilder` to integrate `Console MyLabLogger` into application:
+Use extension methods for `ILggingBuilder` to integrate `Console MyLabLogger` into `IServiceCollection`:
 
 ```c#
 var sp = new ServiceCollection()
@@ -277,6 +277,8 @@ var sp = new ServiceCollection()
 ### Debug
 
 `Debug MyLabLogger` writes all log into debug output.
+
+Use extension methods for `ILggingBuilder` to integrate `Console MyLabLogger` into `IServiceCollection`:
 
 ```C#
 var sp = new ServiceCollection()
