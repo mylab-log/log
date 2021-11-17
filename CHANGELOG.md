@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file
 
 Log format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [3.2.9] - 2021-11-17
+
+### Added:
+
+* `MyLabLogger` for console output
+* `MyLabLogger` for debug output
+
 ## [3.1.9] - 2021-09-29
 
 ### Changed

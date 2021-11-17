@@ -1,6 +1,6 @@
 # MyLab.Log
 
-For .NET Core 3.1+
+1For .NET Core 3.1+
 
 [![NuGet](https://img.shields.io/nuget/v/MyLab.Log.svg)](https://www.nuget.org/packages/MyLab.Log/)
 
@@ -235,6 +235,58 @@ Exception:
   Facts:
     Inner exception fact: inner fact
 ```
+
+## MyLabLogger
+
+### Summary
+
+`MyLab logger` interprets all logs as `MyLab LogEntiy` and applies special `yaml` formatter to them.  
+
+```C#
+var logger = loggerFactory.CreateLogger("foo");
+
+logger.LogInformation("baz");
+```
+
+Log output:
+
+```yaml
+Message: baz
+Time: 2021-11-17T15:58:09.807
+Facts:
+  log-category: foo
+```
+
+### Console
+
+`Console MyLabLogger` writes log into standard output:
+
+* `error`, `critical` - > stderr
+* by default - > stdout
+
+Use extension methods for `ILggingBuilder` to integrate `Console MyLabLogger` into application:
+
+```c#
+var sp = new ServiceCollection()
+                .AddLogging(l => l
+                	.AddMyLabConsole()    //To add logs into console
+                	)
+                .BuildServiceProvider();
+```
+
+### Debug
+
+`Debug MyLabLogger` writes all log into debug output.
+
+```C#
+var sp = new ServiceCollection()
+                .AddLogging(l => l
+                	.AddMyLabDebug()    //To add logs into debug
+                	)
+                .BuildServiceProvider();
+```
+
+
 
 ## Developing points
 
