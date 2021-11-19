@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
-using MyLab.Log.Loggers;
+﻿using System.IO;
+using Microsoft.Extensions.Logging;
 
 namespace MyLab.Log
 {
@@ -13,15 +13,13 @@ namespace MyLab.Log
         /// </summary>
         public static ILoggingBuilder AddMyLabConsole(this ILoggingBuilder loggingBuilder)
         {
-            return loggingBuilder.AddProvider(new MyLabConsoleLoggerProvider());
+            return loggingBuilder.AddConsole(o => o.FormatterName = "mylab")
+                .AddConsoleFormatter<MyLabConsoleFormatter, MyLabFormatterOptions>();
         }
-
-        /// <summary>
-        /// Adds MyLab debug logger
-        /// </summary>
-        public static ILoggingBuilder AddMyLabDebug(this ILoggingBuilder loggingBuilder)
+        
+        internal static ILoggingBuilder AddMyLabFormatter(this ILoggingBuilder loggingBuilder, TextWriter debugWriter)
         {
-            return loggingBuilder.AddProvider(new MyLabDebugLoggerProvider());
+            return loggingBuilder.AddConsoleFormatter<MyLabConsoleFormatter, MyLabFormatterOptions>(o => o.DebugWriter = debugWriter);
         }
     }
 }

@@ -1,4 +1,4 @@
 ﻿using System.Runtime.CompilerServices;
 
 [assembly:InternalsVisibleTo("TestService")]
-[assembly:InternalsVisibleTo("Tests")]
+[assembly:InternalsVisibleTo("UnitTests")]
