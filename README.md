@@ -1,6 +1,6 @@
 # MyLab.Log
 
-For .NET Core 3.1+
+1For .NET Core 3.1+
 
 [![NuGet](https://img.shields.io/nuget/v/MyLab.Log.svg)](https://www.nuget.org/packages/MyLab.Log/)
 
@@ -234,6 +234,37 @@ Exception:
     error: true
   Facts:
     Inner exception fact: inner fact
+```
+
+## Console Log Formatter
+
+The `MyLabConsoleFormatter` integrates in standard .net log infrastructure and extends console logger format collection. The key of the formatter is `mylab`.
+
+It interprets all logs as `MyLab` `LogEntiy` and applies special `yaml` formatter to them.  
+
+```C#
+var logger = loggerFactory.CreateLogger("foo");
+
+logger.LogInformation("baz");
+```
+
+Log output:
+
+```yaml
+Message: baz
+Time: 2021-11-17T15:58:09.807
+Facts:
+  log-category: foo
+```
+
+Use extension methods for `ILggingBuilder` to integrate formatter:
+
+```c#
+var sp = new ServiceCollection()
+                .AddLogging(l => l
+					.AddMyLabConsole()  // Adds console logger with mylab formatter
+                	)
+                .BuildServiceProvider();
 ```
 
 ## Developing points
