@@ -236,11 +236,11 @@ Exception:
     Inner exception fact: inner fact
 ```
 
-## MyLabLogger
+## Console Log Formatter
 
-### Summary
+The `MyLabConsoleFormatter` integrates in standard .net log infrastructure and extends console logger format collection. The key of the formatter is `mylab`.
 
-`MyLab logger` interprets all logs as `MyLab LogEntiy` and applies special `yaml` formatter to them.  
+It interprets all logs as `MyLab` `LogEntiy` and applies special `yaml` formatter to them.  
 
 ```C#
 var logger = loggerFactory.CreateLogger("foo");
@@ -257,38 +257,15 @@ Facts:
   log-category: foo
 ```
 
-### Console
-
-`Console MyLabLogger` writes log into standard output:
-
-* `error`, `critical` - > `stderr`
-* by default - > `stdout`
-
-Use extension methods for `ILggingBuilder` to integrate `Console MyLabLogger` into `IServiceCollection`:
+Use extension methods for `ILggingBuilder` to integrate formatter:
 
 ```c#
 var sp = new ServiceCollection()
                 .AddLogging(l => l
-                	.AddMyLabConsole()    //To add logs into console
+					.AddMyLabConsole()  // Adds console logger with mylab formatter
                 	)
                 .BuildServiceProvider();
 ```
-
-### Debug
-
-`Debug MyLabLogger` writes all log into debug output.
-
-Use extension methods for `ILggingBuilder` to integrate `Console MyLabLogger` into `IServiceCollection`:
-
-```C#
-var sp = new ServiceCollection()
-                .AddLogging(l => l
-                	.AddMyLabDebug()    //To add logs into debug
-                	)
-                .BuildServiceProvider();
-```
-
-
 
 ## Developing points
 
