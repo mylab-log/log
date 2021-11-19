@@ -194,11 +194,6 @@
             Adds MyLab console logger
             </summary>
         </member>
-        <member name="M:MyLab.Log.LoggingBuilderExtensions.AddMyLabDebug(Microsoft.Extensions.Logging.ILoggingBuilder)">
-            <summary>
-            Adds MyLab debug logger
-            </summary>
-        </member>
         <member name="T:MyLab.Log.LogLabels">
             <summary>
             Stores log labels
