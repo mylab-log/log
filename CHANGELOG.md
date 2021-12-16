@@ -4,9 +4,15 @@ All notable changes to this project will be documented in this file
 
 Log format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [3.3.10] - 2021-12-17
+
+### Changed
+
+* The `console log formatter` now adds `req-id` and `trace-id` instead all log scopes 
+
 ## [3.2.10] - 2021-11-19
 
-### Added:
+### Added
 
 * `MyLab` console log formatter 
 

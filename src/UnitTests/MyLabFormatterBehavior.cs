@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Microsoft.Extensions.Logging;
@@ -59,7 +60,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public void ShouldWriteScope()
+        public void ShouldWriteTraceId()
         {
             //Arrange
             var logBuilder = new StringBuilder();
@@ -67,8 +68,10 @@ namespace UnitTests
 
             var logger = loggerFactory.CreateLogger("foo");
 
+            var traceId = Guid.NewGuid().ToString("N");
+
             //Act
-            using (logger.BeginScope("bar"))
+            using (logger.BeginScope(new HostingLogScope(null, traceId)))
             {
                 logger.LogInformation("baz");
             }
@@ -78,27 +81,22 @@ namespace UnitTests
             _output.WriteLine(logString);
 
             //Assert
-            Assert.Contains(PredefinedFacts.Scopes + ":", logString);
-            Assert.Contains("String: bar", logString);
+            Assert.Contains(PredefinedFacts.TraceId + ": " + traceId, logString);
         }
 
         [Fact]
-        public void ShouldWriteComplexScope()
+        public void ShouldWriteRequestId()
         {
             //Arrange
-            var scope = new TestScope
-            {
-                { "foo", "bar" },
-                { "baz", "qoz" },
-            };
-            
             var logBuilder = new StringBuilder();
             var loggerFactory = PrepareLogger(logBuilder);
 
             var logger = loggerFactory.CreateLogger("foo");
 
+            var requestId = Guid.NewGuid().ToString("N");
+
             //Act
-            using (logger.BeginScope(scope))
+            using (logger.BeginScope(new HostingLogScope(requestId, null)))
             {
                 logger.LogInformation("baz");
             }
@@ -108,10 +106,7 @@ namespace UnitTests
             _output.WriteLine(logString);
 
             //Assert
-            Assert.Contains(PredefinedFacts.Scopes + ":", logString);
-            Assert.Contains("TestScope:", logString);
-            Assert.Contains("foo: bar", logString);
-            Assert.Contains("baz: qoz", logString);
+            Assert.Contains(PredefinedFacts.RequestId + ": " + requestId, logString);
         }
 
         ILoggerFactory PrepareLogger(StringBuilder logStringBuilder)
@@ -127,5 +122,18 @@ namespace UnitTests
         {
 
         }
+
+        class HostingLogScope : List<KeyValuePair<string, object>>
+        {
+            public HostingLogScope(string requestId, string traceId)
+            {
+                if(requestId != null)
+                    Add(new KeyValuePair<string, object>("RequestId", requestId));
+
+                if (traceId != null)
+                    Add(new KeyValuePair<string, object>("TraceId", traceId));
+            }
+        }
+
     }
 }

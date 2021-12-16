@@ -249,6 +249,16 @@
             Log category
             </summary>
         </member>
+        <member name="F:MyLab.Log.PredefinedFacts.TraceId">
+            <summary>
+            Trace identifier
+            </summary>
+        </member>
+        <member name="F:MyLab.Log.PredefinedFacts.RequestId">
+            <summary>
+            Request identifier
+            </summary>
+        </member>
         <member name="T:MyLab.Log.PredefinedLabels">
             <summary>
             Contains predefined log labels name

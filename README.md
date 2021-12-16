@@ -1,6 +1,6 @@
 # MyLab.Log
 
-1For .NET Core 3.1+
+For .NET Core 3.1+
 
 [![NuGet](https://img.shields.io/nuget/v/MyLab.Log.svg)](https://www.nuget.org/packages/MyLab.Log/)
 
@@ -238,6 +238,8 @@ Exception:
 
 ## Console Log Formatter
 
+### Formatter overview
+
 The `MyLabConsoleFormatter` integrates in standard .net log infrastructure and extends console logger format collection. The key of the formatter is `mylab`.
 
 It interprets all logs as `MyLab` `LogEntiy` and applies special `yaml` formatter to them.  
@@ -266,6 +268,10 @@ var sp = new ServiceCollection()
                 	)
                 .BuildServiceProvider();
 ```
+
+### Tracing
+
+The `Console Log Formatter` adds `req-id` fact  (input http request id) and `trace-id` fact (current trace id) from `HostingLogScope` independent of `IncludeScopes ` options.
 
 ## Developing points
 
