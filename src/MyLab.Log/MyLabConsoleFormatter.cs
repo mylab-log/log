@@ -58,17 +58,38 @@ namespace MyLab.Log
                 logEntity.Facts.Add(PredefinedFacts.Category, categoryName);
             }
 
-            var scopes = GetScopesObject(scopeProvider);
+            ExtractReqIdAndTraceId(scopeProvider, out string reqId, out string traceId);
 
-            if (scopes.Count != 0)
-            {
-                logEntity.Facts.Add(PredefinedFacts.Scopes, scopes);
-            }
+            if(reqId != null)
+                logEntity.Facts.Add(PredefinedFacts.RequestId, reqId);
+            if (traceId != null)
+                logEntity.Facts.Add(PredefinedFacts.TraceId, traceId);
 
             var logString = resultFormatter.DynamicInvoke(logEntity, exception).ToString();
 
             textWriter.WriteLine(logString);
             _formatterOptions.DebugWriter?.WriteLine(logString);
+        }
+
+        void ExtractReqIdAndTraceId(IExternalScopeProvider esProvider, out string reqId, out string traceId)
+        {
+            var list = new List<KeyValuePair<string, object>>();
+
+            string tmpReqId = null;
+            string tmpTraceId = null;
+
+            esProvider.ForEachScope((scope, state) =>
+            {
+                if (scope?.GetType().Name == "HostingLogScope" && scope is IEnumerable<KeyValuePair<string, object>> scopeItems)
+                {
+                    var items = scopeItems.ToArray();
+                    tmpReqId = items.FirstOrDefault(itm => itm.Key == "RequestId").Value?.ToString();
+                    tmpTraceId = items.FirstOrDefault(itm => itm.Key == "TraceId").Value?.ToString();
+                }
+            }, list);
+
+            reqId = tmpReqId;
+            traceId = tmpTraceId;
         }
 
         IReadOnlyDictionary<string, object> GetScopesObject(IExternalScopeProvider esProvider)
