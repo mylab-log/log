@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file
 
 Log format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [3.3.11] - 2022-02-09
+
+### Changed
+
+* Search `req-id` and `trace-id` in both `ActionLogScope` and `HostingLogScope` to support .NET5 case
+
 ## [3.3.10] - 2021-12-17
 
 ### Changed
