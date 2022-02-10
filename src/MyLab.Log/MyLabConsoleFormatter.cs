@@ -80,9 +80,7 @@ namespace MyLab.Log
 
             esProvider.ForEachScope((scope, state) =>
             {
-                var scopeTypeName = scope?.GetType().Name;
-
-                if ((scopeTypeName == "HostingLogScope" || scopeTypeName == "ActionLogScope") && scope is IEnumerable<KeyValuePair<string, object>> scopeItems)
+                if (scope is IEnumerable<KeyValuePair<string, object>> scopeItems)
                 {
                     var items = scopeItems.ToArray();
 
