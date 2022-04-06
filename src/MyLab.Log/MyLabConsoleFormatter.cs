@@ -75,39 +75,33 @@ namespace MyLab.Log
         {
             var list = new List<KeyValuePair<string, object>>();
 
-            string tmpReqId = null;
-            string tmpTraceId = null;
+            string localReqId = null;
+            string localTraceId = null;
 
             esProvider.ForEachScope((scope, state) =>
             {
-                if (scope?.GetType().Name == "HostingLogScope" && scope is IEnumerable<KeyValuePair<string, object>> scopeItems)
+                if (scope is IEnumerable<KeyValuePair<string, object>> scopeItems)
                 {
                     var items = scopeItems.ToArray();
-                    tmpReqId = items.FirstOrDefault(itm => itm.Key == "RequestId").Value?.ToString();
-                    tmpTraceId = items.FirstOrDefault(itm => itm.Key == "TraceId").Value?.ToString();
+
+                    var scopeTmpReqId = items
+                        .FirstOrDefault(itm => itm.Key == "RequestId")
+                        .Value?
+                        .ToString();
+                    if (!string.IsNullOrEmpty(scopeTmpReqId))
+                        localReqId = scopeTmpReqId;
+
+                    var scopeTmpTraceId = items
+                        .FirstOrDefault(itm => itm.Key == "TraceId")
+                        .Value?
+                        .ToString();
+                    if (!string.IsNullOrEmpty(scopeTmpTraceId))
+                        localTraceId = scopeTmpTraceId;
                 }
             }, list);
 
-            reqId = tmpReqId;
-            traceId = tmpTraceId;
-        }
-
-        IReadOnlyDictionary<string, object> GetScopesObject(IExternalScopeProvider esProvider)
-        {
-            var list = new List<KeyValuePair<string, object>>();
-            esProvider.ForEachScope((scope, state) =>
-            {
-                if (scope != null)
-                {
-                    state.Add(new KeyValuePair<string, object>(scope.GetType().Name, scope));
-                }
-            }, list);
-
-            return list.GroupBy(itm => itm.Key, pair => pair.Value)
-                .ToDictionary(
-                    g => g.Key,
-                    g => g.Count() == 1 ? g.First() : g.ToArray()
-                    );
+            reqId = localReqId;
+            traceId = localTraceId;
         }
 
         public void Dispose()

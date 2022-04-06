@@ -271,7 +271,7 @@ var sp = new ServiceCollection()
 
 ### Tracing
 
-The `Console Log Formatter` adds `req-id` fact  (input http request id) and `trace-id` fact (current trace id) from `HostingLogScope` independent of `IncludeScopes ` options.
+The `Console Log Formatter` adds `req-id` fact  (input http request id) and `trace-id` fact (current trace id) from scope independent of `IncludeScopes ` options.
 
 ## Developing points
 
