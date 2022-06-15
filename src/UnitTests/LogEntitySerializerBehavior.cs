@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using MyLab.Log;
 using Newtonsoft.Json.Linq;
@@ -303,6 +304,51 @@ namespace UnitTests
 
             //Assert
             Assert.Contains(expected, actual);
+        }
+
+        [Fact]
+        public void ShouldYamlSerializeExceptionDto()
+        {
+            //Arrange
+            var expectedResult =
+                "Message: Test!\r\nLabels:\r\n  foo: bar\r\nFacts:\r\n  foo: bar\r\nException:\r\n  Message: Error!\r\n  Type: System.Exception\r\n  StackTrace: '   at UnitTests.LogEntitySerializerBehavior.ShouldYamlSerializeExceptionDto() in C:\\Users\\ozzye\\Documents\\prog\\my\\mylab-log\\log\\src\\UnitTests\\LogEntitySerializerBehavior.cs:line 335'\r\n  Inner:\r\n    Message: Inner!\r\n    Type: System.Exception\r\n    StackTrace: '   at UnitTests.LogEntitySerializerBehavior.ShouldYamlSerializeExceptionDto() in C:\\Users\\ozzye\\Documents\\prog\\my\\mylab-log\\log\\src\\UnitTests\\LogEntitySerializerBehavior.cs:line 326'\r\n  Aggregated:\r\n  - Message: Inner!\r\n    Type: System.Exception\r\n    StackTrace: '   at UnitTests.LogEntitySerializerBehavior.ShouldYamlSerializeExceptionDto() in C:\\Users\\ozzye\\Documents\\prog\\my\\mylab-log\\log\\src\\UnitTests\\LogEntitySerializerBehavior.cs:line 326'";
+
+            LogEntity logEntity = new LogEntity
+            {
+                Time = DateTime.MinValue,
+                Message = "Test!"
+            };
+
+            ExceptionDto innerException;
+
+            try
+            {
+                throw new Exception("Inner!");
+            }
+            catch (Exception e)
+            {
+                innerException = e;
+            }
+
+            try
+            {
+                throw new Exception("Error!");
+            }
+            catch (Exception e)
+            {
+                logEntity.Exception = ExceptionDto.Create(e);
+            }
+
+            logEntity.Exception.Aggregated = new[] { innerException };
+            logEntity.Exception.Inner = innerException;
+            logEntity.Facts.Add("foo", "bar");
+            logEntity.Labels.Add("foo", "bar");
+
+            //Act
+            var actual = Serialize("yaml", logEntity);
+
+            //Assert
+            Assert.Equal(expectedResult, actual.Trim());
         }
     }
 }
