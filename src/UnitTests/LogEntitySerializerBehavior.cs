@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using MyLab.Log;
+using Newtonsoft.Json.Linq;
 using Xunit;
 
 namespace UnitTests
@@ -274,6 +275,34 @@ namespace UnitTests
 
             //Assert
             Assert.True(str.Split('\n').Length < 100);
+        }
+
+        [Theory]
+        [InlineData("yaml", "foo: >-\r\n    {\r\n      \"Id\": 123,\r\n      \"Values\": null\r\n    }")]
+        [InlineData("json", "\"foo\": \"{\\\"Id\\\":123,\\\"Values\\\":null}\"")]
+        public void ShouldSerializeJObject(string serializer, string expected)
+        {
+            //Arrange
+            var fact = new FactValueWithArray
+            {
+                Id = 123,
+                Values = null
+            };
+
+            var log = new LogEntity
+            {
+                Facts =
+                {
+                    { "foo", JObject.FromObject(fact) }
+                }
+            };
+
+            //Act
+
+            var actual = Serialize(serializer, log);
+
+            //Assert
+            Assert.Contains(expected, actual);
         }
     }
 }

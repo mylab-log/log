@@ -18,6 +18,7 @@ namespace MyLab.Log.Serializing.Json
                 {
                     new LogStringValueConverter(),
                     new ReflectionConverter(),
+                    new JTokenConverter()
                 },
                 Error = (sender, args) =>
                 {
