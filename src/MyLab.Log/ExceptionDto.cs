@@ -86,27 +86,34 @@ namespace MyLab.Log
             if (e == null) return null;
             return Create(e);
         }
-
-        /// <inheritdoc />
-        public void Read(IParser parser, Type expectedType, ObjectDeserializer nestedObjectDeserializer)
+        
+        void IYamlConvertible.Read(IParser parser, Type expectedType, ObjectDeserializer nestedObjectDeserializer)
         {
             throw new NotImplementedException();
         }
-
-        /// <inheritdoc />
-        public void Write(IEmitter emitter, ObjectSerializer nestedObjectSerializer)
+        
+        void IYamlConvertible.Write(IEmitter emitter, ObjectSerializer nestedObjectSerializer)
         {
             var dto = (ExceptionDto)this;
             emitter.Emit(new MappingStart(null, null, false, MappingStyle.Block));
 
-            emitter.Emit(new Scalar(null, nameof(Message)));
-            emitter.Emit(new Scalar(null, dto.Message));
+            if (dto.Message != null)
+            {
+                emitter.Emit(new Scalar(null, nameof(Message)));
+                emitter.Emit(new Scalar(null, dto.Message));
+            }
 
-            emitter.Emit(new Scalar(null, nameof(Type)));
-            emitter.Emit(new Scalar(null, dto.Type));
+            if (dto.Type != null)
+            {
+                emitter.Emit(new Scalar(null, nameof(Type)));
+                emitter.Emit(new Scalar(null, dto.Type));
+            }
 
-            emitter.Emit(new Scalar(null, nameof(StackTrace)));
-            emitter.Emit(new Scalar(null, dto.StackTrace.Replace("\r\n", "\n")));
+            if (dto.StackTrace != null)
+            {
+                emitter.Emit(new Scalar(null, nameof(StackTrace)));
+                emitter.Emit(new Scalar(null, dto.StackTrace.Replace("\r\n", "\n")));
+            }
 
             if (dto.Labels != null && dto.Labels.Count > 0)
             {
