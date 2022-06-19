@@ -63,12 +63,6 @@
             Creates <see cref="T:MyLab.Log.ExceptionDto"/> from <see cref="T:System.Exception"/>
             </summary>
         </member>
-        <member name="M:MyLab.Log.ExceptionDto.Read(YamlDotNet.Core.IParser,System.Type,YamlDotNet.Serialization.ObjectDeserializer)">
-            <inheritdoc />
-        </member>
-        <member name="M:MyLab.Log.ExceptionDto.Write(YamlDotNet.Core.IEmitter,YamlDotNet.Serialization.ObjectSerializer)">
-            <inheritdoc />
-        </member>
         <member name="T:MyLab.Log.ExceptionExtensions">
             <summary>
             Logging extensions for <see cref="T:System.Exception"/>
