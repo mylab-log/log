@@ -271,7 +271,34 @@ var sp = new ServiceCollection()
 
 ### Tracing
 
-The `Console Log Formatter` adds `req-id` fact  (input http request id) and `trace-id` fact (current trace id) from scope independent of `IncludeScopes ` options.
+The `Console Log Formatter` adds `trace-id` fact (current trace id) from scope independent of `IncludeScopes ` options.
+
+### Scoped facts
+
+The `Console Log Formatter` applies scoped facts from `FactLogScope` log scope:
+
+```C#
+var scopeFacts = new Dictionary<string, object>
+{
+    { "bar", "baz" }
+};
+var factScope = new FactLogScope(scopeFacts);
+
+//Act
+using (logger.BeginScope(factScope))
+{
+    logger.LogInformation("qoz");
+}
+```
+
+Output log message:
+
+```yaml
+Message: qoz
+Time: 2023-01-12T17:11:33.363
+Facts:
+  bar: baz
+```
 
 ## Developing points
 
