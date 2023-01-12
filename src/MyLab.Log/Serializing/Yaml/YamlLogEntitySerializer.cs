@@ -17,6 +17,7 @@ namespace MyLab.Log.Serializing.Yaml
                 .WithTypeConverter(new DateTimeValueConverter())
                 .WithTypeConverter(new ReflectionConverter())
                 .WithTypeConverter(new JTokenConverter())
+                .WithTypeConverter(new ByteReadonlyMemoryConverter())
                 .WithEventEmitter(nextEmitter => new NullStringsEventEmitter(nextEmitter))
                 .WithEmissionPhaseObjectGraphVisitor(args => new YamlIEnumerableSkipEmptyObjectGraphVisitor(args.InnerVisitor))
                 .ConfigureDefaultValuesHandling(DefaultValuesHandling.OmitDefaults)

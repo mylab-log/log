@@ -10,6 +10,7 @@ namespace MyLab.Log.Serializing.Json
     /// </summary>
     public class JsonLogEntitySerializer : ILogEntitySerializer
     {
+        /// <inheritdoc />
         public string Serialize(LogEntity logEntity)
         {
             var serializer = new JsonSerializer
@@ -21,7 +22,8 @@ namespace MyLab.Log.Serializing.Json
                 {
                     new LogStringValueConverter(),
                     new ReflectionConverter(),
-                    new JTokenConverter()
+                    new JTokenConverter(),
+                    new ByteReadonlyMemoryConverter()
                 },
                 DateTimeZoneHandling = DateTimeZoneHandling.Local,
                 DateFormatString = "yyyy-MM-ddTHH:mm:ss.fff"

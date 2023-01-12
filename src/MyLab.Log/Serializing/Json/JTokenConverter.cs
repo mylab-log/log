@@ -4,7 +4,7 @@ using Newtonsoft.Json.Linq;
 
 namespace MyLab.Log.Serializing.Json
 {
-    internal class JTokenConverter : JsonConverter<JToken>
+    class JTokenConverter : JsonConverter<JToken>
     {
         public override void WriteJson(JsonWriter writer, JToken value, JsonSerializer serializer)
         {

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using System.Text;
 using MyLab.Log;
 using Newtonsoft.Json.Linq;
 using Xunit;
@@ -279,6 +281,27 @@ namespace UnitTests
         }
 
         [Theory]
+        [MemberData(nameof(GetByteReadonlyTestCases))]
+        public void ShouldSerializeReadOnlyMemory(string serializer, string content, string expected)
+        {
+            //Arrange
+            var mem = content != null
+                ? new ReadOnlyMemory<byte>(Encoding.UTF8.GetBytes(content))
+                : new ReadOnlyMemory<byte>();
+
+            var log = new LogEntity
+            {
+                Facts = { { "foo", mem } }
+            };
+
+            //Act 
+            var actual = Serialize(serializer, log);
+
+            //Assert
+            Assert.Contains(expected, actual);
+        }
+
+        [Theory]
         [InlineData("yaml", "foo: >-\r\n    {\r\n      \"Id\": 123,\r\n      \"Values\": null\r\n    }")]
         [InlineData("json", "\"foo\": \"{\\\"Id\\\":123,\\\"Values\\\":null}\"")]
         public void ShouldSerializeJObject(string serializer, string expected)
@@ -349,6 +372,37 @@ namespace UnitTests
 
             //Assert
             Assert.Equal(expectedResult, actual.Trim());
+        }
+
+        public static IEnumerable<object[]> GetByteReadonlyTestCases()
+        {
+            return new[]
+            {
+                new object[]
+                {
+                    "json", null, "\"foo\": \"[empty]\""
+                },
+                new object[]
+                {
+                    "yaml", null, "foo: '[empty]'"
+                },
+                new object[]
+                {
+                    "json", "example", "\"foo\": \"ZXhhbXBsZQ==\""
+                },
+                new object[]
+                {
+                    "yaml", "example", "foo: ZXhhbXBsZQ=="
+                },
+                new object[]
+                {
+                    "json", string.Join(",", Enumerable.Repeat("example", 500)), "\"foo\": \"[binary >1024 bytes]\""
+                },
+                new object[]
+                {
+                    "yaml", string.Join(",", Enumerable.Repeat("example", 500)), "foo: '[binary >1024 bytes]'"
+                },
+            };
         }
     }
 }

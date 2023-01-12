@@ -246,7 +246,7 @@
         </member>
         <member name="F:MyLab.Log.PredefinedFacts.Scopes">
             <summary>
-            Log category
+            Log scopes 
             </summary>
         </member>
         <member name="F:MyLab.Log.PredefinedFacts.TraceId">
@@ -274,6 +274,11 @@
             Initializes a new instance of <see cref="T:MyLab.Log.Scopes.FactLogScope"/>
             </summary>
         </member>
+        <member name="M:MyLab.Log.Scopes.FactLogScope.#ctor(System.String,System.Object)">
+            <summary>
+            Initializes a new instance of <see cref="T:MyLab.Log.Scopes.FactLogScope"/>
+            </summary>
+        </member>
         <member name="M:MyLab.Log.Scopes.FactLogScope.GetEnumerator">
             <inheritdoc />
         </member>
@@ -291,6 +296,9 @@
             <summary>
             Serializes <see cref="T:MyLab.Log.LogEntity"/> into JSON format
             </summary>
+        </member>
+        <member name="M:MyLab.Log.Serializing.Json.JsonLogEntitySerializer.Serialize(MyLab.Log.LogEntity)">
+            <inheritdoc />
         </member>
         <member name="T:MyLab.Log.Serializing.LogEntitySerializationExtensions">
             <summary>

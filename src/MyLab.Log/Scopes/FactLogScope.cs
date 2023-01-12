@@ -18,6 +18,14 @@ namespace MyLab.Log.Scopes
             _facts = new Dictionary<string,object> (facts);
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="FactLogScope"/>
+        /// </summary>
+        public FactLogScope(string name, object value)
+            :this(new Dictionary<string, object>{ { name, value } })
+        {
+        }
+
         /// <inheritdoc />
         public IEnumerator<KeyValuePair<string, object>> GetEnumerator()
         {
