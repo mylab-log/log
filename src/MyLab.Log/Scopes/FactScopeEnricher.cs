@@ -1,22 +1,21 @@
-﻿namespace MyLab.Log.Scopes
+﻿using System.Collections.Generic;
+
+namespace MyLab.Log.Scopes
 {
     class FactScopeEnricher : ScopeEnricher
     {
-        public override bool TryEnrich(object scope, LogEntity logEntity)
+        public override void Enrich(IEnumerable<object> scopes, LogEntity logEntity)
         {
-            bool success = false;
-
-            if (scope is FactLogScope factProvider)
+            foreach (var scope in scopes)
             {
-                foreach (var factPair in factProvider)
+                if (scope is FactLogScope factProvider)
                 {
-                    logEntity.Facts.Add(factPair.Key, factPair.Value);
-
-                    success = true;
+                    foreach (var factPair in factProvider)
+                    {
+                        logEntity.Facts.Add(factPair.Key, factPair.Value);
+                    }
                 }
             }
-
-            return success;
         }
     }
 }

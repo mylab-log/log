@@ -114,7 +114,57 @@ namespace UnitTests
             //Assert
             Assert.Contains("bar: baz", logString);
         }
-        
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void ShouldIncludeSetOption(bool includeScopes)
+        {
+            //Arrange
+            var logBuilder = new StringBuilder();
+
+            var logWriter = new StringWriter(logBuilder);
+
+            var loggerFactory = LoggerFactory.Create(b => b
+                .AddConsole(o => o.FormatterName = "mylab")
+                .AddMyLabFormatter(logWriter, opt => opt.IncludeScopes = includeScopes));
+
+            var logger = loggerFactory.CreateLogger("foo");
+
+            var scope1 = new TestLogScopes1("foo", "bar");
+            var scope2 = new TestLogScopes2("baz", "qoz");
+
+            //Act
+            using (logger.BeginScope(scope1))
+            using (logger.BeginScope(scope2))
+            {
+                logger.LogInformation("qoz");
+            }
+
+            var logString = logBuilder.ToString();
+
+            _output.WriteLine(logString);
+
+            //Assert
+
+            if (includeScopes)
+            {
+                Assert.Contains(PredefinedFacts.Scopes + ":", logString);
+                Assert.Contains(nameof(TestLogScopes1) + ":", logString);
+                Assert.Contains("foo: bar", logString);
+                Assert.Contains(nameof(TestLogScopes2) + ":", logString);
+                Assert.Contains("baz: qoz", logString);
+            }
+            else
+            {
+                Assert.DoesNotContain(PredefinedFacts.Scopes + ":", logString);
+                Assert.DoesNotContain(nameof(TestLogScopes1) + ":", logString);
+                Assert.DoesNotContain("foo: bar", logString);
+                Assert.DoesNotContain(nameof(TestLogScopes2) + ":", logString);
+                Assert.DoesNotContain("baz: qoz", logString);
+            }
+        }
+
         ILoggerFactory PrepareLogger(StringBuilder logStringBuilder)
         {
             var logWriter = new StringWriter(logStringBuilder);
@@ -122,6 +172,22 @@ namespace UnitTests
             return LoggerFactory.Create(b => b
                 .AddConsole(o => o.FormatterName = "mylab")
                 .AddMyLabFormatter(logWriter));
+        }
+
+        class TestLogScopes1 : Dictionary<string, object>
+        {
+            public TestLogScopes1(string key, string value)
+            {
+                Add(key, value);
+            }
+        }
+
+        class TestLogScopes2 : Dictionary<string, object>
+        {
+            public TestLogScopes2(string key, string value)
+            {
+                Add(key, value);
+            }
         }
 
         class HostingLogScope : List<KeyValuePair<string, object>>

@@ -5,34 +5,26 @@ namespace MyLab.Log.Scopes
 {
     class TraceIdScopeEnricher : ScopeEnricher
     {
-        public TraceIdScopeEnricher()
+        public override void Enrich(IEnumerable<object> scopes, LogEntity logEntity)
         {
-            InterruptAfterSuccess = true;
-        }
-
-        public override bool TryEnrich(object scope, LogEntity logEntity)
-        {
-            string foundTraceId = null;
-
-            if (scope is IEnumerable<KeyValuePair<string, object>> scopeItems)
+            foreach (var scope in scopes)
             {
-                var items = scopeItems.ToArray();
+                if (scope is IEnumerable<KeyValuePair<string, object>> scopeItems)
+                {
+                    var items = scopeItems.ToArray();
 
-                var scopeTmpTraceId = items
-                    .FirstOrDefault(itm => itm.Key == "TraceId")
-                    .Value?
-                    .ToString();
-                if (!string.IsNullOrEmpty(scopeTmpTraceId))
-                    foundTraceId = scopeTmpTraceId;
+                    var foundTraceId = items
+                        .FirstOrDefault(itm => itm.Key == "TraceId")
+                        .Value?
+                        .ToString();
+
+                    if (foundTraceId != null)
+                    {
+                        logEntity.Facts.Add(PredefinedFacts.TraceId, foundTraceId);
+                        break;
+                    }
+                }
             }
-
-            if (foundTraceId != null)
-            {
-                logEntity.Facts.Add(PredefinedFacts.TraceId, foundTraceId);
-                return true;
-            }
-
-            return false;
         }
     }
 }

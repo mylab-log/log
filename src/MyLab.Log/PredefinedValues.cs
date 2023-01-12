@@ -35,7 +35,7 @@
         public const string Category = "log-category";
 
         /// <summary>
-        /// Log category
+        /// Log scopes 
         /// </summary>
         public const string Scopes = "log-scopes";
 

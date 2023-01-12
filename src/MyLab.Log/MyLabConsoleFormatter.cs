@@ -15,21 +15,32 @@ namespace MyLab.Log
         private readonly IDisposable _optionsReloadToken;
         private MyLabFormatterOptions _formatterOptions;
 
-        private readonly ScopeEnricher[] _scopeEnrichers = 
-        {
-            new TraceIdScopeEnricher(),
-            new FactScopeEnricher()
-        };
+        private readonly ScopeEnricher[] _scopeEnrichers;
+        private readonly IncludeAllScopesEnricher _includeAllScopesEnricher;
 
         public MyLabConsoleFormatter(IOptionsMonitor<MyLabFormatterOptions> options) : base("mylab")
         {
             _optionsReloadToken = options.OnChange(ReloadLoggerOptions);
             _formatterOptions = options.CurrentValue;
+
+            _includeAllScopesEnricher = new IncludeAllScopesEnricher
+            {
+                IncludeScopesOption = _formatterOptions.IncludeScopes
+            };
+
+            _scopeEnrichers = new ScopeEnricher[]
+            {
+                new TraceIdScopeEnricher(),
+                new FactScopeEnricher(),
+                _includeAllScopesEnricher
+            };
         }
 
         private void ReloadLoggerOptions(MyLabFormatterOptions newOpts)
         {
             _formatterOptions = newOpts;
+
+            _includeAllScopesEnricher.IncludeScopesOption = _formatterOptions.IncludeScopes;
         }
 
         public override void Write<TState>(in LogEntry<TState> logEntry, IExternalScopeProvider scopeProvider, TextWriter textWriter)
@@ -65,7 +76,7 @@ namespace MyLab.Log
                 logEntity.Facts.Add(PredefinedFacts.Category, categoryName);
             }
 
-            EnrichLogEntity(scopeProvider, logEntity);
+            EnrichLogEntityFromScope(scopeProvider, logEntity);
 
             var logString = resultFormatter.DynamicInvoke(logEntity, exception).ToString();
 
@@ -73,7 +84,7 @@ namespace MyLab.Log
             _formatterOptions.DebugWriter?.WriteLine(logString);
         }
 
-        private void EnrichLogEntity(IExternalScopeProvider scopeProvider, LogEntity logEntity)
+        private void EnrichLogEntityFromScope(IExternalScopeProvider scopeProvider, LogEntity logEntity)
         {
             var scopes = new List<object>();
 
@@ -84,13 +95,7 @@ namespace MyLab.Log
 
             foreach (var scopeEnricher in _scopeEnrichers)
             {
-                foreach (object scope in scopes)
-                {
-                    bool successEnrich = scopeEnricher.TryEnrich(scope, logEntity);
-                    
-                    if (successEnrich && scopeEnricher.InterruptAfterSuccess)
-                        break;
-                }
+                scopeEnricher.Enrich(scopes, logEntity);
             }
         }
 
