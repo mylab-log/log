@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Logging.Console;
 using Microsoft.Extensions.Options;
+using MyLab.Log.Scopes;
 
 namespace MyLab.Log
 {
@@ -13,6 +14,11 @@ namespace MyLab.Log
     {
         private readonly IDisposable _optionsReloadToken;
         private MyLabFormatterOptions _formatterOptions;
+
+        private readonly ScopeEnricher[] _scopeEnrichers = new[]
+        {
+            new TraceIdScopeEnricher()
+        };
 
         public MyLabConsoleFormatter(IOptionsMonitor<MyLabFormatterOptions> options) : base("mylab")
         {
@@ -58,15 +64,41 @@ namespace MyLab.Log
                 logEntity.Facts.Add(PredefinedFacts.Category, categoryName);
             }
 
-            var traceId = ExtractTraceId(scopeProvider);
-            
-            if (traceId != null)
-                logEntity.Facts.Add(PredefinedFacts.TraceId, traceId);
+            EnrichLogEntity(scopeProvider, logEntity);
 
             var logString = resultFormatter.DynamicInvoke(logEntity, exception).ToString();
 
             textWriter.WriteLine(logString);
             _formatterOptions.DebugWriter?.WriteLine(logString);
+        }
+
+        private void EnrichLogEntity(IExternalScopeProvider scopeProvider, LogEntity logEntity)
+        {
+            var scopes = new List<object>();
+
+            scopeProvider.ForEachScope((scope, state) =>
+            {
+                state.Add(scope);
+            }, scopes);
+
+            foreach (var scopeEnricher in _scopeEnrichers)
+            {
+                foreach (object scope in scopes)
+                {
+                    bool successEnrich = scopeEnricher.TryEnrich(scope, logEntity);
+                    
+                    if (successEnrich && scopeEnricher.InterruptAfterSuccess)
+                        break;
+                }
+            }
+        }
+
+        private void EnrichFromHttpScope(IExternalScopeProvider scopeProvider, LogEntity logEntity)
+        {
+            var traceId = ExtractTraceId(scopeProvider);
+
+            if (traceId != null)
+                logEntity.Facts.Add(PredefinedFacts.TraceId, traceId);
         }
 
         string ExtractTraceId(IExternalScopeProvider esProvider)
