@@ -15,9 +15,10 @@ namespace MyLab.Log
         private readonly IDisposable _optionsReloadToken;
         private MyLabFormatterOptions _formatterOptions;
 
-        private readonly ScopeEnricher[] _scopeEnrichers = new[]
+        private readonly ScopeEnricher[] _scopeEnrichers = 
         {
-            new TraceIdScopeEnricher()
+            new TraceIdScopeEnricher(),
+            new FactScopeEnricher()
         };
 
         public MyLabConsoleFormatter(IOptionsMonitor<MyLabFormatterOptions> options) : base("mylab")

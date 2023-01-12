@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using Microsoft.Extensions.Logging;
 using MyLab.Log;
+using MyLab.Log.Scopes;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -69,9 +70,10 @@ namespace UnitTests
             var logger = loggerFactory.CreateLogger("foo");
 
             var traceId = Guid.NewGuid().ToString("N");
+            var hostingScope = new HostingLogScope(traceId);
 
             //Act
-            using (logger.BeginScope(new HostingLogScope(null, traceId)))
+            using (logger.BeginScope(hostingScope))
             {
                 logger.LogInformation("baz");
             }
@@ -83,6 +85,35 @@ namespace UnitTests
             //Assert
             Assert.Contains(PredefinedFacts.TraceId + ": " + traceId, logString);
         }
+
+        [Fact]
+        public void ShouldWriteScopeFacts()
+        {
+            //Arrange
+            var logBuilder = new StringBuilder();
+            var loggerFactory = PrepareLogger(logBuilder);
+
+            var logger = loggerFactory.CreateLogger("foo");
+
+            var scopeFacts = new Dictionary<string, object>
+            {
+                { "bar", "baz" }
+            };
+            var factScope = new FactLogScope(scopeFacts);
+
+            //Act
+            using (logger.BeginScope(factScope))
+            {
+                logger.LogInformation("qoz");
+            }
+
+            var logString = logBuilder.ToString();
+
+            _output.WriteLine(logString);
+
+            //Assert
+            Assert.Contains("bar: baz", logString);
+        }
         
         ILoggerFactory PrepareLogger(StringBuilder logStringBuilder)
         {
@@ -93,17 +124,11 @@ namespace UnitTests
                 .AddMyLabFormatter(logWriter));
         }
 
-        class TestScope : Dictionary<string, object>
-        {
-
-        }
-
         class HostingLogScope : List<KeyValuePair<string, object>>
         {
-            public HostingLogScope(string requestId, string traceId)
+            public HostingLogScope(string traceId)
             {
-                if (traceId != null)
-                    Add(new KeyValuePair<string, object>("TraceId", traceId));
+                Add(new KeyValuePair<string, object>("TraceId", traceId));
             }
         }
 
