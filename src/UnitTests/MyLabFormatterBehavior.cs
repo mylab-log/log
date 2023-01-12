@@ -83,32 +83,7 @@ namespace UnitTests
             //Assert
             Assert.Contains(PredefinedFacts.TraceId + ": " + traceId, logString);
         }
-
-        [Fact]
-        public void ShouldWriteRequestId()
-        {
-            //Arrange
-            var logBuilder = new StringBuilder();
-            var loggerFactory = PrepareLogger(logBuilder);
-
-            var logger = loggerFactory.CreateLogger("foo");
-
-            var requestId = Guid.NewGuid().ToString("N");
-
-            //Act
-            using (logger.BeginScope(new HostingLogScope(requestId, null)))
-            {
-                logger.LogInformation("baz");
-            }
-
-            var logString = logBuilder.ToString();
-
-            _output.WriteLine(logString);
-
-            //Assert
-            Assert.Contains(PredefinedFacts.RequestId + ": " + requestId, logString);
-        }
-
+        
         ILoggerFactory PrepareLogger(StringBuilder logStringBuilder)
         {
             var logWriter = new StringWriter(logStringBuilder);
@@ -127,9 +102,6 @@ namespace UnitTests
         {
             public HostingLogScope(string requestId, string traceId)
             {
-                if(requestId != null)
-                    Add(new KeyValuePair<string, object>("RequestId", requestId));
-
                 if (traceId != null)
                     Add(new KeyValuePair<string, object>("TraceId", traceId));
             }

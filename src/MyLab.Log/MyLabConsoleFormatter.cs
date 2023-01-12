@@ -58,10 +58,8 @@ namespace MyLab.Log
                 logEntity.Facts.Add(PredefinedFacts.Category, categoryName);
             }
 
-            ExtractReqIdAndTraceId(scopeProvider, out string reqId, out string traceId);
-
-            if(reqId != null)
-                logEntity.Facts.Add(PredefinedFacts.RequestId, reqId);
+            var traceId = ExtractTraceId(scopeProvider);
+            
             if (traceId != null)
                 logEntity.Facts.Add(PredefinedFacts.TraceId, traceId);
 
@@ -71,37 +69,28 @@ namespace MyLab.Log
             _formatterOptions.DebugWriter?.WriteLine(logString);
         }
 
-        void ExtractReqIdAndTraceId(IExternalScopeProvider esProvider, out string reqId, out string traceId)
+        string ExtractTraceId(IExternalScopeProvider esProvider)
         {
             var list = new List<KeyValuePair<string, object>>();
 
-            string localReqId = null;
-            string localTraceId = null;
+            string foundTraceId = null;
 
             esProvider.ForEachScope((scope, state) =>
             {
                 if (scope is IEnumerable<KeyValuePair<string, object>> scopeItems)
                 {
                     var items = scopeItems.ToArray();
-
-                    var scopeTmpReqId = items
-                        .FirstOrDefault(itm => itm.Key == "RequestId")
-                        .Value?
-                        .ToString();
-                    if (!string.IsNullOrEmpty(scopeTmpReqId))
-                        localReqId = scopeTmpReqId;
-
+                    
                     var scopeTmpTraceId = items
                         .FirstOrDefault(itm => itm.Key == "TraceId")
                         .Value?
                         .ToString();
                     if (!string.IsNullOrEmpty(scopeTmpTraceId))
-                        localTraceId = scopeTmpTraceId;
+                        foundTraceId = scopeTmpTraceId;
                 }
             }, list);
-
-            reqId = localReqId;
-            traceId = localTraceId;
+            
+            return foundTraceId;
         }
 
         public void Dispose()
