@@ -35,7 +35,7 @@
         public const string Category = "log-category";
 
         /// <summary>
-        /// Log category
+        /// Log scopes 
         /// </summary>
         public const string Scopes = "log-scopes";
 
@@ -43,11 +43,6 @@
         /// Trace identifier
         /// </summary>
         public const string TraceId = "trace-id";
-
-        /// <summary>
-        /// Request identifier
-        /// </summary>
-        public const string RequestId = "req-id";
     }
 
     /// <summary>

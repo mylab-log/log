@@ -1,5 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
 
 namespace MyLab.Log
 {
@@ -20,6 +22,17 @@ namespace MyLab.Log
         internal static ILoggingBuilder AddMyLabFormatter(this ILoggingBuilder loggingBuilder, TextWriter debugWriter)
         {
             return loggingBuilder.AddConsoleFormatter<MyLabConsoleFormatter, MyLabFormatterOptions>(o => o.DebugWriter = debugWriter);
+        }
+
+        internal static ILoggingBuilder AddMyLabFormatter(this ILoggingBuilder loggingBuilder, TextWriter debugWriter, Action<ConsoleFormatterOptions> config)
+        {
+            return loggingBuilder.AddConsoleFormatter<MyLabConsoleFormatter, MyLabFormatterOptions>(o =>
+            {
+                o.DebugWriter = debugWriter;
+
+                if (config != null)
+                    config(o);
+            });
         }
     }
 }

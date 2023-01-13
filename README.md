@@ -236,7 +236,7 @@ Exception:
     Inner exception fact: inner fact
 ```
 
-## Console Log Formatter
+## `MyLabConsoleFormatter`
 
 ### Formatter overview
 
@@ -271,7 +271,73 @@ var sp = new ServiceCollection()
 
 ### Tracing
 
-The `Console Log Formatter` adds `req-id` fact  (input http request id) and `trace-id` fact (current trace id) from scope independent of `IncludeScopes ` options.
+The `MyLabConsoleFormatter` adds `trace-id` fact (current trace id) from scope independent of `IncludeScopes ` options.
+
+### Scoped facts
+
+The `MyLabConsoleFormatter` applies scoped facts from `FactLogScope` log scope:
+
+```C#
+var scopeFacts = new Dictionary<string, object>
+{
+    { "bar", "baz" }
+};
+var factScope = new FactLogScope(scopeFacts);
+
+//Act
+using (logger.BeginScope(factScope))
+{
+    logger.LogInformation("qoz");
+}
+```
+
+Output log message:
+
+```yaml
+Message: qoz
+Time: 2023-01-12T17:11:33.363
+Facts:
+  bar: baz
+```
+
+### `IncludeScopes`
+
+When `ConsoleFormatterOptions.IncludeScopes` is set to `true` then `MyLabConsoleFormatter` adds all scopes into one fact named `log-scopes`:
+
+```yaml
+Message: qoz
+Time: 2023-01-13T20:12:05.796
+Facts:
+  log-scopes:
+    TestLogScopes1:
+      foo: bar
+    TestLogScopes2:
+      baz: qoz
+```
+
+### `FactLogScope`
+
+The `FactLogScope` may be useful to passing log facts with scope into the log. It used by `MyLabConsoleFormatter` to get context facts independent of `ConsoleFormatterOptions.IncludeScopes` option.
+
+```C#
+var scopeFacts = new Dictionary<string, object>
+{
+    { "bar", "baz" }
+};
+var factScope = new FactLogScope(scopeFacts);
+
+using (logger.BeginScope(factScope))
+{
+    logger.LogInformation("qoz");
+}
+```
+
+```yaml
+Message: qoz
+Time: 2023-01-13T20:12:05.812
+Facts:
+  bar: baz
+```
 
 ## Developing points
 

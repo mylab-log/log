@@ -246,17 +246,12 @@
         </member>
         <member name="F:MyLab.Log.PredefinedFacts.Scopes">
             <summary>
-            Log category
+            Log scopes 
             </summary>
         </member>
         <member name="F:MyLab.Log.PredefinedFacts.TraceId">
             <summary>
             Trace identifier
-            </summary>
-        </member>
-        <member name="F:MyLab.Log.PredefinedFacts.RequestId">
-            <summary>
-            Request identifier
             </summary>
         </member>
         <member name="T:MyLab.Log.PredefinedLabels">
@@ -268,6 +263,24 @@
             <summary>
             Log level label. Predefined values keeps in  <see cref="T:MyLab.Log.PredefinedLogLevels"/> 
             </summary>
+        </member>
+        <member name="T:MyLab.Log.Scopes.FactLogScope">
+            <summary>
+            Contains log facts from log scope
+            </summary>
+        </member>
+        <member name="M:MyLab.Log.Scopes.FactLogScope.#ctor(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Initializes a new instance of <see cref="T:MyLab.Log.Scopes.FactLogScope"/>
+            </summary>
+        </member>
+        <member name="M:MyLab.Log.Scopes.FactLogScope.#ctor(System.String,System.Object)">
+            <summary>
+            Initializes a new instance of <see cref="T:MyLab.Log.Scopes.FactLogScope"/>
+            </summary>
+        </member>
+        <member name="M:MyLab.Log.Scopes.FactLogScope.GetEnumerator">
+            <inheritdoc />
         </member>
         <member name="T:MyLab.Log.Serializing.ILogEntitySerializer">
             <summary>
@@ -284,6 +297,9 @@
             Serializes <see cref="T:MyLab.Log.LogEntity"/> into JSON format
             </summary>
         </member>
+        <member name="M:MyLab.Log.Serializing.Json.JsonLogEntitySerializer.Serialize(MyLab.Log.LogEntity)">
+            <inheritdoc />
+        </member>
         <member name="T:MyLab.Log.Serializing.LogEntitySerializationExtensions">
             <summary>
             Contains extension serialization methods for <see cref="T:MyLab.Log.LogEntity"/>
@@ -293,6 +309,14 @@
             <summary>
             Serializes <see cref="T:MyLab.Log.LogEntity"/> into YAML format
             </summary>
+        </member>
+        <member name="M:MyLab.Log.Serializing.Yaml.YamlLogEntitySerializer.#ctor">
+            <summary>
+            Initialize a new instance of <see cref="T:MyLab.Log.Serializing.Yaml.YamlLogEntitySerializer"/>
+            </summary>
+        </member>
+        <member name="M:MyLab.Log.Serializing.Yaml.YamlLogEntitySerializer.Serialize(MyLab.Log.LogEntity)">
+            <inheritdoc />
         </member>
     </members>
 </doc>

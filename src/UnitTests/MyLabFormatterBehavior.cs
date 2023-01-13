@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using Microsoft.Extensions.Logging;
 using MyLab.Log;
+using MyLab.Log.Scopes;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -69,9 +70,10 @@ namespace UnitTests
             var logger = loggerFactory.CreateLogger("foo");
 
             var traceId = Guid.NewGuid().ToString("N");
+            var hostingScope = new HostingLogScope(traceId);
 
             //Act
-            using (logger.BeginScope(new HostingLogScope(null, traceId)))
+            using (logger.BeginScope(hostingScope))
             {
                 logger.LogInformation("baz");
             }
@@ -85,7 +87,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public void ShouldWriteRequestId()
+        public void ShouldWriteScopeFacts()
         {
             //Arrange
             var logBuilder = new StringBuilder();
@@ -93,12 +95,16 @@ namespace UnitTests
 
             var logger = loggerFactory.CreateLogger("foo");
 
-            var requestId = Guid.NewGuid().ToString("N");
+            var scopeFacts = new Dictionary<string, object>
+            {
+                { "bar", "baz" }
+            };
+            var factScope = new FactLogScope(scopeFacts);
 
             //Act
-            using (logger.BeginScope(new HostingLogScope(requestId, null)))
+            using (logger.BeginScope(factScope))
             {
-                logger.LogInformation("baz");
+                logger.LogInformation("qoz");
             }
 
             var logString = logBuilder.ToString();
@@ -106,7 +112,57 @@ namespace UnitTests
             _output.WriteLine(logString);
 
             //Assert
-            Assert.Contains(PredefinedFacts.RequestId + ": " + requestId, logString);
+            Assert.Contains("bar: baz", logString);
+        }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void ShouldIncludeSetOption(bool includeScopes)
+        {
+            //Arrange
+            var logBuilder = new StringBuilder();
+
+            var logWriter = new StringWriter(logBuilder);
+
+            var loggerFactory = LoggerFactory.Create(b => b
+                .AddConsole(o => o.FormatterName = "mylab")
+                .AddMyLabFormatter(logWriter, opt => opt.IncludeScopes = includeScopes));
+
+            var logger = loggerFactory.CreateLogger("foo");
+
+            var scope1 = new TestLogScopes1("foo", "bar");
+            var scope2 = new TestLogScopes2("baz", "qoz");
+
+            //Act
+            using (logger.BeginScope(scope1))
+            using (logger.BeginScope(scope2))
+            {
+                logger.LogInformation("qoz");
+            }
+
+            var logString = logBuilder.ToString();
+
+            _output.WriteLine(logString);
+
+            //Assert
+
+            if (includeScopes)
+            {
+                Assert.Contains(PredefinedFacts.Scopes + ":", logString);
+                Assert.Contains(nameof(TestLogScopes1) + ":", logString);
+                Assert.Contains("foo: bar", logString);
+                Assert.Contains(nameof(TestLogScopes2) + ":", logString);
+                Assert.Contains("baz: qoz", logString);
+            }
+            else
+            {
+                Assert.DoesNotContain(PredefinedFacts.Scopes + ":", logString);
+                Assert.DoesNotContain(nameof(TestLogScopes1) + ":", logString);
+                Assert.DoesNotContain("foo: bar", logString);
+                Assert.DoesNotContain(nameof(TestLogScopes2) + ":", logString);
+                Assert.DoesNotContain("baz: qoz", logString);
+            }
         }
 
         ILoggerFactory PrepareLogger(StringBuilder logStringBuilder)
@@ -118,20 +174,27 @@ namespace UnitTests
                 .AddMyLabFormatter(logWriter));
         }
 
-        class TestScope : Dictionary<string, object>
+        class TestLogScopes1 : Dictionary<string, object>
         {
+            public TestLogScopes1(string key, string value)
+            {
+                Add(key, value);
+            }
+        }
 
+        class TestLogScopes2 : Dictionary<string, object>
+        {
+            public TestLogScopes2(string key, string value)
+            {
+                Add(key, value);
+            }
         }
 
         class HostingLogScope : List<KeyValuePair<string, object>>
         {
-            public HostingLogScope(string requestId, string traceId)
+            public HostingLogScope(string traceId)
             {
-                if(requestId != null)
-                    Add(new KeyValuePair<string, object>("RequestId", requestId));
-
-                if (traceId != null)
-                    Add(new KeyValuePair<string, object>("TraceId", traceId));
+                Add(new KeyValuePair<string, object>("TraceId", traceId));
             }
         }
 

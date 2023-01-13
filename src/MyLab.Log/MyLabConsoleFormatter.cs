@@ -6,23 +6,30 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Logging.Console;
 using Microsoft.Extensions.Options;
+using MyLab.Log.Scopes;
 
 namespace MyLab.Log
 {
-    class MyLabConsoleFormatter : ConsoleFormatter, IDisposable
+    class MyLabConsoleFormatter : ConsoleFormatter
     {
-        private readonly IDisposable _optionsReloadToken;
-        private MyLabFormatterOptions _formatterOptions;
+        private readonly MyLabFormatterOptions _options;
+        private readonly ScopeEnricher[] _scopeEnrichers;
 
-        public MyLabConsoleFormatter(IOptionsMonitor<MyLabFormatterOptions> options) : base("mylab")
+        public MyLabConsoleFormatter(
+            IOptions<ConsoleFormatterOptions> consoleOptions,
+            IOptions<MyLabFormatterOptions> mylabOptions
+        ) : base("mylab")
         {
-            _optionsReloadToken = options.OnChange(ReloadLoggerOptions);
-            _formatterOptions = options.CurrentValue;
-        }
-
-        private void ReloadLoggerOptions(MyLabFormatterOptions newOpts)
-        {
-            _formatterOptions = newOpts;
+            _options = mylabOptions.Value.JoinConsoleFormatterOptions(consoleOptions.Value);
+            _scopeEnrichers = new ScopeEnricher[]
+            {
+                new TraceIdScopeEnricher(),
+                new FactScopeEnricher(),
+                new IncludeAllScopesEnricher
+                {
+                    IncludeScopesOption = _options.IncludeScopes
+                }
+            };
         }
 
         public override void Write<TState>(in LogEntry<TState> logEntry, IExternalScopeProvider scopeProvider, TextWriter textWriter)
@@ -58,55 +65,62 @@ namespace MyLab.Log
                 logEntity.Facts.Add(PredefinedFacts.Category, categoryName);
             }
 
-            ExtractReqIdAndTraceId(scopeProvider, out string reqId, out string traceId);
-
-            if(reqId != null)
-                logEntity.Facts.Add(PredefinedFacts.RequestId, reqId);
-            if (traceId != null)
-                logEntity.Facts.Add(PredefinedFacts.TraceId, traceId);
+            if (scopeProvider != null)
+            {
+                EnrichLogEntityFromScope(scopeProvider, logEntity);
+            }
 
             var logString = resultFormatter.DynamicInvoke(logEntity, exception).ToString();
 
             textWriter.WriteLine(logString);
-            _formatterOptions.DebugWriter?.WriteLine(logString);
+            _options.DebugWriter?.WriteLine(logString);
         }
 
-        void ExtractReqIdAndTraceId(IExternalScopeProvider esProvider, out string reqId, out string traceId)
+        private void EnrichLogEntityFromScope(IExternalScopeProvider scopeProvider, LogEntity logEntity)
+        {
+            var scopes = new List<object>();
+
+            scopeProvider.ForEachScope((scope, state) =>
+            {
+                state.Add(scope);
+            }, scopes);
+
+            foreach (var scopeEnricher in _scopeEnrichers)
+            {
+                scopeEnricher.Enrich(scopes, logEntity);
+            }
+        }
+
+        private void EnrichFromHttpScope(IExternalScopeProvider scopeProvider, LogEntity logEntity)
+        {
+            var traceId = ExtractTraceId(scopeProvider);
+
+            if (traceId != null)
+                logEntity.Facts.Add(PredefinedFacts.TraceId, traceId);
+        }
+
+        string ExtractTraceId(IExternalScopeProvider esProvider)
         {
             var list = new List<KeyValuePair<string, object>>();
 
-            string localReqId = null;
-            string localTraceId = null;
+            string foundTraceId = null;
 
             esProvider.ForEachScope((scope, state) =>
             {
                 if (scope is IEnumerable<KeyValuePair<string, object>> scopeItems)
                 {
                     var items = scopeItems.ToArray();
-
-                    var scopeTmpReqId = items
-                        .FirstOrDefault(itm => itm.Key == "RequestId")
-                        .Value?
-                        .ToString();
-                    if (!string.IsNullOrEmpty(scopeTmpReqId))
-                        localReqId = scopeTmpReqId;
-
+                    
                     var scopeTmpTraceId = items
                         .FirstOrDefault(itm => itm.Key == "TraceId")
                         .Value?
                         .ToString();
                     if (!string.IsNullOrEmpty(scopeTmpTraceId))
-                        localTraceId = scopeTmpTraceId;
+                        foundTraceId = scopeTmpTraceId;
                 }
             }, list);
-
-            reqId = localReqId;
-            traceId = localTraceId;
-        }
-
-        public void Dispose()
-        {
-            _optionsReloadToken?.Dispose();
+            
+            return foundTraceId;
         }
     }
 }
