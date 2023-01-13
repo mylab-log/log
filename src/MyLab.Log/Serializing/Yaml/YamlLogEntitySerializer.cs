@@ -1,4 +1,5 @@
-﻿using YamlDotNet.Serialization;
+﻿using System;
+using YamlDotNet.Serialization;
 
 namespace MyLab.Log.Serializing.Yaml
 {
@@ -9,6 +10,9 @@ namespace MyLab.Log.Serializing.Yaml
     {
         private readonly ISerializer _serializer;
 
+        /// <summary>
+        /// Initialize a new instance of <see cref="YamlLogEntitySerializer"/>
+        /// </summary>
         public YamlLogEntitySerializer()
         {
             _serializer = new SerializerBuilder()
@@ -24,9 +28,18 @@ namespace MyLab.Log.Serializing.Yaml
                 .Build();
         }
 
+        /// <inheritdoc />
         public string Serialize(LogEntity logEntity)
         {
-            return _serializer.Serialize(logEntity);
+            try
+            {
+                return _serializer.Serialize(logEntity);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

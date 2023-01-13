@@ -10,37 +10,26 @@ using MyLab.Log.Scopes;
 
 namespace MyLab.Log
 {
-    class MyLabConsoleFormatter : ConsoleFormatter, IDisposable
+    class MyLabConsoleFormatter : ConsoleFormatter
     {
-        private readonly IDisposable _optionsReloadToken;
-        private MyLabFormatterOptions _formatterOptions;
-
+        private readonly MyLabFormatterOptions _options;
         private readonly ScopeEnricher[] _scopeEnrichers;
-        private readonly IncludeAllScopesEnricher _includeAllScopesEnricher;
 
-        public MyLabConsoleFormatter(IOptionsMonitor<MyLabFormatterOptions> options) : base("mylab")
+        public MyLabConsoleFormatter(
+            IOptions<ConsoleFormatterOptions> consoleOptions,
+            IOptions<MyLabFormatterOptions> mylabOptions
+        ) : base("mylab")
         {
-            _optionsReloadToken = options.OnChange(ReloadLoggerOptions);
-            _formatterOptions = options.CurrentValue;
-
-            _includeAllScopesEnricher = new IncludeAllScopesEnricher
-            {
-                IncludeScopesOption = _formatterOptions.IncludeScopes
-            };
-
+            _options = mylabOptions.Value.JoinConsoleFormatterOptions(consoleOptions.Value);
             _scopeEnrichers = new ScopeEnricher[]
             {
                 new TraceIdScopeEnricher(),
                 new FactScopeEnricher(),
-                _includeAllScopesEnricher
+                new IncludeAllScopesEnricher
+                {
+                    IncludeScopesOption = _options.IncludeScopes
+                }
             };
-        }
-
-        private void ReloadLoggerOptions(MyLabFormatterOptions newOpts)
-        {
-            _formatterOptions = newOpts;
-
-            _includeAllScopesEnricher.IncludeScopesOption = _formatterOptions.IncludeScopes;
         }
 
         public override void Write<TState>(in LogEntry<TState> logEntry, IExternalScopeProvider scopeProvider, TextWriter textWriter)
@@ -84,7 +73,7 @@ namespace MyLab.Log
             var logString = resultFormatter.DynamicInvoke(logEntity, exception).ToString();
 
             textWriter.WriteLine(logString);
-            _formatterOptions.DebugWriter?.WriteLine(logString);
+            _options.DebugWriter?.WriteLine(logString);
         }
 
         private void EnrichLogEntityFromScope(IExternalScopeProvider scopeProvider, LogEntity logEntity)
@@ -132,11 +121,6 @@ namespace MyLab.Log
             }, list);
             
             return foundTraceId;
-        }
-
-        public void Dispose()
-        {
-            _optionsReloadToken?.Dispose();
         }
     }
 }

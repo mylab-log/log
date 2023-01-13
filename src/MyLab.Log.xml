@@ -310,5 +310,13 @@
             Serializes <see cref="T:MyLab.Log.LogEntity"/> into YAML format
             </summary>
         </member>
+        <member name="M:MyLab.Log.Serializing.Yaml.YamlLogEntitySerializer.#ctor">
+            <summary>
+            Initialize a new instance of <see cref="T:MyLab.Log.Serializing.Yaml.YamlLogEntitySerializer"/>
+            </summary>
+        </member>
+        <member name="M:MyLab.Log.Serializing.Yaml.YamlLogEntitySerializer.Serialize(MyLab.Log.LogEntity)">
+            <inheritdoc />
+        </member>
     </members>
 </doc>
