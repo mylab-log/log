@@ -76,7 +76,10 @@ namespace MyLab.Log
                 logEntity.Facts.Add(PredefinedFacts.Category, categoryName);
             }
 
-            EnrichLogEntityFromScope(scopeProvider, logEntity);
+            if (scopeProvider != null)
+            {
+                EnrichLogEntityFromScope(scopeProvider, logEntity);
+            }
 
             var logString = resultFormatter.DynamicInvoke(logEntity, exception).ToString();
 
