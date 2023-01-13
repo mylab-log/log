@@ -4,6 +4,26 @@ All notable changes to this project will be documented in this file
 
 Log format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [3.4.20] - 2023-01-13
+
+### Added
+
+* Add all scopes into fact `log-scopes` when `ConsoleFormatterOptions.IncludeScopes` is set to `true`
+* Passing scoped log facts with log scope (`FactLogScope`)
+* `yaml` serialization support for `ReadonlyMemory<byte>`
+
+### Changed
+
+* Make logging exception dump more compact
+
+### Fixed
+
+* `NullReferenceException` possibility when `yaml` parsing
+
+### Removed
+
+* Adding `RequestId` fact from scope when `HTTP` request 
+
 ## [3.3.14] - 2022-06-15
 
 ### Added
