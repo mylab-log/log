@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace MyLab.Log
 {
@@ -7,6 +9,7 @@ namespace MyLab.Log
     {
         private const string FactsKey = "facts";
         private const string LabelsKey = "labels";
+        private const string DataFactsKey = "data-entries";
 
         private readonly Exception _e;
 
@@ -73,9 +76,33 @@ namespace MyLab.Log
         /// <summary>Gets conditions for Exception</summary>
         public LogFacts GetFacts()
         {
-            if (_e.Data.Contains(FactsKey))
-                return (LogFacts)_e.Data[FactsKey];
-            return new LogFacts();
+            LogFacts facts = null;
+
+            var dataEntries = new Dictionary<string, object>();
+
+            foreach (DictionaryEntry entry in _e.Data)
+            {
+                if (entry.Key is string strKey)
+                {
+                    if (strKey == FactsKey && entry.Value is LogFacts entryFacts)
+                    {
+                        facts = new LogFacts(entryFacts);
+                    }
+                    else
+                    {
+                        dataEntries.Add(strKey, entry.Value);
+                    }
+                }    
+            }
+
+            if (facts == null) facts = new LogFacts();
+
+            if (dataEntries.Count > 0)
+            {
+                facts.Add(DataFactsKey, dataEntries);
+            }
+
+            return facts;
         }
 
         /// <summary>Gets label for Exception</summary>

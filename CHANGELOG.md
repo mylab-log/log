@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file
 
 Log format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [3.4.21] - 2023-01-19
+
+### Added
+
+* Exception Data dictionary as a log fact
+
 ## [3.4.20] - 2023-01-13
 
 ### Added
