@@ -1,5 +1,7 @@
 using System;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using Newtonsoft.Json;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
@@ -19,17 +21,35 @@ namespace MyLab.Log
         [JsonProperty(Order = 0)]
         public string Message { get; set; }
         /// <summary>
-        /// Stack trace
-        /// </summary>
-        [YamlMember(Order = 2)]
-        [JsonProperty(Order = 2)]
-        public string StackTrace { get; set; }
-        /// <summary>
-        /// .NET type
+        /// Error trace
         /// </summary>
         [YamlMember(Order = 1)]
         [JsonProperty(Order = 1)]
+        public string Trace { get; set; }
+        /// <summary>
+        /// Exception labels
+        /// </summary>
+        [YamlMember(Order = 2)]
+        [JsonProperty(Order = 2)]
+        public LogLabels Labels { get; set; }
+        /// <summary>
+        /// Exception facts
+        /// </summary>
+        [YamlMember(Order = 3)]
+        [JsonProperty(Order = 3)]
+        public LogFacts Facts { get; set; }
+        /// <summary>
+        /// .NET type
+        /// </summary>
+        [YamlMember(Order = 4)]
+        [JsonProperty(Order = 4)]
         public string Type { get; set; }
+        /// <summary>
+        /// Stack trace
+        /// </summary>
+        [YamlMember(Order = 5)]
+        [JsonProperty(Order = 5)]
+        public string StackTrace { get; set; }
         /// <summary>
         /// Array of aggregated exceptions when origin exception is <see cref="AggregateException"/>
         /// </summary>
@@ -39,21 +59,9 @@ namespace MyLab.Log
         /// <summary>
         /// Inner exception
         /// </summary>
-        [YamlMember(Order = 5)]
-        [JsonProperty(Order = 5)]
+        [YamlMember(Order = 7)]
+        [JsonProperty(Order = 7)]
         public ExceptionDto Inner { get; set; }
-        /// <summary>
-        /// Exception facts
-        /// </summary>
-        [YamlMember(Order = 4)]
-        [JsonProperty(Order = 4)]
-        public LogFacts Facts{ get; set; }
-        /// <summary>
-        /// Exception labels
-        /// </summary>
-        [YamlMember(Order = 3)]
-        [JsonProperty(Order = 3)]
-        public LogLabels Labels{ get; set; }
 
         /// <summary>
         /// Creates <see cref="ExceptionDto"/> from <see cref="Exception"/>
@@ -78,6 +86,8 @@ namespace MyLab.Log
             dto.Facts = new LogFacts(eLogData.GetFacts());
             dto.Labels= new LogLabels(eLogData.GetLabels());
 
+            dto.Trace = CalcTrace(dto);
+
             return dto;
         }
 
@@ -86,7 +96,43 @@ namespace MyLab.Log
             if (e == null) return null;
             return Create(e);
         }
-        
+
+        private static string CalcTrace(ExceptionDto dto)
+        {
+            var traceDataBuilder = new StringBuilder();
+
+            if (dto.Message != null) traceDataBuilder.AppendLine(dto.Message);
+            if (dto.StackTrace != null)
+            {
+                var normStackTrace = string.Join("", dto.StackTrace.Split('\n').Select(s =>
+                {
+                    var tmp = s.Trim();
+                    int lineMarkerPos = tmp.LastIndexOf(":line", StringComparison.InvariantCulture);
+
+                    return lineMarkerPos != 0
+                        ? tmp.Remove(lineMarkerPos)
+                        : tmp;
+                }));
+
+                traceDataBuilder.AppendLine(normStackTrace);
+            }
+
+            if (dto.Aggregated != null)
+            {
+                string aggregatedTraces = string.Join(" ", dto.Aggregated.Select(e => e.Trace).Where(t => t != null));
+                traceDataBuilder.AppendLine(aggregatedTraces);
+            }
+
+            if (dto.Inner != null) traceDataBuilder.AppendLine(dto.Inner.Trace);
+
+            var bin = Encoding.UTF8.GetBytes(traceDataBuilder.ToString());
+            var md5 = MD5.Create();
+
+            var binHash = md5.ComputeHash(bin);
+
+            return BitConverter.ToString(binHash).Replace("-", "").ToLower();
+        }
+
         void IYamlConvertible.Read(IParser parser, Type expectedType, ObjectDeserializer nestedObjectDeserializer)
         {
             throw new NotImplementedException();

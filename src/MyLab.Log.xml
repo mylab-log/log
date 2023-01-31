@@ -28,14 +28,29 @@
             Message
             </summary>
         </member>
-        <member name="P:MyLab.Log.ExceptionDto.StackTrace">
+        <member name="P:MyLab.Log.ExceptionDto.Trace">
             <summary>
-            Stack trace
+            Error trace
+            </summary>
+        </member>
+        <member name="P:MyLab.Log.ExceptionDto.Labels">
+            <summary>
+            Exception labels
+            </summary>
+        </member>
+        <member name="P:MyLab.Log.ExceptionDto.Facts">
+            <summary>
+            Exception facts
             </summary>
         </member>
         <member name="P:MyLab.Log.ExceptionDto.Type">
             <summary>
             .NET type
+            </summary>
+        </member>
+        <member name="P:MyLab.Log.ExceptionDto.StackTrace">
+            <summary>
+            Stack trace
             </summary>
         </member>
         <member name="P:MyLab.Log.ExceptionDto.Aggregated">
@@ -46,16 +61,6 @@
         <member name="P:MyLab.Log.ExceptionDto.Inner">
             <summary>
             Inner exception
-            </summary>
-        </member>
-        <member name="P:MyLab.Log.ExceptionDto.Facts">
-            <summary>
-            Exception facts
-            </summary>
-        </member>
-        <member name="P:MyLab.Log.ExceptionDto.Labels">
-            <summary>
-            Exception labels
             </summary>
         </member>
         <member name="M:MyLab.Log.ExceptionDto.Create(System.Exception)">
