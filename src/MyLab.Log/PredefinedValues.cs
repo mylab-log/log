@@ -56,11 +56,11 @@ namespace MyLab.Log
         /// <summary>
         /// Log level label. Predefined values keeps in  <see cref="PredefinedLogLevels"/> 
         /// </summary>
-        public const string LogLevel = "log_level";
+        public const string LogLevel = "log-level";
 
         /// <summary>
         /// Trace identifier
         /// </summary>
-        public const string TraceId = "trace_id";
+        public const string TraceId = "trace-id";
     }
 }
