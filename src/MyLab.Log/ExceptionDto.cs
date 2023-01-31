@@ -149,6 +149,12 @@ namespace MyLab.Log
                 emitter.Emit(new Scalar(null, dto.Message));
             }
 
+            if (dto.Trace != null)
+            {
+                emitter.Emit(new Scalar(null, nameof(Trace)));
+                emitter.Emit(new Scalar(null, dto.Trace));
+            }
+
             if (dto.Type != null)
             {
                 emitter.Emit(new Scalar(null, nameof(Type)));
