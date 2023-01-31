@@ -1,4 +1,6 @@
-﻿namespace MyLab.Log
+﻿using System;
+
+namespace MyLab.Log
 {
     /// <summary>
     /// Predefined log levels
@@ -42,6 +44,7 @@
         /// <summary>
         /// Trace identifier
         /// </summary>
+        [Obsolete("Use label trace-id")]
         public const string TraceId = "trace-id";
     }
 
@@ -54,5 +57,10 @@
         /// Log level label. Predefined values keeps in  <see cref="PredefinedLogLevels"/> 
         /// </summary>
         public const string LogLevel = "log_level";
+
+        /// <summary>
+        /// Trace identifier
+        /// </summary>
+        public const string TraceId = "trace_id";
     }
 }
