@@ -25,7 +25,7 @@ namespace MyLab.Log
         /// </summary>
         [YamlMember(Order = 1)]
         [JsonProperty(Order = 1)]
-        public string Trace { get; set; }
+        public string ExceptionTrace { get; set; }
         /// <summary>
         /// Exception labels
         /// </summary>
@@ -86,7 +86,7 @@ namespace MyLab.Log
             dto.Facts = new LogFacts(eLogData.GetFacts());
             dto.Labels= new LogLabels(eLogData.GetLabels());
 
-            dto.Trace = CalcTrace(dto);
+            dto.ExceptionTrace = CalcTrace(dto);
 
             return dto;
         }
@@ -119,11 +119,11 @@ namespace MyLab.Log
 
             if (dto.Aggregated != null)
             {
-                string aggregatedTraces = string.Join(" ", dto.Aggregated.Select(e => e.Trace).Where(t => t != null));
+                string aggregatedTraces = string.Join(" ", dto.Aggregated.Select(e => e.ExceptionTrace).Where(t => t != null));
                 traceDataBuilder.AppendLine(aggregatedTraces);
             }
 
-            if (dto.Inner != null) traceDataBuilder.AppendLine(dto.Inner.Trace);
+            if (dto.Inner != null) traceDataBuilder.AppendLine(dto.Inner.ExceptionTrace);
 
             var bin = Encoding.UTF8.GetBytes(traceDataBuilder.ToString());
             var md5 = MD5.Create();
@@ -149,10 +149,10 @@ namespace MyLab.Log
                 emitter.Emit(new Scalar(null, dto.Message));
             }
 
-            if (dto.Trace != null)
+            if (dto.ExceptionTrace != null)
             {
-                emitter.Emit(new Scalar(null, nameof(Trace)));
-                emitter.Emit(new Scalar(null, dto.Trace));
+                emitter.Emit(new Scalar(null, nameof(ExceptionTrace)));
+                emitter.Emit(new Scalar(null, dto.ExceptionTrace));
             }
 
             if (dto.Type != null)
