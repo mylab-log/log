@@ -103,10 +103,10 @@ namespace UnitTests
             //Act
             var dto1 = ExceptionDto.Create(ex1);
 
-            _output.WriteLine("TRACE: " + dto1.Trace);
+            _output.WriteLine("TRACE: " + dto1.ExceptionTrace);
 
             //Assert
-            Assert.Equal(dto1.Trace, "");
+            Assert.Equal(dto1.ExceptionTrace, "cf60b784c483dd053f56c29afb02eb33");
         }
 
         [Fact]
@@ -120,10 +120,10 @@ namespace UnitTests
             var dto1 = ExceptionDto.Create(ex1);
             var dto2 = ExceptionDto.Create(ex2);
             
-            _output.WriteLine("TRACE: " + dto1.Trace);
+            _output.WriteLine("TRACE: " + dto1.ExceptionTrace);
 
             //Assert
-            Assert.Equal(dto1.Trace, dto2.Trace);
+            Assert.Equal(dto1.ExceptionTrace, dto2.ExceptionTrace);
         }
 
         [Fact]
@@ -159,10 +159,10 @@ namespace UnitTests
 
             _output.WriteLine("StackTrace1: " + ex1.StackTrace);
             _output.WriteLine("StackTrace2: " + ex2.StackTrace);
-            _output.WriteLine("TRACE: " + dto1.Trace);
+            _output.WriteLine("TRACE: " + dto1.ExceptionTrace);
 
             //Assert
-            Assert.Equal(dto1.Trace, dto2.Trace);
+            Assert.Equal(dto1.ExceptionTrace, dto2.ExceptionTrace);
         }
     }
 }

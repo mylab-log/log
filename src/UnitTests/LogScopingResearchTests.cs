@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MyLab.Log;
@@ -23,7 +20,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public void ShouldAddLogScopeIntoServiceScope()
+        public void ShouldAddFactsIntoLogScope()
         {
             //Arrange
             var logBuilder = new StringBuilder();
@@ -38,56 +35,84 @@ namespace UnitTests
                 .BuildServiceProvider();
 
             
-            using var scope1 = services.CreateScope();
-            using var scope2 = services.CreateScope();
-
-            var logger1 = scope1.ServiceProvider.GetRequiredService<ILogger<LogScopingResearchTests>>();
+            var logger = services.GetRequiredService<ILogger<LogScopingResearchTests>>();
             
-            var logScope1 = CreateFactLogScope("foo", "bar");
+            var factLogScope = new FactLogScope("foo", "bar");
             
             var logEntity = new LogEntity
             {
                 Message = "ololo"
             };
 
-            IDisposable lScope1 = null;
-
             //Act
 
-            var task1 = Task.Run(() =>
+            using (logger.BeginScope(factLogScope))
             {
-                lScope1 = logger1.BeginScope(logScope1);
-                var lWrtr1 = scope1.ServiceProvider.GetRequiredService<LogWriterService>();
+                var lWrtr1 = services.GetRequiredService<LogWriterService>();
 
                 lWrtr1.Write(logEntity);
-            });
-            task1.Wait();
-
-            var task2 = Task.Run(() =>
-            {
-                var lWrtr2 = scope2.ServiceProvider.GetRequiredService<LogWriterService>();
-
-                lWrtr2.Write(logEntity);
-                lScope1?.Dispose();
-                lWrtr2.Write(logEntity);
-            });
-            task2.Wait();
+            }
 
             var logOutput = logBuilder.ToString();
             _output.WriteLine(logOutput);
 
+            var factsWordPos = logOutput.IndexOf("Facts:", StringComparison.Ordinal);
+            var expectedFactOfPos = logOutput.IndexOf("foo: bar", StringComparison.Ordinal);
+
             //Assert
-            
+
+            Assert.NotEqual(-1, factsWordPos);
+            Assert.NotEqual(-1, expectedFactOfPos);
+            Assert.True(expectedFactOfPos > factsWordPos);
             Assert.Empty(logEntity.Facts);
         }
 
-        FactLogScope CreateFactLogScope(string key, string value)
+        [Fact]
+        public void ShouldAddLabelsIntoLogScope()
         {
-            var facts = new Dictionary<string, object>
+            //Arrange
+            var logBuilder = new StringBuilder();
+            var logWriter = new StringWriter(logBuilder);
+
+            var services = new ServiceCollection()
+                .AddLogging(lb =>
+                    lb.AddConsole(o => o.FormatterName = "mylab")
+                        .AddMyLabFormatter(logWriter)
+                )
+                .AddScoped<LogWriterService>()
+                .BuildServiceProvider();
+
+
+            var logger = services.GetRequiredService<ILogger<LogScopingResearchTests>>();
+
+            var labelLogScope = new LabelLogScope("foo", "bar");
+
+            var logEntity = new LogEntity
             {
-                { key, value }
+                Message = "ololo"
             };
-            return new FactLogScope(facts);
+
+            //Act
+
+            using (logger.BeginScope(labelLogScope))
+            {
+                var lWrtr1 = services.GetRequiredService<LogWriterService>();
+
+                lWrtr1.Write(logEntity);
+            }
+
+            var logOutput = logBuilder.ToString();
+            _output.WriteLine(logOutput);
+
+            var labelsWordPos = logOutput.IndexOf("Labels:", StringComparison.Ordinal);
+            var expectedFactOfPos = logOutput.IndexOf("foo: bar", StringComparison.Ordinal);
+
+            //Assert
+
+            Assert.NotEqual(-1, labelsWordPos);
+            Assert.NotEqual(-1, expectedFactOfPos);
+            Assert.True(expectedFactOfPos > labelsWordPos);
+            Assert.Empty(logEntity.Facts);
         }
 
         class LogWriterService
