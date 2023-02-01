@@ -4,18 +4,25 @@ All notable changes to this project will be documented in this file
 
 Log format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [3.5.21] - 2023-02-01
+## [3.5.24] - 2023-02-01
 
 ### Added
 
 * Passing scoped log labels with log scope (`LabelLogScope`)
 * `ExceptionTrace` in `ExceptionDto`
 * add `trace-id` label predefined name
+* auto-add `exception-trace` label when add `ExceptionDto` into `LogEntity`
+* byte array yaml-serialization as base64 string
 
 ### Changed
 
 * fact `trace_id` predefined name is obsolete
 * change predefined log level label name `log_level` -> `log-level`
+* trace id log enricher adds value into label instead fats 
+
+### Fixed
+
+* empty dictionary log-fact yaml-serialization bug
 
 ## [3.4.21] - 2023-01-19
 
