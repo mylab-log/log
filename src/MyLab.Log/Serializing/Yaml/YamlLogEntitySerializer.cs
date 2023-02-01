@@ -22,6 +22,7 @@ namespace MyLab.Log.Serializing.Yaml
                 .WithTypeConverter(new ReflectionConverter())
                 .WithTypeConverter(new JTokenConverter())
                 .WithTypeConverter(new ByteReadonlyMemoryConverter())
+                .WithTypeConverter(new ByteArrayConverter())
                 .WithEventEmitter(nextEmitter => new NullStringsEventEmitter(nextEmitter))
                 .ConfigureDefaultValuesHandling(DefaultValuesHandling.OmitDefaults)
                 .Build();

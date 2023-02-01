@@ -319,6 +319,23 @@ namespace UnitTests
         }
 
         [Theory]
+        [InlineData("yaml")]
+        [InlineData("json")]
+        public void ShouldSerializeBytes(string serializer)
+        {
+            //Arrange
+            var bin = Encoding.UTF8.GetBytes("ololo");
+
+            var log = new LogEntity
+            {
+                Facts = { { "foo-bar", bin} }
+            };
+
+            //Act & Assert
+            Serialize(serializer, log);
+        }
+
+        [Theory]
         [InlineData("yaml", "foo: >-\r\n    {\r\n      \"Id\": 123,\r\n      \"Values\": null\r\n    }")]
         [InlineData("json", "\"foo\": \"{\\\"Id\\\":123,\\\"Values\\\":null}\"")]
         public void ShouldSerializeJObject(string serializer, string expected)
