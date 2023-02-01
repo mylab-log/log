@@ -302,7 +302,7 @@ namespace UnitTests
         }
 
         [Theory]
-        //[InlineData("yaml")] ERROR HERE
+        [InlineData("yaml")] 
         [InlineData("json")]
         public void ShouldSerializeEmptyDictionaryFactWithoutError(string serializer)
         {
@@ -315,9 +315,7 @@ namespace UnitTests
             };
 
             //Act & Assert
-            var actual = Serialize(serializer, log);
-
-            _output.WriteLine(actual);
+            Serialize(serializer, log);
         }
 
         [Theory]
@@ -353,7 +351,7 @@ namespace UnitTests
         {
             //Arrange
             var expectedResult =
-                "Message: Test!\r\nLabels:\r\n  foo: bar\r\nFacts:\r\n  foo: bar\r\nException:\r\n  Message: Error!\r\n  ExceptionTrace: efd8d2a5f43b4185f823dc4800c46bb8\r\n  Type: System.Exception\r\n  StackTrace: '   at UnitTests.LogEntitySerializerBehavior.ShouldYamlSerializeExceptionDto() in C:\\Users\\ozzye\\Documents\\prog\\my\\mylab-log\\log\\src\\UnitTests\\LogEntitySerializerBehavior.cs:line 377'\r\n  Inner:\r\n    Message: Inner!\r\n    ExceptionTrace: 4f08a06f1b06efb59868fb21ef610802\r\n    Type: System.Exception\r\n    StackTrace: '   at UnitTests.LogEntitySerializerBehavior.ShouldYamlSerializeExceptionDto() in C:\\Users\\ozzye\\Documents\\prog\\my\\mylab-log\\log\\src\\UnitTests\\LogEntitySerializerBehavior.cs:line 368'\r\n  Aggregated:\r\n  - Message: Inner!\r\n    ExceptionTrace: 4f08a06f1b06efb59868fb21ef610802\r\n    Type: System.Exception\r\n    StackTrace: '   at UnitTests.LogEntitySerializerBehavior.ShouldYamlSerializeExceptionDto() in C:\\Users\\ozzye\\Documents\\prog\\my\\mylab-log\\log\\src\\UnitTests\\LogEntitySerializerBehavior.cs:line 368'";
+                "Message: Test!\r\nLabels:\r\n  foo: bar\r\nFacts:\r\n  foo: bar\r\nException:\r\n  Message: Error!\r\n  ExceptionTrace: efd8d2a5f43b4185f823dc4800c46bb8\r\n  Type: System.Exception\r\n  StackTrace: '   at UnitTests.LogEntitySerializerBehavior.ShouldYamlSerializeExceptionDto() in C:\\Users\\ozzye\\Documents\\prog\\my\\mylab-log\\log\\src\\UnitTests\\LogEntitySerializerBehavior.cs:line 375'\r\n  Inner:\r\n    Message: Inner!\r\n    ExceptionTrace: 4f08a06f1b06efb59868fb21ef610802\r\n    Type: System.Exception\r\n    StackTrace: '   at UnitTests.LogEntitySerializerBehavior.ShouldYamlSerializeExceptionDto() in C:\\Users\\ozzye\\Documents\\prog\\my\\mylab-log\\log\\src\\UnitTests\\LogEntitySerializerBehavior.cs:line 366'\r\n  Aggregated:\r\n  - Message: Inner!\r\n    ExceptionTrace: 4f08a06f1b06efb59868fb21ef610802\r\n    Type: System.Exception\r\n    StackTrace: '   at UnitTests.LogEntitySerializerBehavior.ShouldYamlSerializeExceptionDto() in C:\\Users\\ozzye\\Documents\\prog\\my\\mylab-log\\log\\src\\UnitTests\\LogEntitySerializerBehavior.cs:line 366'";
 
             LogEntity logEntity = new LogEntity
             {
