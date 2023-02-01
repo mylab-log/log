@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file
 
 Log format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [3.5.21] - 2023-02-01
+
+### Added
+
+* Passing scoped log labels with log scope (`LabelLogScope`)
+* `ExceptionTrace` in `ExceptionDto`
+* add `trace-id` label predefined name
+
+### Changed
+
+* fact `trace_id` predefined name is obsolete
+* change predefined log level label name `log_level` -> `log-level`
+
 ## [3.4.21] - 2023-01-19
 
 ### Added
