@@ -21,8 +21,11 @@ namespace MyLab.Log
         [JsonProperty(Order = 0)]
         public string Message { get; set; }
         /// <summary>
-        /// Error trace
+        /// Contains 
         /// </summary>
+        /// <remarks>
+        /// If dto created based on exception object then this property value calculated automatically based on message, type and stacktrace (without line numbers) this exception with exception traces of aggregated and inner exceptions
+        /// </remarks>
         [YamlMember(Order = 1)]
         [JsonProperty(Order = 1)]
         public string ExceptionTrace { get; set; }
@@ -102,6 +105,7 @@ namespace MyLab.Log
             var traceDataBuilder = new StringBuilder();
 
             if (dto.Message != null) traceDataBuilder.AppendLine(dto.Message);
+            if (dto.Type != null) traceDataBuilder.AppendLine(dto.Type);
             if (dto.StackTrace != null)
             {
                 var normStackTrace = string.Join("", dto.StackTrace.Split('\n').Select(s =>

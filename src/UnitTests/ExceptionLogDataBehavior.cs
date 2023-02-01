@@ -106,7 +106,7 @@ namespace UnitTests
             _output.WriteLine("TRACE: " + dto1.ExceptionTrace);
 
             //Assert
-            Assert.Equal(dto1.ExceptionTrace, "cf60b784c483dd053f56c29afb02eb33");
+            Assert.Equal("3bbc061395e43cf367b3118093b56963", dto1.ExceptionTrace);
         }
 
         [Fact]
