@@ -20,7 +20,7 @@ namespace MyLab.Log.Scopes
 
                     if (foundTraceId != null)
                     {
-                        logEntity.Facts.Add(PredefinedFacts.TraceId, foundTraceId);
+                        logEntity.Labels.Add(PredefinedLabels.TraceId, foundTraceId);
                         break;
                     }
                 }
