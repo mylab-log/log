@@ -7,7 +7,7 @@ namespace MyLab.Log.Serializing.Yaml
     class ByteArraySerialization
     {
         private readonly IEmitter _emitter;
-        public string EmptyString { get; set; } = "[empty]";
+        public string EmptyString { get; set; } = "[empty-bin]";
         public string TooLongStringPattern { get; set; } = "[binary >{0} bytes]";
 
         public long LengthLimit { get; set; } = 1024;
@@ -21,7 +21,7 @@ namespace MyLab.Log.Serializing.Yaml
         {
             if (length == 0)
             {
-                _emitter.Emit(new Scalar("EmptyString"));
+                _emitter.Emit(new Scalar(EmptyString));
             }
             else
             {
