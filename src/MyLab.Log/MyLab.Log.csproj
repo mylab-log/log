@@ -4,13 +4,13 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Andrey O.</Authors>
-    <Version>3.5.21</Version>
+    <Version>3.5.22</Version>
     <Copyright>Copyright (c) 2023 Andrey Osintsev &lt;ozzy.ext@gmail.com&gt;</Copyright>
     <PackageProjectUrl>https://github.com/mylab-log/log</PackageProjectUrl>
     <RepositoryUrl>https://github.com/mylab-log/log.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <AssemblyVersion>3.5.21.0102</AssemblyVersion>
-    <FileVersion>3.5.21.0102</FileVersion>
+    <AssemblyVersion>3.5.22.0102</AssemblyVersion>
+    <FileVersion>3.5.22.0102</FileVersion>
     <PackageIcon>log.png</PackageIcon>
     <Description>.NET Core based framework which defines advanced log entity model for built-in .NET Core logging subsystem</Description>
     <PackageTags>log logging yaml json</PackageTags>
@@ -28,7 +28,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
-    <PackageReference Include="YamlDotNet" Version="11.2.1" />
+    <PackageReference Include="YamlDotNet" Version="12.3.1" />
   </ItemGroup>
 
   <ItemGroup>

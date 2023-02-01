@@ -62,5 +62,10 @@ namespace MyLab.Log
         /// Trace identifier
         /// </summary>
         public const string TraceId = "trace-id";
+
+        /// <summary>
+        /// Exception trace label
+        /// </summary>
+        public const string ExceptionTrace = "exception-trace";
     }
 }

@@ -53,7 +53,19 @@ namespace MyLab.Log
             {
                 _exception = value;
 
-
+                if (Labels.ContainsKey(PredefinedLabels.ExceptionTrace))
+                {
+                    if (value != null)
+                        Labels[PredefinedLabels.ExceptionTrace] = value.ExceptionTrace;
+                    else
+                    {
+                        Labels.Remove(PredefinedLabels.ExceptionTrace);
+                    }
+                }
+                else if (value != null)
+                {
+                    Labels[PredefinedLabels.ExceptionTrace] = value.ExceptionTrace;
+                }
             }
         }
 
