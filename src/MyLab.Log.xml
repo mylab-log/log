@@ -28,10 +28,13 @@
             Message
             </summary>
         </member>
-        <member name="P:MyLab.Log.ExceptionDto.Trace">
+        <member name="P:MyLab.Log.ExceptionDto.ExceptionTrace">
             <summary>
-            Error trace
+            Contains exception hash 
             </summary>
+            <remarks>
+            If dto created based on exception object then this property value calculated automatically based on message, type and stacktrace (without line numbers) this exception with exception traces of aggregated and inner exceptions
+            </remarks>
         </member>
         <member name="P:MyLab.Log.ExceptionDto.Labels">
             <summary>
@@ -269,6 +272,11 @@
             Log level label. Predefined values keeps in  <see cref="T:MyLab.Log.PredefinedLogLevels"/> 
             </summary>
         </member>
+        <member name="F:MyLab.Log.PredefinedLabels.TraceId">
+            <summary>
+            Trace identifier
+            </summary>
+        </member>
         <member name="T:MyLab.Log.Scopes.FactLogScope">
             <summary>
             Contains log facts from log scope
@@ -285,6 +293,24 @@
             </summary>
         </member>
         <member name="M:MyLab.Log.Scopes.FactLogScope.GetEnumerator">
+            <inheritdoc />
+        </member>
+        <member name="T:MyLab.Log.Scopes.LabelLogScope">
+            <summary>
+            Contains log labels from log scope
+            </summary>
+        </member>
+        <member name="M:MyLab.Log.Scopes.LabelLogScope.#ctor(System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            Initializes a new instance of <see cref="T:MyLab.Log.Scopes.LabelLogScope"/>
+            </summary>
+        </member>
+        <member name="M:MyLab.Log.Scopes.LabelLogScope.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of <see cref="T:MyLab.Log.Scopes.LabelLogScope"/>
+            </summary>
+        </member>
+        <member name="M:MyLab.Log.Scopes.LabelLogScope.GetEnumerator">
             <inheritdoc />
         </member>
         <member name="T:MyLab.Log.Serializing.ILogEntitySerializer">

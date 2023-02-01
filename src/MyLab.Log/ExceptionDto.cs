@@ -21,7 +21,7 @@ namespace MyLab.Log
         [JsonProperty(Order = 0)]
         public string Message { get; set; }
         /// <summary>
-        /// Contains 
+        /// Contains exception hash 
         /// </summary>
         /// <remarks>
         /// If dto created based on exception object then this property value calculated automatically based on message, type and stacktrace (without line numbers) this exception with exception traces of aggregated and inner exceptions
