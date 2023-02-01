@@ -4,11 +4,11 @@ using YamlDotNet.Serialization;
 
 namespace MyLab.Log.Serializing.Yaml
 {
-    class ByteReadonlyMemoryConverter : IYamlTypeConverter
+    class ByteArrayConverter : IYamlTypeConverter
     {
         public bool Accepts(Type type)
         {
-            return type == typeof(ReadOnlyMemory<byte>);
+            return typeof(byte[]) == type;
         }
 
         public object ReadYaml(IParser parser, Type type)
@@ -20,9 +20,9 @@ namespace MyLab.Log.Serializing.Yaml
         {
             var byteArrSerializer = new ByteArraySerialization(emitter);
 
-            var mem = (ReadOnlyMemory<byte>)value;
+            var bin = (byte[])value;
 
-            byteArrSerializer.Write(mem.Length, () => mem.ToArray());
+            byteArrSerializer.Write(bin.Length, () => bin);
         }
     }
 }

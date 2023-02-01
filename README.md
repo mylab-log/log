@@ -62,6 +62,10 @@ public class ExceptionDto
     /// </summary>
     public string Message { get; set; }
     /// <summary>
+    /// Contains exception hash
+    /// </summary>
+    public string ExceptionTrace { get; set; }
+    /// <summary>
     /// Stack trace
     /// </summary>
     public string StackTrace { get; set; }
@@ -165,6 +169,7 @@ Exception:
   },
   "Exception": {
     "Message": "Big exception",
+    "ExceptionTrace": "cf60b784c483dd053f56c29afb02eb33",
     "Type": "System.NotSupportedException",
     "StackTrace": "   at Demo.Program.CreateException() in C:\\..\\src\\Demo\\Program.cs:line 130",
     "Inner": {
@@ -184,9 +189,9 @@ Exception:
 
 ## Exception
 
-An exception may store facts and labels which will be represents in `LogEntity`. To assign log facts and labels to exception object please use `ExceptionLogData`.  
+### Exception facts and lables
 
-To set exception for `LogEntity` use implicit conversion assignment when assign an exception to property `Exception`.  
+An exception may store facts and labels which will be represents in `LogEntity`. To assign log facts and labels to exception object please use the extension methods `AndFactIs` and `AndLabel`.  
 
 The following example shows how use exception to attach log facts and labels:
 
@@ -195,13 +200,9 @@ Exception exception;
 try
 {
     // Create an exception
-    var ex = new InvalidOperationException("Inner message") 			
-    // Create exception log data 
-    var eData = new ExceptionLogData(ex);
-    // Add facts (may be sequence of `AndFactIs` calls)
-    eData.AddFact("Inner exception fact", "inner fact") 			
-    // Add labels (may be sequence of `AndMarkAs` calls)
-    eData.AddLabel("error", "true");								
+    var ex = new InvalidOperationException("Inner message")
+        .AndFactIs("Inner exception fact", "inner fact")
+        .AndLabel("error", "true");								
 }
 catch (Exception e)
 {
@@ -228,6 +229,7 @@ Message: Error
 Time: 2021-02-24T01:28:54.748
 Exception:
   Message: Inner message
+  ExeptionTrace: cf60b784c483dd053f56c29afb02eb33
   Type: System.InvalidOperationException
   StackTrace: '   at Demo.Program.WriteLogWithExceptionStuff(ILogger`1 logger, Func`3 formatter) in C:\..\src\Demo\Program.cs:line 37'
   Labels:
@@ -235,6 +237,10 @@ Exception:
   Facts:
     Inner exception fact: inner fact
 ```
+
+### Exception Trace
+
+If `dto` created based on exception object then `ExceptionTrace` property value calculated automatically based on message, type and stack trace (without line numbers) this exception with exception traces of aggregated and inner exceptions.
 
 ## `MyLabConsoleFormatter`
 
@@ -339,6 +345,30 @@ Facts:
   bar: baz
 ```
 
+### `LabelLogScope`
+
+The `LabelLogScope` may be useful to passing log labels with scope into the log. It used by `MyLabConsoleFormatter` to get context labels independent of `ConsoleFormatterOptions.IncludeScopes` option.
+
+```C#
+var scopeFacts = new Dictionary<string, string>
+{
+    { "bar", "baz" }
+};
+var labelScope = new LabelLogScope(scopeFacts);
+
+using (logger.BeginScope(labelScope))
+{
+    logger.LogInformation("qoz");
+}
+```
+
+```yaml
+Message: qoz
+Time: 2023-01-13T20:12:05.812
+Labels:
+  bar: baz
+```
+
 ## Developing points
 
 ### Serializers
@@ -378,6 +408,10 @@ Exception:
       type: string
       description: A message that describes the current exception
       example: 'The log table has overflowed'
+    ExceptionTrace:
+      type: string
+      description: 'Contains exception hash'
+      example: '3bbc061395e43cf367b3118093b56963'
     StackTrace:
       type: string
       description: A string representation of the immediate frames on the call stack

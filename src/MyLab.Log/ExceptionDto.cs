@@ -1,5 +1,7 @@
 using System;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using Newtonsoft.Json;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
@@ -15,45 +17,46 @@ namespace MyLab.Log
         /// <summary>
         /// Message
         /// </summary>
-        [YamlMember(Order = 0)]
         [JsonProperty(Order = 0)]
         public string Message { get; set; }
         /// <summary>
-        /// Stack trace
+        /// Contains exception hash 
         /// </summary>
-        [YamlMember(Order = 2)]
+        /// <remarks>
+        /// If dto created based on exception object then this property value calculated automatically based on message, type and stacktrace (without line numbers) this exception with exception traces of aggregated and inner exceptions
+        /// </remarks>
+        [JsonProperty(Order = 1)]
+        public string ExceptionTrace { get; set; }
+        /// <summary>
+        /// Exception labels
+        /// </summary>
         [JsonProperty(Order = 2)]
-        public string StackTrace { get; set; }
+        public LogLabels Labels { get; set; }
+        /// <summary>
+        /// Exception facts
+        /// </summary>
+        [JsonProperty(Order = 3)]
+        public LogFacts Facts { get; set; }
         /// <summary>
         /// .NET type
         /// </summary>
-        [YamlMember(Order = 1)]
-        [JsonProperty(Order = 1)]
+        [JsonProperty(Order = 4)]
         public string Type { get; set; }
+        /// <summary>
+        /// Stack trace
+        /// </summary>
+        [JsonProperty(Order = 5)]
+        public string StackTrace { get; set; }
         /// <summary>
         /// Array of aggregated exceptions when origin exception is <see cref="AggregateException"/>
         /// </summary>
-        [YamlMember(Order = 6)]
         [JsonProperty(Order = 6)]
         public ExceptionDto[] Aggregated { get; set; }
         /// <summary>
         /// Inner exception
         /// </summary>
-        [YamlMember(Order = 5)]
-        [JsonProperty(Order = 5)]
+        [JsonProperty(Order = 7)]
         public ExceptionDto Inner { get; set; }
-        /// <summary>
-        /// Exception facts
-        /// </summary>
-        [YamlMember(Order = 4)]
-        [JsonProperty(Order = 4)]
-        public LogFacts Facts{ get; set; }
-        /// <summary>
-        /// Exception labels
-        /// </summary>
-        [YamlMember(Order = 3)]
-        [JsonProperty(Order = 3)]
-        public LogLabels Labels{ get; set; }
 
         /// <summary>
         /// Creates <see cref="ExceptionDto"/> from <see cref="Exception"/>
@@ -78,6 +81,8 @@ namespace MyLab.Log
             dto.Facts = new LogFacts(eLogData.GetFacts());
             dto.Labels= new LogLabels(eLogData.GetLabels());
 
+            dto.ExceptionTrace = CalcTrace(dto);
+
             return dto;
         }
 
@@ -86,7 +91,44 @@ namespace MyLab.Log
             if (e == null) return null;
             return Create(e);
         }
-        
+
+        private static string CalcTrace(ExceptionDto dto)
+        {
+            var traceDataBuilder = new StringBuilder();
+
+            if (dto.Message != null) traceDataBuilder.AppendLine(dto.Message);
+            if (dto.Type != null) traceDataBuilder.AppendLine(dto.Type);
+            if (dto.StackTrace != null)
+            {
+                var normStackTrace = string.Join("", dto.StackTrace.Split('\n').Select(s =>
+                {
+                    var tmp = s.Trim();
+                    int lineMarkerPos = tmp.LastIndexOf(":line", StringComparison.InvariantCulture);
+
+                    return lineMarkerPos >= 0
+                        ? tmp.Remove(lineMarkerPos)
+                        : tmp;
+                }));
+
+                traceDataBuilder.AppendLine(normStackTrace);
+            }
+
+            if (dto.Aggregated != null)
+            {
+                string aggregatedTraces = string.Join(" ", dto.Aggregated.Select(e => e.ExceptionTrace).Where(t => t != null));
+                traceDataBuilder.AppendLine(aggregatedTraces);
+            }
+
+            if (dto.Inner != null) traceDataBuilder.AppendLine(dto.Inner.ExceptionTrace);
+
+            var bin = Encoding.UTF8.GetBytes(traceDataBuilder.ToString());
+            var md5 = MD5.Create();
+
+            var binHash = md5.ComputeHash(bin);
+
+            return BitConverter.ToString(binHash).Replace("-", "").ToLower();
+        }
+
         void IYamlConvertible.Read(IParser parser, Type expectedType, ObjectDeserializer nestedObjectDeserializer)
         {
             throw new NotImplementedException();
@@ -94,52 +136,57 @@ namespace MyLab.Log
         
         void IYamlConvertible.Write(IEmitter emitter, ObjectSerializer nestedObjectSerializer)
         {
-            var dto = (ExceptionDto)this;
             emitter.Emit(new MappingStart(null, null, false, MappingStyle.Block));
 
-            if (dto.Message != null)
+            if (Message != null)
             {
                 emitter.Emit(new Scalar(null, nameof(Message)));
-                emitter.Emit(new Scalar(null, dto.Message));
+                emitter.Emit(new Scalar(null, Message));
             }
 
-            if (dto.Type != null)
+            if (ExceptionTrace != null)
+            {
+                emitter.Emit(new Scalar(null, nameof(ExceptionTrace)));
+                emitter.Emit(new Scalar(null, ExceptionTrace));
+            }
+
+            if (Type != null)
             {
                 emitter.Emit(new Scalar(null, nameof(Type)));
-                emitter.Emit(new Scalar(null, dto.Type));
+                emitter.Emit(new Scalar(null, Type));
             }
 
-            if (dto.StackTrace != null)
+            if (StackTrace != null)
             {
                 emitter.Emit(new Scalar(null, nameof(StackTrace)));
-                emitter.Emit(new Scalar(null, dto.StackTrace.Replace("\r\n", "\n")));
+                emitter.Emit(new Scalar(null, StackTrace.Replace("\r\n", "\n")));
             }
 
-            if (dto.Labels != null && dto.Labels.Count > 0)
+            if (Labels != null && Labels.Count > 0)
             {
                 emitter.Emit(new Scalar(null, nameof(Labels)));
-                nestedObjectSerializer(dto.Labels);
+                nestedObjectSerializer(Labels);
             }
 
-            if (dto.Facts != null && dto.Facts.Count > 0)
+            if (Facts != null && Facts.Count > 0)
             {
                 emitter.Emit(new Scalar(null, nameof(Facts)));
-                nestedObjectSerializer(dto.Facts);
+                nestedObjectSerializer(Facts);
             }
 
-            if (dto.Inner != null)
+            if (Inner != null)
             {
                 emitter.Emit(new Scalar(null, nameof(Inner)));
-                nestedObjectSerializer(dto.Inner);
+                nestedObjectSerializer(Inner);
             }
 
-            if (dto.Aggregated != null && dto.Aggregated.Length > 0)
+            if (Aggregated != null && Aggregated.Length > 0)
             {
-                emitter.Emit(new Scalar(null, nameof(ExceptionDto.Aggregated)));
+                emitter.Emit(new Scalar(null, nameof(Aggregated)));
 
                 emitter.Emit(new SequenceStart(null, null, false, SequenceStyle.Any));
 
-                foreach (var exceptionDto in dto.Aggregated)
+                foreach (var exceptionDto in Aggregated)
                 {
                     nestedObjectSerializer(exceptionDto);
                 }

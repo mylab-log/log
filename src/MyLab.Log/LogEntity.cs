@@ -1,5 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
+using YamlDotNet.Core;
+using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
 
 namespace MyLab.Log
@@ -7,8 +9,10 @@ namespace MyLab.Log
     /// <summary>
     /// Contains log item data
     /// </summary>
-    public class LogEntity
+    public class LogEntity : IYamlConvertible
     {
+        private ExceptionDto _exception;
+
         /// <summary>
         /// Occurrence time
         /// </summary>
@@ -42,7 +46,28 @@ namespace MyLab.Log
         /// </summary>
         [YamlMember(Order = 4)]
         [JsonProperty(Order = 4)]
-        public ExceptionDto Exception { get; set; }
+        public ExceptionDto Exception
+        {
+            get => _exception;
+            set
+            {
+                _exception = value;
+
+                if (Labels.ContainsKey(PredefinedLabels.ExceptionTrace))
+                {
+                    if (value != null)
+                        Labels[PredefinedLabels.ExceptionTrace] = value.ExceptionTrace;
+                    else
+                    {
+                        Labels.Remove(PredefinedLabels.ExceptionTrace);
+                    }
+                }
+                else if (value != null)
+                {
+                    Labels[PredefinedLabels.ExceptionTrace] = value.ExceptionTrace;
+                }
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of <see cref="LogEntity"/>
@@ -63,6 +88,50 @@ namespace MyLab.Log
             Time = origin.Time;
             Message = origin.Message;
             Exception = origin.Exception;
+        }
+
+        /// <inheritdoc />
+        public void Read(IParser parser, Type expectedType, ObjectDeserializer nestedObjectDeserializer)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc />
+        public void Write(IEmitter emitter, ObjectSerializer nestedObjectSerializer)
+        {
+            emitter.Emit(new MappingStart(null, null, false, MappingStyle.Block));
+
+            if (Message != null)
+            {
+                emitter.Emit(new Scalar(null, nameof(Message)));
+                emitter.Emit(new Scalar(null, Message));
+            }
+
+            if (Time != default)
+            {
+                emitter.Emit(new Scalar(null, nameof(Time)));
+                nestedObjectSerializer(Time);
+            }
+
+            if (Labels != null && Labels.Count > 0)
+            {
+                emitter.Emit(new Scalar(null, nameof(Labels)));
+                nestedObjectSerializer(Labels);
+            }
+
+            if (Facts != null && Facts.Count > 0)
+            {
+                emitter.Emit(new Scalar(null, nameof(Facts)));
+                nestedObjectSerializer(Facts);
+            }
+
+            if (Exception != null)
+            {
+                emitter.Emit(new Scalar(null, nameof(Exception)));
+                nestedObjectSerializer(Exception);
+            }
+
+            emitter.Emit(new MappingEnd());
         }
     }
 }

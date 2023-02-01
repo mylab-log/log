@@ -25,6 +25,7 @@ namespace MyLab.Log
             {
                 new TraceIdScopeEnricher(),
                 new FactScopeEnricher(),
+                new LabelScopeEnricher(),
                 new IncludeAllScopesEnricher
                 {
                     IncludeScopesOption = _options.IncludeScopes

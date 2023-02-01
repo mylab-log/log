@@ -1,30 +1,32 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MyLab.Log.Scopes
 {
     /// <summary>
-    /// Contains log facts from log scope
+    /// Contains log labels from log scope
     /// </summary>
-    public class FactLogScope : IEnumerable<KeyValuePair<string, object>>
+    public class LabelLogScope : IEnumerable<KeyValuePair<string, object>>
     {
         private readonly Dictionary<string, object> _facts;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="FactLogScope"/>
+        /// Initializes a new instance of <see cref="LabelLogScope"/>
         /// </summary>
-        public FactLogScope(IDictionary<string,object> facts)
+        public LabelLogScope(IDictionary<string, string> facts)
         {
             if (facts == null) throw new ArgumentNullException(nameof(facts));
-            _facts = new Dictionary<string,object> (facts);
+
+            _facts = facts.ToDictionary(f => f.Key, f => (object)f.Value);
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="FactLogScope"/>
+        /// Initializes a new instance of <see cref="LabelLogScope"/>
         /// </summary>
-        public FactLogScope(string name, object value)
-            :this(new Dictionary<string, object>{ { name, value } })
+        public LabelLogScope(string name, string value)
+            : this(new Dictionary<string, string> { { name, value } })
         {
             if (name == null) throw new ArgumentNullException(nameof(name));
         }
