@@ -45,7 +45,7 @@ namespace MyLab.Log
             
             if (state is LogEntity le)
             {
-                logEntity = new LogEntity(le);
+                logEntity = le;
             }
             else
             {
