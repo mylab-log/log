@@ -12,7 +12,10 @@ namespace MyLab.Log.Scopes
                 {
                     foreach (var labelPair in labelProvider)
                     {
-                        logEntity.Labels.Add(labelPair.Key, labelPair.Value?.ToString());
+                        if (!logEntity.Labels.ContainsKey(labelPair.Key))
+                        {
+                            logEntity.Labels.Add(labelPair.Key, labelPair.Value?.ToString());
+                        }
                     }
                 }
             }

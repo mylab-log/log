@@ -12,7 +12,10 @@ namespace MyLab.Log.Scopes
                 {
                     foreach (var factPair in factProvider)
                     {
-                        logEntity.Facts.Add(factPair.Key, factPair.Value);
+                        if (!logEntity.Facts.ContainsKey(factPair.Key))
+                        {
+                            logEntity.Facts.Add(factPair.Key, factPair.Value);
+                        }
                     }
                 }
             }

@@ -61,7 +61,7 @@ namespace MyLab.Log
                 resultFormatter = LogEntityFormatter.Yaml;
             }
 
-            if (!string.IsNullOrEmpty(categoryName))
+            if (!string.IsNullOrEmpty(categoryName) && !logEntity.Facts.ContainsKey(PredefinedFacts.Category))
             {
                 logEntity.Facts.Add(PredefinedFacts.Category, categoryName);
             }
@@ -90,38 +90,6 @@ namespace MyLab.Log
             {
                 scopeEnricher.Enrich(scopes, logEntity);
             }
-        }
-
-        private void EnrichFromHttpScope(IExternalScopeProvider scopeProvider, LogEntity logEntity)
-        {
-            var traceId = ExtractTraceId(scopeProvider);
-
-            if (traceId != null)
-                logEntity.Facts.Add(PredefinedFacts.TraceId, traceId);
-        }
-
-        string ExtractTraceId(IExternalScopeProvider esProvider)
-        {
-            var list = new List<KeyValuePair<string, object>>();
-
-            string foundTraceId = null;
-
-            esProvider.ForEachScope((scope, state) =>
-            {
-                if (scope is IEnumerable<KeyValuePair<string, object>> scopeItems)
-                {
-                    var items = scopeItems.ToArray();
-                    
-                    var scopeTmpTraceId = items
-                        .FirstOrDefault(itm => itm.Key == "TraceId")
-                        .Value?
-                        .ToString();
-                    if (!string.IsNullOrEmpty(scopeTmpTraceId))
-                        foundTraceId = scopeTmpTraceId;
-                }
-            }, list);
-            
-            return foundTraceId;
         }
     }
 }
