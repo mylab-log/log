@@ -13,9 +13,11 @@ namespace MyLab.Log.Scopes
 
             var scopesFact = scopes.OfType<IEnumerable<KeyValuePair<string, object>>>()
                 .ToDictionary(sc => sc.GetType().Name, sc => sc);
-
-            if(scopesFact.Count != 0)
+            
+            if (scopesFact.Count != 0 && !logEntity.Facts.ContainsKey(PredefinedFacts.Scopes))
+            {
                 logEntity.Facts.Add(PredefinedFacts.Scopes, scopesFact);
+            }
         }
     }
 }

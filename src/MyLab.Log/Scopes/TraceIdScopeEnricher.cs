@@ -17,8 +17,8 @@ namespace MyLab.Log.Scopes
                         .FirstOrDefault(itm => itm.Key == "TraceId")
                         .Value?
                         .ToString();
-
-                    if (foundTraceId != null)
+                    
+                    if (foundTraceId != null && !logEntity.Labels.ContainsKey(PredefinedLabels.TraceId))
                     {
                         logEntity.Labels.Add(PredefinedLabels.TraceId, foundTraceId);
                         break;
