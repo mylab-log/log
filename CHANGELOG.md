@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file
 
 Log format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [Unreleased]
+
+### Fixed
+
+* fix scope enrichers
+* make fact and label adding safely when another one with the same key already exists
+
 ## [3.5.24] - 2023-02-01
 
 ### Added
