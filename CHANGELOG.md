@@ -10,6 +10,7 @@ Log format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 * fix scope enrichers
 * make fact and label adding safely when another one with the same key already exists
+* fix new line string for `yaml` serialization 
 
 ## [3.5.24] - 2023-02-01
 

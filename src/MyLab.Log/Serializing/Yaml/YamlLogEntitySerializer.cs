@@ -25,6 +25,7 @@ namespace MyLab.Log.Serializing.Yaml
                 .WithTypeConverter(new ByteArrayConverter())
                 .WithEventEmitter(nextEmitter => new NullStringsEventEmitter(nextEmitter))
                 .ConfigureDefaultValuesHandling(DefaultValuesHandling.OmitDefaults)
+                .WithNewLine("\n\r")
                 .Build();
         }
 
