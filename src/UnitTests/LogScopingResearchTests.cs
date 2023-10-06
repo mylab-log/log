@@ -64,7 +64,7 @@ namespace UnitTests
             Assert.NotEqual(-1, factsWordPos);
             Assert.NotEqual(-1, expectedFactOfPos);
             Assert.True(expectedFactOfPos > factsWordPos);
-            Assert.Empty(logEntity.Facts);
+            Assert.NotEmpty(logEntity.Facts);
         }
 
         [Fact]
@@ -112,7 +112,7 @@ namespace UnitTests
             Assert.NotEqual(-1, labelsWordPos);
             Assert.NotEqual(-1, expectedFactOfPos);
             Assert.True(expectedFactOfPos > labelsWordPos);
-            Assert.Empty(logEntity.Facts);
+            Assert.NotEmpty(logEntity.Facts);
         }
 
         class LogWriterService

@@ -26,7 +26,7 @@ namespace MyLab.Log.Serializing.Yaml
             else
             {
                 string strVal = length > LengthLimit
-                    ? string.Format(TooLongStringPattern, length)
+                    ? string.Format(TooLongStringPattern, LengthLimit)
                     : Convert.ToBase64String(binProvider());
 
                 _emitter.Emit(new Scalar(strVal));

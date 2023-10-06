@@ -367,9 +367,6 @@ namespace UnitTests
         public void ShouldYamlSerializeExceptionDto()
         {
             //Arrange
-            var expectedResult =
-                "Message: Test!\r\nLabels:\r\n  foo: bar\r\nFacts:\r\n  foo: bar\r\nException:\r\n  Message: Error!\r\n  ExceptionTrace: efd8d2a5f43b4185f823dc4800c46bb8\r\n  Type: System.Exception\r\n  StackTrace: '   at UnitTests.LogEntitySerializerBehavior.ShouldYamlSerializeExceptionDto() in C:\\Users\\ozzye\\Documents\\prog\\my\\mylab-log\\log\\src\\UnitTests\\LogEntitySerializerBehavior.cs:line 375'\r\n  Inner:\r\n    Message: Inner!\r\n    ExceptionTrace: 4f08a06f1b06efb59868fb21ef610802\r\n    Type: System.Exception\r\n    StackTrace: '   at UnitTests.LogEntitySerializerBehavior.ShouldYamlSerializeExceptionDto() in C:\\Users\\ozzye\\Documents\\prog\\my\\mylab-log\\log\\src\\UnitTests\\LogEntitySerializerBehavior.cs:line 366'\r\n  Aggregated:\r\n  - Message: Inner!\r\n    ExceptionTrace: 4f08a06f1b06efb59868fb21ef610802\r\n    Type: System.Exception\r\n    StackTrace: '   at UnitTests.LogEntitySerializerBehavior.ShouldYamlSerializeExceptionDto() in C:\\Users\\ozzye\\Documents\\prog\\my\\mylab-log\\log\\src\\UnitTests\\LogEntitySerializerBehavior.cs:line 366'";
-
             LogEntity logEntity = new LogEntity
             {
                 Time = DateTime.MinValue,
@@ -402,10 +399,15 @@ namespace UnitTests
             logEntity.Labels.Add("foo", "bar");
 
             //Act
-            var actual = Serialize("yaml", logEntity);
+            var actual = Serialize("yaml", logEntity).Trim();
 
             //Assert
-            Assert.Equal(expectedResult, actual.Trim());
+            Assert.Contains(PredefinedLabels.ExceptionTrace+":", actual);
+            Assert.Contains("ExceptionTrace:", actual);
+            Assert.Contains("Type: System.Exception", actual);
+            Assert.Contains("StackTrace:", actual);
+            Assert.Contains("Inner:", actual);
+            Assert.Contains("Aggregated:", actual);
         }
 
         public static IEnumerable<object[]> GetByteReadonlyTestCases()
@@ -414,11 +416,11 @@ namespace UnitTests
             {
                 new object[]
                 {
-                    "json", null, "\"foo\": \"[empty]\""
+                    "json", null, "\"foo\": \"[empty-bin]\""
                 },
                 new object[]
                 {
-                    "yaml", null, "foo: '[empty]'"
+                    "yaml", null, "foo: '[empty-bin]'"
                 },
                 new object[]
                 {

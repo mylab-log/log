@@ -11,7 +11,7 @@ namespace MyLab.Log.Serializing.Json
 
             if (mem.IsEmpty)
             {
-                writer.WriteValue("[empty]");
+                writer.WriteValue("[empty-bin]");
             }
             else
             {
