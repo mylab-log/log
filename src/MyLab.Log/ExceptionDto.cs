@@ -86,6 +86,10 @@ namespace MyLab.Log
             return dto;
         }
 
+        /// <summary>
+        /// Implicit operator for casting an <see cref="Exception"/> into <see cref="ExceptionDto"/>
+        /// </summary>
+        /// <param name="e"></param>
         public static implicit operator ExceptionDto(Exception e)
         {
             if (e == null) return null;

@@ -5,6 +5,9 @@ using System.Collections.Generic;
 namespace MyLab.Log
 {
 
+    /// <summary>
+    /// Provides log tolls for an <see cref="Exception"/>
+    /// </summary>
     public class ExceptionLogData
     {
         private const string FactsKey = "facts";

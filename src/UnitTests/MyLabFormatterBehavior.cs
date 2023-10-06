@@ -83,7 +83,7 @@ namespace UnitTests
             _output.WriteLine(logString);
 
             //Assert
-            Assert.Contains(PredefinedFacts.TraceId + ": " + traceId, logString);
+            Assert.Contains(PredefinedLabels.TraceId + ": " + traceId, logString);
         }
 
         [Fact]
