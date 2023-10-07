@@ -71,6 +71,12 @@
             Creates <see cref="T:MyLab.Log.ExceptionDto"/> from <see cref="T:System.Exception"/>
             </summary>
         </member>
+        <member name="M:MyLab.Log.ExceptionDto.op_Implicit(System.Exception)~MyLab.Log.ExceptionDto">
+            <summary>
+            Implicit operator for casting an <see cref="T:System.Exception"/> into <see cref="T:MyLab.Log.ExceptionDto"/>
+            </summary>
+            <param name="e"></param>
+        </member>
         <member name="T:MyLab.Log.ExceptionExtensions">
             <summary>
             Logging extensions for <see cref="T:System.Exception"/>
@@ -89,6 +95,11 @@
         <member name="M:MyLab.Log.ExceptionExtensions.AndLabel``1(``0,System.String,System.String)">
             <summary>
             Adds log label
+            </summary>
+        </member>
+        <member name="T:MyLab.Log.ExceptionLogData">
+            <summary>
+            Provides log tolls for an <see cref="T:System.Exception"/>
             </summary>
         </member>
         <member name="M:MyLab.Log.ExceptionLogData.#ctor(System.Exception)">
@@ -345,6 +356,16 @@
         <member name="T:MyLab.Log.Serializing.LogEntitySerializationExtensions">
             <summary>
             Contains extension serialization methods for <see cref="T:MyLab.Log.LogEntity"/>
+            </summary>
+        </member>
+        <member name="M:MyLab.Log.Serializing.LogEntitySerializationExtensions.ToYaml(MyLab.Log.LogEntity)">
+            <summary>
+            Serilaizes  <see cref="T:MyLab.Log.LogEntity"/> with yaml format
+            </summary>
+        </member>
+        <member name="M:MyLab.Log.Serializing.LogEntitySerializationExtensions.ToJson(MyLab.Log.LogEntity)">
+            <summary>
+            Serilaizes  <see cref="T:MyLab.Log.LogEntity"/> with json format
             </summary>
         </member>
         <member name="T:MyLab.Log.Serializing.Yaml.YamlLogEntitySerializer">
