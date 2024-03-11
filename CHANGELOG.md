@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file
 
 Log format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [3.6.29] - 2024-03-11
+
+### Added
+
+* simple `YAML` serialization for `URI`
+
 ## [3.6.28] - 2023-11-03
 
 ### Changed

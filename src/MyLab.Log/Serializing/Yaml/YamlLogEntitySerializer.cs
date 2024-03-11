@@ -23,6 +23,7 @@ namespace MyLab.Log.Serializing.Yaml
                 .WithTypeConverter(new JTokenConverter())
                 .WithTypeConverter(new ByteReadonlyMemoryConverter())
                 .WithTypeConverter(new ByteArrayConverter())
+                .WithTypeConverter(new UriValueConverter())
                 .WithEventEmitter(nextEmitter => new NullStringsEventEmitter(nextEmitter))
                 .ConfigureDefaultValuesHandling(DefaultValuesHandling.OmitDefaults)
                 .WithNewLine("\r\n")
