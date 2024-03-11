@@ -12,6 +12,42 @@ namespace UnitTests
     public partial class LogEntitySerializerBehavior
     {
         [Theory]
+        [InlineData("yaml", "Uri: http://foo.net/bar")]
+        [InlineData("json", "\"Uri\": \"http://foo.net/bar\"")]
+        public void ShouldSerializeAbsoluteUri(string serializer, string expected)
+        {
+            //Arrange
+            var log = new LogEntity
+            {
+                Facts =
+                {
+                    { "Uri", new Uri("http://foo.net/bar") }
+                }
+            };
+
+            //Act & Assert
+            ContainsActAndAssert(log, expected, serializer);
+        }
+
+        [Theory]
+        [InlineData("yaml", "Uri: /bar")]
+        [InlineData("json", "\"Uri\": \"/bar\"")]
+        public void ShouldSerializeRelativeUri(string serializer, string expected)
+        {
+            //Arrange
+            var log = new LogEntity
+            {
+                Facts =
+                {
+                    { "Uri", new Uri("/bar", UriKind.Relative) }
+                }
+            };
+
+            //Act & Assert
+            ContainsActAndAssert(log, expected, serializer);
+        }
+
+        [Theory]
         [InlineData("yaml", "Time: 1990-02-03T10:23:44.123")]
         [InlineData("json", "\"Time\": \"1990-02-03T10:23:44.123\"")]
         public void ShouldSerializeDt(string serializer, string expected)
